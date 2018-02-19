@@ -16,6 +16,7 @@
         android:layout_marginTop="8dp"
         android:text="Welcome to The University's Course Registration App!
                                Please Login Below"
+        
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
