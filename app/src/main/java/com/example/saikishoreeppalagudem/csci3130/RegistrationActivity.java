@@ -29,7 +29,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         editText = findViewById(R.id.etName);
         buttonPush = findViewById(R.id.btnPush);
-        
+
 
     }
 
@@ -37,16 +37,15 @@ public class RegistrationActivity extends AppCompatActivity {
 
         String name = editText.getText().toString().trim();
         if(!TextUtils.isEmpty(name)){
-
-//            String id = databaseStudent.push().getKey();
-            String id = "123";
-            Student student = new Student(id, name);
-            databaseStudent.child(id).setValue(student);
-            Toast.makeText(this, "Student added", Toast.LENGTH_SHORT).show();
+            String id = databaseStudent.push().getKey();
+//            id = Integer.toString(Integer.parseInt(id) + 1);
+            Log.e("id ", id);
+//            Student student = new Student(id, name);
+//            databaseStudent.child(id).setValue(student);
+//            Toast.makeText(this, "Student added", Toast.LENGTH_SHORT).show();
         }
         else{
             Toast.makeText(this,"Enter text", Toast.LENGTH_SHORT).show();
-
         }
     }
 
