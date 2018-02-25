@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.saikishoreeppalagudem.csci3130.CourseList">
+    tools:context="com.example.saikishoreeppalagudem.csci3130.StudentCoursesActivity">
 
     <ListView
-        android:id="@+id/listViewCourses"
+        android:id="@+id/studentCourseList"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </android.support.constraint.ConstraintLayout>

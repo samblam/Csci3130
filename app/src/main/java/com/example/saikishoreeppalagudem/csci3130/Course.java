@@ -8,6 +8,23 @@ public class Course {
     String courseID;
     String courseDesc;
 
+    @Override
+    public String toString() {
+//        return "Course{" +
+//                "courseID='" + courseID + '\'' +
+//                ", courseDesc='" + courseDesc + '\'' +
+//                '}';
+        return courseID + ","  + courseDesc;
+    }
+
+    public void setCourseID(String courseID) {
+        this.courseID = courseID;
+    }
+
+    public void setCourseDesc(String courseDesc) {
+        this.courseDesc = courseDesc;
+    }
+
     public Course(){
 
     }

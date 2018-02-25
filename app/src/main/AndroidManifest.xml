@@ -17,7 +17,9 @@
             </intent-filter>
         </activity>
         <!-- <activity android:name=".RegistrationActivity"></activity> -->
-        <!--<activity android:name=".CourseList"></activity>-->
+        <!-- <activity android:name=".CourseList"></activity> -->
+        <activity android:name=".CourseInformationActivity" />
+        <activity android:name=".StudentCoursesActivity"></activity>
     </application>
 
 </manifest>

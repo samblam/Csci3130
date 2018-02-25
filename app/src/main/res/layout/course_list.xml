@@ -9,7 +9,14 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvCourse"
+            android:id="@+id/tvCourseID"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/tvCourseDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView" />

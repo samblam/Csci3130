@@ -7,6 +7,7 @@ package com.example.saikishoreeppalagudem.csci3130;
 public class Student {
     String studentName;
     String studentID;
+    String studentCourses;
 
     public Student(){
 
@@ -20,11 +21,31 @@ public class Student {
         return studentID;
     }
 
+    public String getStudentCourses(){
+        return studentCourses;
+    }
 
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
 
-    public Student(String studentID, String studentName) {
+    public void setStudentID(String studentID) {
+        this.studentID = studentID;
+    }
+
+    public void setStudentCourses(String studentCourses) {
+        this.studentCourses = studentCourses;
+    }
+
+    @Override
+    public String toString() {
+        return studentName + ',' + studentID + ',' + studentCourses;
+    }
+
+    public Student(String studentID, String studentName, String studentCourses) {
         this.studentID = studentID;
         this.studentName = studentName;
+        this.studentCourses = studentCourses;
     }
 
 
