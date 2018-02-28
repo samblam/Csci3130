@@ -6,8 +6,9 @@
     android:layout_height="match_parent"
     tools:context="com.example.saikishoreeppalagudem.csci3130.StudentCoursesActivity">
 
+
     <ListView
-        android:id="@+id/studentCourseList"
+        android:id="@+id/listViewStuCourses"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </android.support.constraint.ConstraintLayout>

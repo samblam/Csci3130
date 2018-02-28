@@ -40,10 +40,10 @@ public class CourseInformationActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         ArrayList<String> message = intent.getStringArrayListExtra("ExtraMsg");
-
-        tvCourseInfo.setText(message.get(0));
-        tvCourseInfoDesc.setText(message.get(1));
-
+        if(message!=null) {
+            tvCourseInfo.setText(message.get(0));
+            tvCourseInfoDesc.setText(message.get(1));
+        }
         databaseStudent = FirebaseDatabase.getInstance().getReference("Student");
         keyStudentID = "3";
 
@@ -112,7 +112,7 @@ public class CourseInformationActivity extends AppCompatActivity {
             studentCourseRef.updateChildren(courseUpdates);
 //            studentCourseRef.updateChildrenAsync(courseUpdates);
 
-            Toast.makeText(this, "Course not yet registered", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Course registered successfully!", Toast.LENGTH_SHORT).show();
         }
     }
 }
