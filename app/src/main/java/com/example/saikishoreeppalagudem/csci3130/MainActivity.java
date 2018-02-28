@@ -1,5 +1,6 @@
 package com.example.saikishoreeppalagudem.csci3130;
 
+import android.content.Intent;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -240,6 +241,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (i == R.id.button2) {
             createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
             initializeUserInFirebase();
+            goToCourseList();
         } else if (i == R.id.button) {
             signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
 //ESK            getUserDetails();
@@ -247,6 +249,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
            // signOut(); }
          else if (i == R.id.verify_email_button) {
             sendEmailVerification();
+            goToCourseList();
         }
     }
 //ESK    private void getUserDetails(){
@@ -254,6 +257,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //
 //    }
     public void initializeUserInFirebase(){
+        //Method to initialize Student record in Firebase real-time database.
+        //Done only once during registration.
         String studentID, studentName, studentCourses;
         studentID = mEmailField.getText().toString();
         studentName = studentID;
@@ -266,6 +271,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         studentInfoMap.put("studentName", studentName);
         studentInfoMap.put("studentCourses", studentCourses);
         studentKeyIDRef.setValue(studentInfoMap);
+
+    }
+
+    public void goToCourseList(){
+        //Method to go to the CourseList activity
+        Intent intent = new Intent(getApplicationContext(), CourseList.class);
+        startActivity(intent);
+
 
     }
 }
