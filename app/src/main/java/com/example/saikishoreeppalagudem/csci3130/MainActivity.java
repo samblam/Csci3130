@@ -1,5 +1,6 @@
 package com.example.saikishoreeppalagudem.csci3130;
 
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,11 +17,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-
-
-
-
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -33,11 +35,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         private TextView mDetailTextView;
          EditText mEmailField;
         EditText mPasswordField;
-
-
+        DatabaseReference databaseStudentReference;
+        Map<String, Object> studentInfoMap = new HashMap<>();
         // [START declare_auth]
         FirebaseAuth mAuth;
         // [END declare_auth]
+        public String STUDENT_KEY;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -49,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mDetailTextView = findViewById(R.id.textView3);
             mEmailField = findViewById(R.id.editText);
             mPasswordField = findViewById(R.id.editText2);
-
+            databaseStudentReference = FirebaseDatabase.getInstance().getReference("Student");
             // Buttons
             findViewById(R.id.button).setOnClickListener(this);
             findViewById(R.id.button2).setOnClickListener(this);
@@ -236,12 +239,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int i = v.getId();
         if (i == R.id.button2) {
             createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
+            initializeUserInFirebase();
         } else if (i == R.id.button) {
             signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
+//ESK            getUserDetails();
         }// else if (i == R.id.sign_out_button) {
            // signOut(); }
          else if (i == R.id.verify_email_button) {
             sendEmailVerification();
         }
+    }
+//ESK    private void getUserDetails(){
+//            STUDENT_KEY = databaseStudentReference.orderByChild("studentID").equals(mEmailField.getText().toString());
+//
+//    }
+    public void initializeUserInFirebase(){
+        String studentID, studentName, studentCourses;
+        studentID = mEmailField.getText().toString();
+        studentName = studentID;
+        studentCourses ="";
+        DatabaseReference pushedStudentRef = databaseStudentReference.push();
+        String studentKeyID = pushedStudentRef.getKey();
+        DatabaseReference studentKeyIDRef = databaseStudentReference.child(studentKeyID);
+        System.out.println(studentID);
+        studentInfoMap.put("studentID", studentID);
+        studentInfoMap.put("studentName", studentName);
+        studentInfoMap.put("studentCourses", studentCourses);
+        studentKeyIDRef.setValue(studentInfoMap);
+
     }
 }
