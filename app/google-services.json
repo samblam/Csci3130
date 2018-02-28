@@ -23,14 +23,6 @@
           }
         },
         {
-          "client_id": "1075577093434-pskapebed71lhg77s1tqi61973jk2cbr.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.saikishoreeppalagudem.csci3130",
-            "certificate_hash": "68b88612b037fc327f6904a1508af25a993791e6"
-          }
-        },
-        {
           "client_id": "1075577093434-1vje9rclinqf27rbtc5b36mb3uscfn0o.apps.googleusercontent.com",
           "client_type": 3
         }
