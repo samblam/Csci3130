@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          EditText mEmailField;
         EditText mPasswordField;
 
+
         // [START declare_auth]
         FirebaseAuth mAuth;
         // [END declare_auth]
@@ -83,15 +84,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        FirebaseUser mAuthCurrentUser = mAuth.getCurrentUser();
+                        System.out.println(mAuthCurrentUser);
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
+                            Toast.makeText(MainActivity.this, "Account Creation passed.",
+                                    Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
+                            Toast.makeText(MainActivity.this, "Account Creation failed",
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
@@ -120,6 +125,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
+                            Toast.makeText(MainActivity.this, "Authentication success.",
+                                    Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                         } else {
@@ -193,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mPasswordField.setError("Required.");
             valid = false;
         }
-        else if(password.length() < 10){
+        else if(password.length() < 5){
             mPasswordField.setError("Password needs to be at least 10 characters");
         }
         else {
