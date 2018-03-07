@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CourseInformationActivity extends AppCompatActivity {
-    TextView tvCourseInfo, tvCourseInfoDesc;
+    TextView tvCourseInfo, tvCourseInfoDesc, profname, profmail;
     Button btnRegister;
     DatabaseReference databaseStudent;
     ArrayList<String> studentInfoList, studentIDInfo;
@@ -34,6 +34,8 @@ public class CourseInformationActivity extends AppCompatActivity {
 
         tvCourseInfo = findViewById(R.id.tvCourseInfo);
         tvCourseInfoDesc = findViewById(R.id.tvCourseInfoDesc);
+        profname = findViewById(R.id.profname);
+        profmail = findViewById(R.id.profmail);
         studentInfoList = new ArrayList<>();
         studentCoursesInfo = new ArrayList<>();
         studentIDInfo = new ArrayList<>();
@@ -43,6 +45,8 @@ public class CourseInformationActivity extends AppCompatActivity {
         if(message!=null) {
             tvCourseInfo.setText(message.get(0));
             tvCourseInfoDesc.setText(message.get(1));
+            profname.setText(message.get(2));
+            profmail.setText(message.get(3));
         }
         databaseStudent = FirebaseDatabase.getInstance().getReference("Student");
         keyStudentID = "3";
