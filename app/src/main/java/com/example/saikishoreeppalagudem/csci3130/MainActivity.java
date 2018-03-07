@@ -18,8 +18,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,8 +31,6 @@ import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-
-
 
          final String TAG = "EmailPassword";
 
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // [START declare_auth]
         FirebaseAuth mAuth;
         // [END declare_auth]
-        public String STUDENT_KEY;
+        public String STUDENT_KEY = "";
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -244,7 +246,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             goToCourseList();
         } else if (i == R.id.button) {
             signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
-//ESK            getUserDetails();
+//ESK
+            getUserDetails();
         }// else if (i == R.id.sign_out_button) {
            // signOut(); }
          else if (i == R.id.verify_email_button) {
@@ -252,10 +255,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             goToCourseList();
         }
     }
-//ESK    private void getUserDetails(){
-//            STUDENT_KEY = databaseStudentReference.orderByChild("studentID").equals(mEmailField.getText().toString());
-//
-//    }
+//ESK
+ private void getUserDetails(){
+            databaseStudentReference.orderByChild("studentID").equalTo(mEmailField.getText().toString()).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    Log.e("QUery out", dataSnapshot.getKey());
+                    STUDENT_KEY = dataSnapshot.getKey();
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+    }
     public void initializeUserInFirebase(){
         //Method to initialize Student record in Firebase real-time database.
         //Done only once during registration.
@@ -264,8 +294,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         studentName = studentID;
         studentCourses ="";
         DatabaseReference pushedStudentRef = databaseStudentReference.push();
-        String studentKeyID = pushedStudentRef.getKey();
-        DatabaseReference studentKeyIDRef = databaseStudentReference.child(studentKeyID);
+        STUDENT_KEY = pushedStudentRef.getKey();
+        Log.e("Student_Key", STUDENT_KEY);
+        DatabaseReference studentKeyIDRef = databaseStudentReference.child(STUDENT_KEY);
         System.out.println(studentID);
         studentInfoMap.put("studentID", studentID);
         studentInfoMap.put("studentName", studentName);
