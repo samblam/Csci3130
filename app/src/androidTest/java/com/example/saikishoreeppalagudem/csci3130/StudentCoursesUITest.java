@@ -36,9 +36,9 @@ public class StudentCoursesUITest {
 
     @Test
     public void checkUIElements(){
-        onView(withId(R.id.tvCourseInfoDesc)).perform(setTextInTextView("my text"));
-        onView(withId(R.id.tvCourseInfo)).perform(setTextInTextView("my text"));
-        onView(withId(R.id.tvCourseInfoDesc)).perform(click());
+//        onView(withId(R.id.tvCourseInfoDesc)).perform(setTextInTextView("my text"));
+//        onView(withId(R.id.tvCourseInfo)).perform(setTextInTextView("my text"));
+//        onView(withId(R.id.tvCourseInfoDesc)).perform(click());
 
     }
 

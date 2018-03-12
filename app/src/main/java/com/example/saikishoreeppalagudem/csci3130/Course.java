@@ -7,6 +7,7 @@ package com.example.saikishoreeppalagudem.csci3130;
 public class Course {
     String courseID;
     String courseDesc;
+    String courseTimings;
 
     @Override
     public String toString() {
@@ -14,7 +15,11 @@ public class Course {
 //                "courseID='" + courseID + '\'' +
 //                ", courseDesc='" + courseDesc + '\'' +
 //                '}';
-        return courseID + ","  + courseDesc;
+        return courseID + ","  + courseDesc + "," + courseTimings;
+    }
+
+    public String getCourseTimings() {
+        return courseTimings;
     }
 
     public void setCourseID(String courseID) {
@@ -29,9 +34,10 @@ public class Course {
 
     }
 
-    public Course(String courseID, String courseDesc) {
+    public Course(String courseID, String courseDesc, String courseTimings) {
         this.courseID = courseID;
         this.courseDesc = courseDesc;
+        this.courseTimings = courseTimings;
     }
 
     public String getCourseID() {
