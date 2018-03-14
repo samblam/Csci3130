@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // Buttons
             findViewById(R.id.button).setOnClickListener(this);
             findViewById(R.id.button2).setOnClickListener(this);
-            //findViewById(R.id.sign_out_button).setOnClickListener(this);
             findViewById(R.id.verify_email_button).setOnClickListener(this);
 
             // [START initialize_auth]
@@ -74,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             super.onStart();
             // Check if user is signed in (non-null) and update UI accordingly.
             FirebaseUser currentUser = mAuth.getCurrentUser();
-            updateUI(currentUser);
         }
         // [END on_start_check_user]
 
@@ -99,13 +97,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Toast.makeText(MainActivity.this, "Account Creation passed.",
                                     Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(MainActivity.this, "Account Creation failed",
                                     Toast.LENGTH_SHORT).show();
-                            updateUI(null);
                         }
 
                         // [START_EXCLUDE]
@@ -135,13 +131,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Toast.makeText(MainActivity.this, "Authentication success.",
                                     Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(MainActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            updateUI(null);
                         }
 
                         // [START_EXCLUDE]
@@ -157,7 +151,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void signOut() {
         mAuth.signOut();
-        updateUI(null);
     }
 
     private void sendEmailVerification() {
@@ -208,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             valid = false;
         }
         else if(password.length() < 5){
-            mPasswordField.setError("Password needs to be at least 10 characters");
+            mPasswordField.setError("Password needs to be at least 5 characters");
         }
         else {
             mPasswordField.setError(null);
@@ -217,26 +210,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return valid;
     }
 
-    private void updateUI(FirebaseUser user) {
-     /*  if (user != null) {
-            mStatusTextView.setText(getString(R.string.emailpassword_status_fmt,
-                    user.getEmail(), user.isEmailVerified()));
-            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
 
-            findViewById(R.id.email_password_buttons).setVisibility(View.GONE);
-            findViewById(R.id.email_password_fields).setVisibility(View.GONE);
-            findViewById(R.id.signed_in_buttons).setVisibility(View.VISIBLE);
-
-            findViewById(R.id.verify_email_button).setEnabled(!user.isEmailVerified());
-        } else {
-            mStatusTextView.setText(R.string.signed_out);
-            mDetailTextView.setText(null);
-
-            findViewById(R.id.email_password_buttons).setVisibility(View.VISIBLE);
-            findViewById(R.id.email_password_fields).setVisibility(View.VISIBLE);
-            findViewById(R.id.signed_in_buttons).setVisibility(View.GONE);
-        }*/
-    }
 
     @Override
     public void onClick(View v) {

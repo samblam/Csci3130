@@ -44,9 +44,9 @@ public class CourseInformationActivity extends AppCompatActivity {
         ArrayList<String> message = intent.getStringArrayListExtra("ExtraMsg");
         if(message!=null) {
             tvCourseInfo.setText(message.get(0));
-            tvCourseInfoDesc.setText(message.get(1));
-            profname.setText(message.get(2));
-            profmail.setText(message.get(3));
+            tvCourseInfoDesc.setText(getString(R.string.course_id) + message.get(1));
+            profname.setText(getString(R.string.prof_name) + message.get(2));
+            profmail.setText(getString(R.string.prof_email) + message.get(3));
         }
         databaseStudent = FirebaseDatabase.getInstance().getReference("Student");
         keyStudentID = "3";
