@@ -47,6 +47,7 @@ public class StudentCoursesUITest {
 //        onData(anything()).inAdapterView(withId(R.id.listViewStuCourses)).
 //                perform(isDisplayed()) ; //click());
 
+
 //        onData(anything())
 //                .inAdapterView(withId(R.id.listViewStuCourses))
 //                .atPosition(0)

@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 /**
@@ -19,28 +20,28 @@ public class TimeConflictTest {
     private static String testOutput1 = "No time conflict!";
 
 
-    private static boolean doTest( String input, ArrayList<String> scheduleInput, String output ) {
+    private static boolean doTest( String input, ArrayList<String> scheduleInput ) {
         TimeConflict timeConflict = new TimeConflict();
-        String al = timeConflict.checkTimeConflict(input, scheduleInput);
+        Boolean al = timeConflict.checkTimeConflict(input, scheduleInput);
         System.out.println( "Input: " );
         System.out.println( input );
         System.out.println("Schedule Input");
         System.out.println(scheduleInput);
         System.out.println( "Generated output" );
         System.out.println( al );
-        System.out.println( "Expected output" );
-        System.out.println( output );
-        System.out.println( "---------------------------------------------------" );
-        return al == output;
+//        System.out.println( "Expected output" );
+//        System.out.println( output );
+//        System.out.println( "---------------------------------------------------" );
+        return al;
     }
 
     @Test
     public void testFail() {
-        assertTrue( "Time conflict test" , doTest( testInput0, testScheduleInput0, testOutput0 ));
+        assertTrue( "Time conflict test" , doTest( testInput0, testScheduleInput0));
     }
 
     @Test
     public void testPass(){
-        assertTrue("No time conflict test", doTest(testInput1, testScheduleInput0, testOutput1));
+        assertFalse("No time conflict test", doTest(testInput1, testScheduleInput0));
     }
 }

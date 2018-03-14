@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class TimeConflict {
 
-    public String checkTimeConflict(String newCourseTiming, ArrayList<String> scheduleTimings){
+    public Boolean checkTimeConflict(String newCourseTiming, ArrayList<String> scheduleTimings){
         String[] newCourseTimingList = splitTimingStringtoList(newCourseTiming);
         String[] scheduleList = new String[2];
         int scheduleLen = scheduleTimings.size();
@@ -24,9 +24,9 @@ public class TimeConflict {
         }
 
         String output = "";
-        if(chk == true) output = "Time Conflict!";
-        if(chk == false) output = "No time conflict!";
-        return output;
+//        if(chk == true) output = "Time Conflict!";
+//        if(chk == false) output = "No time conflict!";
+        return chk;
     }
 
     public String[] splitTimingStringtoList(String timing){
