@@ -8,13 +8,11 @@ public class Course {
     String courseID;
     String courseDesc;
     String courseTimings;
+    String seatsAvail;
 
     @Override
     public String toString() {
-//        return "Course{" +
-//                "courseID='" + courseID + '\'' +
-//                ", courseDesc='" + courseDesc + '\'' +
-//                '}';
+
         return courseID + ","  + courseDesc + "," + courseTimings;
     }
 
@@ -30,6 +28,10 @@ public class Course {
         this.courseDesc = courseDesc;
     }
 
+    public void setSeatsAvail(String seatsAvail) {
+        this.seatsAvail = seatsAvail;
+    }
+
     public Course(){
 
     }
@@ -38,6 +40,7 @@ public class Course {
         this.courseID = courseID;
         this.courseDesc = courseDesc;
         this.courseTimings = courseTimings;
+        this.seatsAvail = seatsAvail;
     }
 
     public String getCourseID() {
@@ -46,5 +49,9 @@ public class Course {
 
     public String getCourseDesc() {
         return courseDesc;
+    }
+
+    public String getSeatsAvail() {
+        return seatsAvail;
     }
 }

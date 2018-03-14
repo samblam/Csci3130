@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CourseInformationActivity extends AppCompatActivity {
-    TextView tvCourseInfo, tvCourseInfoDesc;
+    TextView tvCourseInfo, tvCourseInfoDesc, seatsAvail;
     Button btnRegister;
     DatabaseReference databaseStudent, databaseCourse;
     ArrayList<String> studentInfoList, studentIDInfo;
@@ -38,6 +38,7 @@ public class CourseInformationActivity extends AppCompatActivity {
 
         tvCourseInfo = findViewById(R.id.tvCourseInfo);
         tvCourseInfoDesc = findViewById(R.id.tvCourseInfoDesc);
+        seatsAvail = findViewById(R.id.seatsAvail);
         studentInfoList = new ArrayList<>();
         studentCoursesInfo = new ArrayList<>();
         studentIDInfo = new ArrayList<>();
@@ -47,6 +48,7 @@ public class CourseInformationActivity extends AppCompatActivity {
         if(message!=null) {
             tvCourseInfo.setText(message.get(0));
             tvCourseInfoDesc.setText(message.get(1));
+            seatsAvail.setText(message.get(2));
         }
 
         courseRegistration = new CourseRegistration();
