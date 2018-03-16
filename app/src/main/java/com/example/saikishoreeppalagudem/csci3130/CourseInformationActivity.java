@@ -1,5 +1,7 @@
 package com.example.saikishoreeppalagudem.csci3130;
 
+/* *  Integrated by karthick parameswaran on 2018-03-16 */
+
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CourseInformationActivity extends AppCompatActivity {
-    TextView tvCourseInfo, tvCourseInfoDesc, seatsAvail;
+    TextView tvCourseInfo, tvCourseInfoDesc, profname, profmail;
     Button btnRegister;
     DatabaseReference databaseStudent, databaseCourse;
     ArrayList<String> studentInfoList, studentIDInfo;
@@ -38,7 +40,8 @@ public class CourseInformationActivity extends AppCompatActivity {
 
         tvCourseInfo = findViewById(R.id.tvCourseInfo);
         tvCourseInfoDesc = findViewById(R.id.tvCourseInfoDesc);
-        seatsAvail = findViewById(R.id.seatsAvail);
+        profname = findViewById(R.id.profname);
+        profmail = findViewById(R.id.profmail);
         studentInfoList = new ArrayList<>();
         studentCoursesInfo = new ArrayList<>();
         studentIDInfo = new ArrayList<>();
@@ -47,8 +50,10 @@ public class CourseInformationActivity extends AppCompatActivity {
         ArrayList<String> message = intent.getStringArrayListExtra("ExtraMsg");
         if(message!=null) {
             tvCourseInfo.setText(message.get(0));
+            tvCourseInfoDesc.setText(getString(R.string.course_id) + message.get(1));
+            profname.setText(getString(R.string.prof_name) + message.get(3));
+            profmail.setText(getString(R.string.prof_email) + message.get(4));
             tvCourseInfoDesc.setText(message.get(1));
-            seatsAvail.setText(message.get(2));
         }
 
         courseRegistration = new CourseRegistration();
