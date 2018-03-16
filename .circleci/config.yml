@@ -188,3 +188,4 @@ workflows:
             branches:
               only:
                 - master
+
