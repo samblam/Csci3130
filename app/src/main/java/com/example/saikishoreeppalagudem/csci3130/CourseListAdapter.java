@@ -32,9 +32,11 @@ public class CourseListAdapter extends ArrayAdapter<Course>{
         View listViewItem = inflater.inflate(R.layout.course_list, null, true);
         TextView textViewID = listViewItem.findViewById(R.id.tvCourseID);
         TextView textViewDesc = listViewItem.findViewById(R.id.tvCourseDesc);
+        TextView textViewseatavail = listViewItem.findViewById(R.id.tvCourseSeatsAvlbl);
         Course course = courseList.get(position);
         textViewID.setText(course.getCourseID());
         textViewDesc.setText(course.getCourseDesc());
+        textViewseatavail.setText(course.getSeatsAvail().toString());
         return listViewItem;
     }
 }
