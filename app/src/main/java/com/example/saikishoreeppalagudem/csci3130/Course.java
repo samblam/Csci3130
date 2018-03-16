@@ -2,6 +2,7 @@ package com.example.saikishoreeppalagudem.csci3130;
 
 /**
  * Created by saikishoreeppalagudem on 2018-02-22.
+ *  Integrated by karthick parameswaran on 2018-03-16
  */
 
 public class Course {
@@ -9,14 +10,16 @@ public class Course {
     String courseDesc;
     String courseProf;
     String profEmail;
+    String courseTimings;
 
     @Override
     public String toString() {
-//        return "Course{" +
-//                "courseID='" + courseID + '\'' +
-//                ", courseDesc='" + courseDesc + '\'' +
-//                '}';
-        return courseID + ","  + courseDesc + "," + courseProf + "," + profEmail;
+
+        return courseID + ","  + courseDesc + "," + courseTimings + "," + courseProf + "," + profEmail;
+    }
+
+    public String getCourseTimings() {
+        return courseTimings;
     }
 
     public void setCourseID(String courseID) {
@@ -33,17 +36,21 @@ public class Course {
 
     public void setProfmail(String profEmail) {
         this.profEmail = profEmail;
+
+    public void setSeatsAvail(String seatsAvail) {
+        this.seatsAvail = seatsAvail;
     }
 
     public Course(){
 
     }
 
-    public Course(String courseID, String courseDesc,String courseProf,String profEmail) {
+    public Course(String courseID, String courseDesc, String courseTimings, String courseProf,String profEmail) {
         this.courseID = courseID;
         this.courseDesc = courseDesc;
         this.profEmail = profEmail;
         this.courseProf = courseProf;
+        this.courseTimings = courseTimings;
     }
 
     public String getCourseProf() {
@@ -60,5 +67,9 @@ public class Course {
 
     public String getCourseDesc() {
         return courseDesc;
+    }
+
+    public String getSeatsAvail() {
+        return seatsAvail;
     }
 }

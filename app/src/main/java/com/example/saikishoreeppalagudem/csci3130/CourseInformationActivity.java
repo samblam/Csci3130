@@ -1,5 +1,7 @@
 package com.example.saikishoreeppalagudem.csci3130;
 
+/* *  Integrated by karthick parameswaran on 2018-03-16 */
+
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,11 +24,15 @@ import java.util.Map;
 public class CourseInformationActivity extends AppCompatActivity {
     TextView tvCourseInfo, tvCourseInfoDesc, profname, profmail;
     Button btnRegister;
-    DatabaseReference databaseStudent;
+    DatabaseReference databaseStudent, databaseCourse;
     ArrayList<String> studentInfoList, studentIDInfo;
     static String keyStudentID;
     Map<String, ArrayList<String>> studentInfoMap = new HashMap<>();
+    Map<String, String> courseInfoMap = new HashMap<>();
     public static ArrayList<ArrayList<String>> studentCoursesInfo;
+    public CourseRegistration courseRegistration;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,10 +51,15 @@ public class CourseInformationActivity extends AppCompatActivity {
         if(message!=null) {
             tvCourseInfo.setText(message.get(0));
             tvCourseInfoDesc.setText(getString(R.string.course_id) + message.get(1));
-            profname.setText(getString(R.string.prof_name) + message.get(2));
-            profmail.setText(getString(R.string.prof_email) + message.get(3));
+            profname.setText(getString(R.string.prof_name) + message.get(3));
+            profmail.setText(getString(R.string.prof_email) + message.get(4));
+            tvCourseInfoDesc.setText(message.get(1));
         }
+
+        courseRegistration = new CourseRegistration();
+
         databaseStudent = FirebaseDatabase.getInstance().getReference("Student");
+        databaseCourse = FirebaseDatabase.getInstance().getReference("Courses");
         keyStudentID = "3";
 
 
@@ -69,6 +80,7 @@ public class CourseInformationActivity extends AppCompatActivity {
                     for(int j = 0; j < a.length ; j++){
                         studentInfoList.add(a[j]);
                     }
+
 //                    studentCoursesInfo.add(studentInfoList) ;
                     studentInfoMap.put(studentID, studentInfoList);
                     studentInfoList = new ArrayList<>(studentInfoList);
@@ -81,42 +93,46 @@ public class CourseInformationActivity extends AppCompatActivity {
 
             }
         });
+
+        databaseCourse.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                courseInfoMap.clear();
+                for (DataSnapshot courseSnapshot : dataSnapshot.getChildren()){
+                    String courseID = String.valueOf(courseSnapshot.child("courseID").getValue());
+                    String courseTimingInfo = String.valueOf(courseSnapshot.child("courseTiming").getValue());
+                    courseInfoMap.put(courseID, courseTimingInfo);
+
+                }
+            Log.e("courses", "" +courseInfoMap);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void registerOnClick(View view) {
         ArrayList<String> courses = new ArrayList<>();
-        String pushCourses = new String();
+        String courseToRegister = tvCourseInfo.getText().toString();
         courses = studentInfoMap.get(keyStudentID);
-        if (courses.contains(tvCourseInfo.getText())){
+        Log.e("StudentCourses: ", courses + "");
+        Map<String, String> scheduleMap = new HashMap<>();
+        scheduleMap = courseRegistration.buildSchedule(courses, courseInfoMap);
+        Log.e("scheduleMap", scheduleMap + "");
+        if (courseRegistration.chkCourseAlreadyRegistered(courses, courseToRegister)){
             Toast.makeText(this, "Already registered!", Toast.LENGTH_SHORT).show();
-
         }
         else{
-//            String firebaseKey = databaseStudent.getKey();
-//            Log.e("firebasekey", firebaseKey);
-            DatabaseReference studentCourseRef = databaseStudent.child(keyStudentID);
-            Log.e("studentCourseRef",""+ studentCourseRef);
-            Map<String, Object> courseUpdates = new HashMap<>();
-            courses.add(tvCourseInfo.getText().toString());
-
-            for(int i = 0; i < courses.size(); i++){
-                if(courses.get(i)!= "null") {
-                    if (i == 0) {
-                        pushCourses = courses.get(i);
-                    } else {
-                        pushCourses = pushCourses + courses.get(i);
-                    }
-                    if (i < courses.size() - 1) {
-                        pushCourses = pushCourses + ",";
-                    }
-                }
+            if (courseRegistration.chkTimeConflict(courseToRegister, courseInfoMap, scheduleMap)){
+                Toast.makeText(this, "Time conflict!", Toast.LENGTH_SHORT).show();
             }
-            Log.e("pushcourses", ""+pushCourses);
-            courseUpdates.put("studentCourses", pushCourses);
-            studentCourseRef.updateChildren(courseUpdates);
-//            studentCourseRef.updateChildrenAsync(courseUpdates);
-
-            Toast.makeText(this, "Course registered successfully!", Toast.LENGTH_SHORT).show();
+            else{
+                courseRegistration.pushCourseRegistration(courses, courseToRegister, keyStudentID);
+                Toast.makeText(this, "Course registered successfully!", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
