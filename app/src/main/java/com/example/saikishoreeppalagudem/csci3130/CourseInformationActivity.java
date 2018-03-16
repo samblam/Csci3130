@@ -44,7 +44,7 @@ public class CourseInformationActivity extends AppCompatActivity {
         if(message!=null) {
             tvCourseInfo.setText(message.get(0));
             tvCourseInfoDesc.setText(message.get(1));
-            seatsAvail.setText(message.get(7));
+            seatsAvail.setText(getString(R.string.seatsAvail) + message.get(2));
         }
         databaseStudent = FirebaseDatabase.getInstance().getReference("Student");
         keyStudentID = "3";
