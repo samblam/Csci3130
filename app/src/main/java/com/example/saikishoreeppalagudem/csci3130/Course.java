@@ -2,18 +2,21 @@ package com.example.saikishoreeppalagudem.csci3130;
 
 /**
  * Created by saikishoreeppalagudem on 2018-02-22.
+ *  Integrated by karthick parameswaran on 2018-03-16
  */
 
 public class Course {
     String courseID;
     String courseDesc;
+    String seatsAvail
+    String courseProf;
+    String profEmail;
     String courseTimings;
-    String seatsAvail;
 
     @Override
     public String toString() {
 
-        return courseID + ","  + courseDesc + "," + courseTimings;
+        return courseID + ","  + courseDesc + "," + courseTimings + "," + courseProf + "," + profEmail + "," + seatsAvail;
     }
 
     public String getCourseTimings() {
@@ -27,20 +30,36 @@ public class Course {
     public void setCourseDesc(String courseDesc) {
         this.courseDesc = courseDesc;
     }
+    public void setProfname(String courseProf) {
+        this.courseProf = courseProf;
+    }
+
+    public void setProfmail(String profEmail) {
+        this.profEmail = profEmail;
 
     public void setSeatsAvail(String seatsAvail) {
         this.seatsAvail = seatsAvail;
     }
 
     public Course(){
+    }
+
+    public Course(String courseID, String courseDesc, String courseTimings, String courseProf,String profEmail, String seatsAvail) {
+        this.courseID = courseID;
+        this.courseDesc = courseDesc;
+        this.profEmail = profEmail;
+        this.courseProf = courseProf;
+        this.courseTimings = courseTimings;
+        this.seatsAvail = seatsAvail;
 
     }
 
-    public Course(String courseID, String courseDesc, String courseTimings) {
-        this.courseID = courseID;
-        this.courseDesc = courseDesc;
-        this.courseTimings = courseTimings;
-        this.seatsAvail = seatsAvail;
+    public String getCourseProf() {
+        return courseProf;
+    }
+
+    public String getProfEmail() {
+        return profEmail;
     }
 
     public String getCourseID() {

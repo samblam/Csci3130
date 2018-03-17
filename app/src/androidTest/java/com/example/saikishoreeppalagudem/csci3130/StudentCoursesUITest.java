@@ -42,6 +42,11 @@ public class StudentCoursesUITest {
 
     @Test
     public void checkUIElements(){
+        onView(withId(R.id.tvCourseInfoDesc)).perform(setTextInTextView("my text"));
+        onView(withId(R.id.tvCourseInfo)).perform(setTextInTextView("my text"));
+        onView(withId(R.id.seatsAvail)).perform(setTextInTextView("my text"));
+        onView(withId(R.id.tvCourseInfoDesc)).perform(click());
+
 //        onView(withId(R.id.tvCourseInfo)).perform(setTextInTextView("my text"));
 //        onView(withId(R.id.tvStudentCourseID)).check(matches(isDisplayed());
 //        onData(anything()).inAdapterView(withId(R.id.listViewStuCourses)).

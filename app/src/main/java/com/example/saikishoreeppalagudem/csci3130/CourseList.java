@@ -51,14 +51,12 @@ public class CourseList extends AppCompatActivity {
                 Log.e("courseClicked", s);
 //                Log.e("courseClicked", courseClicked[1]);
 
-                Toast.makeText(CourseList.this, "" + courseList.get(i), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(CourseList.this, "" + courseList.get(i), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), CourseInformationActivity.class);
                 intent.putExtra("ExtraMsg", courseClickedInfoList);
                 startActivity(intent);
-
             }
         });
-
     }
 
     @Override
