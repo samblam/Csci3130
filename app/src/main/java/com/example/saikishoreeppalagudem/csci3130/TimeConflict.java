@@ -5,7 +5,8 @@ import android.util.Log;
 import java.util.ArrayList;
 
 /**
- * Created by saikishoreeppalagudem on 2018-03-06.
+ * @author saikishoreeppalagudem on 2018-03-06.
+ * @author Documented by Sam Barefoot
  */
 
 public class TimeConflict {

@@ -1,7 +1,8 @@
 package com.example.saikishoreeppalagudem.csci3130;
 
 /**
- * Created by saikishoreeppalagudem on 2018-02-21.
+ * @author saikishoreeppalagudem on 2018-02-21.
+ * @author Documented by Sam Barefoot
  */
 
 public class Student {

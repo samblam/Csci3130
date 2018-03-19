@@ -13,7 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by saikishoreeppalagudem on 2018-03-10.
+ * @author saikishoreeppalagudem on 2018-03-10.
+ * @author Documented by Sam Barefoot
  */
 
 public class CourseRegistration {

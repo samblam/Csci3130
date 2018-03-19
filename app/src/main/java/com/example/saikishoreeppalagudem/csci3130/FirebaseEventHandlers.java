@@ -11,7 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by saikishoreeppalagudem on 2018-02-25.
+ * @author saikishoreeppalagudem on 2018-02-25.
+ * @author Documented by Sam Barefoot
  */
 
 public class FirebaseEventHandlers {

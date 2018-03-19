@@ -15,7 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by saikishoreeppalagudem on 2018-02-25.
+ * @author saikishoreeppalagudem on 2018-02-25.
+ * @author Documented by Sam Barefoot
  */
 
 public class StudentCourseListAdapter extends ArrayAdapter<String>{
