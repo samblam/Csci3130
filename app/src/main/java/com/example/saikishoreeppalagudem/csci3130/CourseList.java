@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -51,7 +52,6 @@ public class CourseList extends AppCompatActivity {
         setContentView(R.layout.activity_course_list);
 
         courseList = new ArrayList<>();
-
         databaseCourses = FirebaseDatabase.getInstance().getReference("Courses");
         listViewCourses = findViewById(R.id.listViewCourses);
 
@@ -59,6 +59,7 @@ public class CourseList extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String s = "" + courseList.get(i);
+                Log.e("courseList", courseList+"");
                 String[] courseClicked = s.split(",");
                 Log.e("S", ""+courseClicked[0]);
                 courseClickedInfoList = new ArrayList<>();

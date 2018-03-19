@@ -22,11 +22,14 @@ import java.util.List;
 public class StudentCourseListAdapter extends ArrayAdapter<String>{
     private Activity context;
     private ArrayList<String> studentCourseList;
+    StudentCourses studentCourses;
 
     public StudentCourseListAdapter(Activity context, ArrayList<String> studentCourseList){
         super(context, R.layout.student_course_list, studentCourseList);
         this.context = context;
         this.studentCourseList = studentCourseList;
+
+        studentCourses = new StudentCourses();
     }
 
     @NonNull
@@ -45,6 +48,7 @@ public class StudentCourseListAdapter extends ArrayAdapter<String>{
             public void onClick(View view) {
                 Log.e("Del", position + "'");
                 studentCourseList.remove(position);
+                studentCourses.updateCourses(studentCourseList);
                 notifyDataSetChanged();
             }
         });

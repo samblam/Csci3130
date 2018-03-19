@@ -19,7 +19,7 @@ public class Course {
      */
     String courseID;
     String courseDesc;
-    String seatsAvail;
+    Long seatsAvail;
     String courseProf;
     String profEmail;
     String courseTimings;
@@ -75,11 +75,7 @@ public class Course {
         this.profEmail = profEmail;
     }
 
-    /**
-     * sets how many seats are available
-     * @param seatsAvail
-     */
-    public void setSeatsAvail(String seatsAvail) {
+    public void setSeatsAvail(Long seatsAvail) {
         this.seatsAvail = seatsAvail;
     }
 
@@ -89,16 +85,7 @@ public class Course {
     public Course(){
     }
 
-    /**
-     *  Creates a new Course Object, and populates it with the given parameters
-     * @param courseID
-     * @param courseDesc
-     * @param courseTimings
-     * @param courseProf
-     * @param profEmail
-     * @param seatsAvail
-     */
-    public Course(String courseID, String courseDesc, String courseTimings, String courseProf,String profEmail, String seatsAvail) {
+    public Course(String courseID, String courseDesc, String courseTimings, String courseProf,String profEmail, Long seatsAvail) {
         this.courseID = courseID;
         this.courseDesc = courseDesc;
         this.profEmail = profEmail;
@@ -142,11 +129,7 @@ public class Course {
         return courseDesc;
     }
 
-    /**
-     *
-     * @return seatsAvail
-     */
-    public String getSeatsAvail() {
+    public Long getSeatsAvail() {
         return seatsAvail;
     }
 }
