@@ -23,12 +23,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".MainActivity" />
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".CourseList" />
         <activity android:name=".CourseInformationActivity" />
         <activity android:name=".StudentCoursesActivity" />
-        <!--<activity android:name=".HomeScreenActivity"></activity>-->
+        <!-- <activity android:name=".HomeScreenActivity"></activity> -->
+        <activity
+            android:name=".Activity_deadline"
+            android:label="@string/title_activity_deadline"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
