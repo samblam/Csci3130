@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_RegisterLogin"
+
+            android:title="Register/Login" />
+        <item
+            android:id="@+id/nav_MyCourses"
+
+            android:title="My Courses" />
+        <item
+            android:id="@+id/nav_CourseList"
+
+            android:title="Course List" />
+        <item
+            android:id="@+id/nav_deadline"
+
+            android:title="Deadline" />
+        <item
+            android:id="@+id/nav_Logout"
+
+            android:title="Logout" />
+
+    </group>
+
+</menu>
