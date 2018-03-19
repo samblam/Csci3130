@@ -87,6 +87,9 @@ public class CourseInformationActivity extends AppCompatActivity {
 
 
     @Override
+    /**
+     * States what objects are to be created, and what is supposed to be displayed on the screen of the phone
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_information);

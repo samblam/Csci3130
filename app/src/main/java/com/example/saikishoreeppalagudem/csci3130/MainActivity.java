@@ -29,6 +29,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Sam Barefoot
+ * @author Documented by Sam Barefoot
+ */
+
 // Derived and Inspired by Google's QuickStart FireBase Guide
 //https://github.com/firebase/quickstart-js
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{

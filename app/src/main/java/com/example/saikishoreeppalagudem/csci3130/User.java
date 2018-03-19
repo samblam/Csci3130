@@ -4,7 +4,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 
-//Created by Sam 2018-02-19
+/**
+ * @author Sam Barefoot
+ * @author Documented by Sam Barefoot
+ */
+
 
 public class User{
 

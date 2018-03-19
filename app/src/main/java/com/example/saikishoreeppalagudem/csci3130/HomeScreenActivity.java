@@ -13,6 +13,10 @@ import android.widget.Switch;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * @author Documented by Sam Barefoot
+ */
+
 public class HomeScreenActivity extends AppCompatActivity {
 
 

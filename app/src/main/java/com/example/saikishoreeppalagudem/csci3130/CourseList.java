@@ -1,4 +1,8 @@
 package com.example.saikishoreeppalagudem.csci3130;
+/**
+ * @author Documented by Sam Barefoot
+ */
+
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -22,12 +26,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CourseList extends AppCompatActivity {
-
+    /**
+     * a Reference to Firebase Database, specifically to grab course Data
+     */
     DatabaseReference databaseCourses;
+    /**
+     * listview object that shows list of courses
+     */
     ListView listViewCourses;
+    /**
+     * array list that stores a list of courses
+     */
     ArrayList<Course> courseList;
+    /**
+     * array list that stores course info to be displayed once a course has been specified
+     */
     ArrayList<String> courseClickedInfoList;
     @Override
+    /**
+     * States what objects are to be created, and what is supposed to be displayed on the screen of the phone
+     */
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_list);
