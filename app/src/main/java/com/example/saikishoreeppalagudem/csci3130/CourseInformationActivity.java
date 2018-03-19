@@ -1,6 +1,8 @@
 package com.example.saikishoreeppalagudem.csci3130;
 
-/* *  Integrated by karthick parameswaran on 2018-03-16 */
+/**  @author Integrated by karthick parameswaran on 2018-03-16
+ *  @author Documented by Sam Barefoot
+ * */
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -22,14 +24,65 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CourseInformationActivity extends AppCompatActivity {
-    TextView tvCourseInfo, tvCourseInfoDesc, profname, profmail, seatsAvail;
+    /**
+     * Text View Object showing course info
+     */
+    TextView tvCourseInfo;
+    /**
+     * TextView Object showing course description info
+     */
+    TextView tvCourseInfoDesc;
+    /**
+     * Text View showing the Professor's name who is teaching a course
+     */
+    TextView profname;
+    /**
+     * TextView Object showing the teaching professor's email
+     */
+    TextView profmail;
+    /**
+     * TextView Object showing how many spots are open in a course
+     */
+    TextView seatsAvail;
+    /**
+     * Button Object that registers student for a class
+     */
     Button btnRegister;
-    DatabaseReference databaseStudent, databaseCourse;
-    ArrayList<String> studentInfoList, studentIDInfo;
+    /**
+     * Reference Object that connects to firebase using the key "Student"
+     */
+    DatabaseReference databaseStudent;
+    /**
+     * Reference Object that connects to firebase using the key "Course"
+     */
+    DatabaseReference databaseCourse;
+    /**
+     *  Array List that stores student Info
+     */
+    ArrayList<String> studentInfoList;
+    /**
+     * Array List that stores Student IDs
+     */
+    ArrayList<String> studentIDInfo;
+    /**
+     * String that holds a student ID to be used as a database key
+     */
     static String keyStudentID;
+    /**
+     * Hash Map representation of student info data, to be uploaded/retrieved from firebase
+     */
     Map<String, ArrayList<String>> studentInfoMap = new HashMap<>();
+    /**
+     * Hash Map representation of course info data, to be uploaded/retrieved from firebase
+     */
     Map<String, String> courseInfoMap = new HashMap<>();
+    /**
+     * Array List that stores data about what courses a particular student is signed up for
+     */
     public static ArrayList<ArrayList<String>> studentCoursesInfo;
+    /**
+     * Instance of courseRegistration Object. Refer to that class for more documentation,
+     */
     public CourseRegistration courseRegistration;
 
 
@@ -116,6 +169,17 @@ public class CourseInformationActivity extends AppCompatActivity {
         });
     }
 
+    /**Allows students to register for courses. 3 Possible Outcomes
+     * <p>
+     *     1: The user is already registered for the course, and they recieve an error message detailing this
+     * </p>
+     * <p>
+     *     2: There is a time conflict, and the user recieves an error message detailing this
+     * </p>
+     * <p>3: The user is successfully registered for the course</p>
+     *
+     * @param view
+     */
     public void registerOnClick(View view) {
         ArrayList<String> courses = new ArrayList<>();
         String courseToRegister = tvCourseInfo.getText().toString();

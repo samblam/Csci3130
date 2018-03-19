@@ -15,6 +15,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+/**
+ * @author Sam Barefoot
+ */
 public class RegistrationActivity extends AppCompatActivity {
     EditText editText;
     Button buttonPush;
