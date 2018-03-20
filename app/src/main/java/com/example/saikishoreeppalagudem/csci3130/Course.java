@@ -7,21 +7,31 @@ package com.example.saikishoreeppalagudem.csci3130;
  */
 
 public class Course {
+
+
     /**
      * courseID is an alphanumeric code that is given to each unique course
-     * courseDesc is a short string describing the course, it's material, etc.
-     * seatsAvail is a number representing how many open spots there are in a particular course
-     * courseProf is a string storing the name of a prof who is teaching
-     * profEmail is a string storing the contact email of a prof for any particular course
-     * courseTimings is the timings of each class for a particular course
-     *
-     * Note: See here for all method parameter Descriptions
      */
     String courseID;
+    /**
+     * courseDesc is a short string describing the course, it's material, etc.
+     */
     String courseDesc;
+    /**
+     * seatsAvail is a number representing how many open spots there are in a particular course
+     */
     String seatsAvail;
+    /**
+     * courseProf is a string storing the name of a prof who is teaching
+     */
     String courseProf;
+    /**
+     * profEmail is a string storing the contact email of a prof for any particular course
+     */
     String profEmail;
+    /**
+     * courseTimings is the timings of each class for a particular course
+     */
     String courseTimings;
 
     @Override
