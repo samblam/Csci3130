@@ -28,6 +28,9 @@ public class CourseListAdapter extends ArrayAdapter<Course>{
 
     @NonNull
     @Override
+    /**
+     * Sets Course Data to be displayed
+     */
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
         View listViewItem = inflater.inflate(R.layout.course_list, null, true);

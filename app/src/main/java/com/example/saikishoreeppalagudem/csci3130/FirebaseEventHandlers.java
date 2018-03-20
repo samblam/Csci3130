@@ -15,6 +15,9 @@ import java.util.Map;
  * @author Documented by Sam Barefoot
  */
 
+/**
+ * @deprecated used to handle firebase events, now defunct
+ */
 public class FirebaseEventHandlers {
 //    String pushCourses;
 //    public void dropCourse(ArrayList<String> courses, String studentID){

@@ -19,6 +19,19 @@ import java.util.Map;
 
 public class CourseRegistration {
 
+    /**Makes a Students Schedule
+     * <p>
+     *     Takes the list of courses an individual student is registered for , the Map of course times.
+     * </p>
+     * <p>
+     *     Creates a new hashmap called Schedule, populates it with the parameters, and returns it
+     * </p>
+     *
+     *
+     * @param studentCourses
+     * @param courseTimes
+     * @return The specified students course schedule
+     */
     public Map<String, String> buildSchedule(ArrayList<String> studentCourses, Map<String, String> courseTimes){
         Map<String, String> schedule = new HashMap<>();
         for (String course:
@@ -29,17 +42,36 @@ public class CourseRegistration {
         return schedule;
     }
 
+    /**Takes student schedule, returns an arraylist of course times
+     *
+     * @param schedule
+     * @return list of course times
+     */
     public ArrayList<String> getTimeListFromScheduleMap(Map<String, String> schedule){
         ArrayList<String> timingList = new ArrayList<String>(schedule.values());
         return  timingList;
     }
 
+    /**
+     *
+     * @param courseToRegister
+     * @param courseTimes
+     * @return returns time of the course the student is attempting to register
+     */
     public String courseToBeRegisteredTiming(String courseToRegister, Map<String, String> courseTimes){
         String newCourseTiming = "";
         newCourseTiming = courseTimes.get(courseToRegister);
         return  newCourseTiming;
     }
 
+    /** Checks to see if there is a time conflict between the course that the user is attempting to register
+     * And the courses the student is currently registered for
+     *
+     * @param courseToRegister
+     * @param courseTimes
+     * @param schedule
+     * @return
+     */
     public boolean chkTimeConflict(String courseToRegister, Map<String, String> courseTimes, Map<String, String> schedule){
         String newCourseTiming = courseToBeRegisteredTiming(courseToRegister, courseTimes);
         ArrayList<String> scheduleTimings = getTimeListFromScheduleMap(schedule);
@@ -49,7 +81,12 @@ public class CourseRegistration {
 
     }
 
-
+    /** Checks to see if the Student is currently registered to the course they are attempting to register
+     *
+     * @param studentCourses
+     * @param courseToRegister
+     * @return returns true if student is already registered, otherwise returns false
+     */
     public boolean chkCourseAlreadyRegistered(ArrayList<String> studentCourses, String courseToRegister){
         if (studentCourses.contains(courseToRegister)){
             return true;
@@ -59,7 +96,12 @@ public class CourseRegistration {
         }
     }
 
-
+    /** Updates Firebase with new Registration Data
+     *
+     * @param studentCourses
+     * @param courseToRegister
+     * @param keyStudentID
+     */
     public void pushCourseRegistration(ArrayList<String> studentCourses, String courseToRegister, String keyStudentID){
         String pushCourses = new String();
         DatabaseReference studentCourseRef = FirebaseDatabase.getInstance().getReference("Student").child(keyStudentID);

@@ -40,6 +40,10 @@ public class RegistrationActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Dictates what is to occur when a button is pressed
+     * @param view
+     */
     public void btnClick(View view) {
 
         String name = editText.getText().toString().trim();
