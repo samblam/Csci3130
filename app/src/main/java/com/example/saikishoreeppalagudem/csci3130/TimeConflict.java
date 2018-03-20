@@ -10,7 +10,12 @@ import java.util.ArrayList;
  */
 
 public class TimeConflict {
-
+    /**
+     * Function checks with a users current course timings, and whatever new course they are trying to register, to see if there is a time conflict
+     * @param newCourseTiming
+     * @param scheduleTimings
+     * @return boolean value saying if there is a time conflict or not
+     */
     public Boolean checkTimeConflict(String newCourseTiming, ArrayList<String> scheduleTimings){
         String[] newCourseTimingList = splitTimingStringtoList(newCourseTiming);
         String[] scheduleList = new String[2];
@@ -30,12 +35,23 @@ public class TimeConflict {
         return chk;
     }
 
+    /**
+     * Splits string of timing into a list
+     * @param timing
+     * @return
+     */
     public String[] splitTimingStringtoList(String timing){
         String [] timingStrList = timing.split("-");
         System.out.println("timingStrList " + timingStrList );
         return timingStrList;
     }
 
+    /**
+     * Parses through schedule
+     * @param courseTiming
+     * @param scheduleTiming
+     * @return
+     */
     public boolean processSchedule(String[] courseTiming, String[] scheduleTiming){
         if (Integer.parseInt(courseTiming[0]) <= Integer.parseInt(scheduleTiming[0])){
             if(Integer.parseInt(courseTiming[1]) <= Integer.parseInt(scheduleTiming[0])){
