@@ -11,9 +11,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by saikishoreeppalagudem on 2018-02-25.
+ * @author saikishoreeppalagudem on 2018-02-25.
+ * @author Documented by Sam Barefoot
  */
 
+/**
+ * @deprecated used to handle firebase events, now defunct
+ */
 public class FirebaseEventHandlers {
 //    String pushCourses;
 //    public void dropCourse(ArrayList<String> courses, String studentID){

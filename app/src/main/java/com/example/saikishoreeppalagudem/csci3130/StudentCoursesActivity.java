@@ -19,16 +19,41 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Documented by Sam Barefoot
+ */
+
 public class StudentCoursesActivity extends AppCompatActivity {
+    /**
+     * Reference to FireBase Database using key "Student"
+     */
     DatabaseReference databaseStudentCourses;
+    /**
+     * ListView object showing a particular
+     */
     ListView listViewStudentCourses;
+    /**
+     * Array List object storing a list of courses offered
+     */
     ArrayList<Course> courseList;
+    /**
+     * ArrayList storing a student information
+     */
     ArrayList<String> studentInfoList;
+    /**
+     * String Storing the currently logged in students ID
+     */
     String STUDENT_ID;
+    /**
+     * An adapter that updates and populates ui
+     */
     StudentCourseListAdapter adapter;
 //    Button btnCourseDel;
     //    ArrayList<String> courseClickedInfoList;
     @Override
+    /**
+     * Dictates what's to be done when the activity is created
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_courses);
@@ -41,6 +66,9 @@ public class StudentCoursesActivity extends AppCompatActivity {
     }
 
     @Override
+    /**
+     * Dictates what's to occur when the activity starts
+     */
     protected void onStart() {
         super.onStart();
         databaseStudentCourses.addValueEventListener(new ValueEventListener() {

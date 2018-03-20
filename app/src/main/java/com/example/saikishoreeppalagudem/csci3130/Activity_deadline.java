@@ -8,13 +8,22 @@ import android.widget.Button;
 import android.widget.TextView;
 
 /**
- * Created by Manojha on 2018-03-14.
+ * @author Manojha
+ * @author Documentation by Sam Barefoot
  */
 
 public class Activity_deadline extends AppCompatActivity {
     private TextView txt_deadline;
 
     @Override
+    /**
+     * This Activity demonstrates the Deadline for Users to sign up for Courses
+     *
+     *
+     */
+    /**
+     * States what objects are to be created, and what is supposed to be displayed on the screen of the phone
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deadline2);

@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Csci3130.iml" filepath="$PROJECT_DIR$/Csci3130.iml" />
+      <module fileurl="file://C:\Users\Sam\StudioProject\try2\Csci3130.iml" filepath="C:\Users\Sam\StudioProject\try2\Csci3130.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/try2.iml" filepath="$PROJECT_DIR$/.idea/try2.iml" />
     </modules>
   </component>
 </project>
