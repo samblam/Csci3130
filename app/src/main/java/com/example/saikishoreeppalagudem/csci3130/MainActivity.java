@@ -1,6 +1,7 @@
 package com.example.saikishoreeppalagudem.csci3130;
 
 import android.content.Intent;
+import android.os.SystemClock;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -89,8 +90,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        FirebaseUser mAuthCurrentUser = mAuth.getCurrentUser();
-                        System.out.println(mAuthCurrentUser);
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
@@ -272,7 +271,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         STUDENT_KEY = pushedStudentRef.getKey();
         Log.e("Student_Key", STUDENT_KEY);
         DatabaseReference studentKeyIDRef = databaseStudentReference.child(STUDENT_KEY);
-        System.out.println(studentID);
         studentInfoMap.put("studentID", studentID);
         studentInfoMap.put("studentName", studentName);
         studentInfoMap.put("studentCourses", studentCourses);

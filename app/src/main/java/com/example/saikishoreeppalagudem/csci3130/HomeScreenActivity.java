@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -69,8 +70,11 @@ public class HomeScreenActivity extends AppCompatActivity {
                             case R.id.nav_Logout:
                                 AuthRef.signOut();
                                 if(FirebaseAuth.getInstance().getCurrentUser() == null) {
-                                    System.out.println("Sign out successful");
+                                    Toast.makeText(HomeScreenActivity.this, "Sign out Successful",
+                                            Toast.LENGTH_SHORT).show();
                                 }
+
+
 //                                callIntent(MainActivity.class);
                                 break;
 
