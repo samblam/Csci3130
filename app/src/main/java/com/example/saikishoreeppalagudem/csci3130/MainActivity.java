@@ -139,13 +139,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Log.d(TAG, "createUserWithEmail:success");
                             Toast.makeText(MainActivity.this, "Account Creation passed.",
                                     Toast.LENGTH_SHORT).show();
-                            FirebaseUser user = mAuth.getCurrentUser();
                         } else {
 
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(MainActivity.this, "Account Creation failed",
                                     Toast.LENGTH_SHORT).show();
                         }
+
 
 
                     }
@@ -182,7 +182,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Log.d(TAG, "signInWithEmail:success");
                             Toast.makeText(MainActivity.this, "Authentication success.",
                                     Toast.LENGTH_SHORT).show();
-                            FirebaseUser user = mAuth.getCurrentUser();
                         } else {
 
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
