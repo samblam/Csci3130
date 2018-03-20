@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      *TextView object that stores details about the status
      */
-        private TextView mDetailTextView;
+    private TextView mDetailTextView;
     /**
      * EditText object where users input email addresses
      */
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * EditText object whereas users input passwords that correspond to the inputted email
      */
-        EditText mPasswordField;
+    EditText mPasswordField;
     /**
      *  Reference to firebase database using the key "Students"
      */
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * Hashmap for student info, interacts with FireBase Database
      */
-        Map<String, Object> studentInfoMap = new HashMap<>();
+    Map<String, Object> studentInfoMap = new HashMap<>();
     /**
      * Firebase Authentification Object, used to test user credentials
      */
@@ -74,40 +74,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public String STUDENT_KEY = "";
 
-        @Override
-        /**
-         * Dictates what is to be done once the activity is created
-         */
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
+    @Override
+    /**
+     * Dictates what is to be done once the activity is created
+     */
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-            // Views
-            mStatusTextView = findViewById(R.id.textView2);
-            mDetailTextView = findViewById(R.id.textView3);
-            mEmailField = findViewById(R.id.editText);
-            mPasswordField = findViewById(R.id.editText2);
-            databaseStudentReference = FirebaseDatabase.getInstance().getReference("Student");
+        // Views
+        mStatusTextView = findViewById(R.id.textView2);
+        mDetailTextView = findViewById(R.id.textView3);
+        mEmailField = findViewById(R.id.editText);
+        mPasswordField = findViewById(R.id.editText2);
+        databaseStudentReference = FirebaseDatabase.getInstance().getReference("Student");
 
-            findViewById(R.id.button).setOnClickListener(this);
-            findViewById(R.id.button2).setOnClickListener(this);
-            findViewById(R.id.verify_email_button).setOnClickListener(this);
-
-
-            mAuth = FirebaseAuth.getInstance();
-
-        }
+        findViewById(R.id.button).setOnClickListener(this);
+        findViewById(R.id.button2).setOnClickListener(this);
+        findViewById(R.id.verify_email_button).setOnClickListener(this);
 
 
-        @Override
-        /**
-         * Check if user is signed in and update UI
-         */
-        public void onStart() {
-            super.onStart();
+        mAuth = FirebaseAuth.getInstance();
 
-            FirebaseUser currentUser = mAuth.getCurrentUser();
-        }
+    }
+
+
+    @Override
+    /**
+     * Check if user is signed in and update UI
+     */
+    public void onStart() {
+        super.onStart();
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+    }
 
     /**
      * Creates user Account
@@ -243,6 +243,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**Validates form, make sure there is an email address inputed, a password of a certain length etc.
+     *
+     * @return returns a boolean value that steates whether the form is valid or not
+     */
     private boolean validateForm() {
         boolean valid = true;
 
@@ -271,6 +275,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
+
+
+    /**
+     * Sets the process for what happens when you press any of the on screen buttons
+     *
+     * <p>
+     *     Pressing the register button creates the account, initializes the user in firebase, and opens the course list
+     * </p>
+     * <p>
+     *     Pressing the Sign In button
+     * </p>
+     */
+
     @Override
     public void onClick(View v) {
         int i = v.getId();
@@ -290,6 +307,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 //ESK
+
+    /**
+     * Retrieves user details from the Firebase Database
+     */
  private void getUserDetails(){
             databaseStudentReference.orderByChild("studentID").equalTo(mEmailField.getText().toString()).addChildEventListener(new ChildEventListener() {
                 @Override
@@ -320,6 +341,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             });
 
     }
+
+    /**
+     * Creates Student Account within University
+     */
     public void initializeUserInFirebase(){
         //Method to initialize Student record in Firebase real-time database.
         //Done only once during registration.
@@ -339,8 +364,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * Method to go to the CourseList activity
+     */
     public void goToCourseList(){
-        //Method to go to the CourseList activity
+
         Intent intent = new Intent(getApplicationContext(), CourseList.class);
         startActivity(intent);
 
