@@ -65,8 +65,9 @@ public class CourseRegistration {
         DatabaseReference studentCourseRef = FirebaseDatabase.getInstance().getReference("Student").child(keyStudentID);
         Log.e("studentCourseRef",""+ studentCourseRef);
         Map<String, Object> courseUpdates = new HashMap<>();
-        studentCourses.add(courseToRegister);
-
+        if (!courseToRegister.isEmpty()) {
+            studentCourses.add(courseToRegister);
+        }
         for(int i = 0; i < studentCourses.size(); i++){
             if(studentCourses.get(i)!= "null") {
                 if (i == 0) {
