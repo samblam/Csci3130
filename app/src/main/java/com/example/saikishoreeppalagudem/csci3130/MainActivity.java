@@ -83,29 +83,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        FirebaseApp.initializeApp(this);
         // Views
         mStatusTextView = findViewById(R.id.textView2);
         mDetailTextView = findViewById(R.id.textView3);
         mEmailField = findViewById(R.id.editText);
         mPasswordField = findViewById(R.id.editText2);
         databaseStudentReference = FirebaseDatabase.getInstance().getReference("Student");
-
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
-            FirebaseApp.initializeApp(this);
-            // Views
-            mStatusTextView = findViewById(R.id.textView2);
-            mDetailTextView = findViewById(R.id.textView3);
-            mEmailField = findViewById(R.id.editText);
-            mPasswordField = findViewById(R.id.editText2);
-            databaseStudentReference = FirebaseDatabase.getInstance().getReference("Student");
-            // Buttons
-            findViewById(R.id.button).setOnClickListener(this);
-            findViewById(R.id.button2).setOnClickListener(this);
-            findViewById(R.id.verify_email_button).setOnClickListener(this);
+        // Buttons
+        findViewById(R.id.button).setOnClickListener(this);
+        findViewById(R.id.button2).setOnClickListener(this);
+        findViewById(R.id.verify_email_button).setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
 

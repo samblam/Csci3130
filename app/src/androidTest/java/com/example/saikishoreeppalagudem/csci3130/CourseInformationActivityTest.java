@@ -17,7 +17,8 @@ import static org.hamcrest.CoreMatchers.anything;
 
 /**
  * Created by Karthick Parameswaran on 2018-03-14.
- * This test case register account , goes to course List activity and check the prof name and  mail address from firebase
+ * This test case register account , goes to course List activity and check
+ * the prof name and  mail address from firebase
  *
  */
 

@@ -110,7 +110,7 @@ public class CourseInformationActivity extends AppCompatActivity {
             tvCourseInfoDesc.setText(getString(R.string.course_id) + message.get(1));
             profname.setText(getString(R.string.prof_name) + message.get(3));
             profmail.setText(getString(R.string.prof_email) + message.get(4));
-            tvCourseInfoDesc.setText(message.get(1));
+//            tvCourseInfoDesc.setText(message.get(1));
             seatsAvail.setText(getString(R.string.seatsAvail) + message.get(5));
         }
 
@@ -138,8 +138,6 @@ public class CourseInformationActivity extends AppCompatActivity {
                     for(int j = 0; j < a.length ; j++){
                         studentInfoList.add(a[j]);
                     }
-
-//                    studentCoursesInfo.add(studentInfoList) ;
                     studentInfoMap.put(studentID, studentInfoList);
                     studentInfoList = new ArrayList<>(studentInfoList);
                 }

@@ -11,9 +11,10 @@ import java.util.ArrayList;
 
 public class TimeConflict {
     /**
-     * Function checks with a users current course timings, and whatever new course they are trying to register, to see if there is a time conflict
-     * @param newCourseTiming
-     * @param scheduleTimings
+     * Function checks with a users current course timings, and whatever new course they are trying to register,
+     * to see if there is a time conflict
+     * @param newCourseTiming   Takes a string value of the timings of the course that the user wants to register for.
+     * @param scheduleTimings   ArrayList containing the timings of courses that the user has already register for.
      * @return boolean value saying if there is a time conflict or not
      */
     public Boolean checkTimeConflict(String newCourseTiming, ArrayList<String> scheduleTimings){
@@ -28,10 +29,6 @@ public class TimeConflict {
                 chk = processSchedule(newCourseTimingList, scheduleList);
             }
         }
-
-        String output = "";
-//        if(chk == true) output = "Time Conflict!";
-//        if(chk == false) output = "No time conflict!";
         return chk;
     }
 
