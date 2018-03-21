@@ -5,6 +5,8 @@ import android.support.test.rule.ActivityTestRule;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.util.Random;
+
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -26,7 +28,9 @@ public class CourseInformationActivityTest {
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(
             MainActivity.class);
-    String email = "test1@gmail.com";
+    Random random = new Random();
+    String randomString = String.valueOf(random.nextInt());
+    String email = randomString + "@gmail.com";
     String password = "123456";
     String prof = "PROFESSOR NAME :John D";
     String prof_email = "PROFESSOR EMAIL :johnd@dal.ca";
@@ -39,6 +43,6 @@ public class CourseInformationActivityTest {
         onView(withId(R.id.button2)).perform(click());// press register button
         onData(anything()).inAdapterView(withId(R.id.listViewCourses)).atPosition(0).perform(click());// Clicks on the first course created in the listview in CourseList
         onView(withId(R.id.profname)).check(matches(withText(prof))); // below test step verifies the prof name from firebase
-        onView(withId(R.id.profmail)).check(matches(withText(prof_email))); // below test step verifies the prof email from firebas
+        onView(withId(R.id.profmail)).check(matches(withText(prof_email))); // below test step verifies the prof email from firebase
     }
 }
