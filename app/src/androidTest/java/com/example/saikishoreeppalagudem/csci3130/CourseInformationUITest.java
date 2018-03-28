@@ -29,7 +29,7 @@ public class CourseInformationUITest {
     @Test
     public void checkTV(){
         onView(withId(R.id.tvCourseInfo)).check(matches(isDisplayed()));
-
+        onView(withId(R.id.tvCourseDetail)).check(matches(isDisplayed()));
 
 //        onView(withId(R.id.tvCourseInfoDesc));
 //        onView(withId(R.id.btnRegister));

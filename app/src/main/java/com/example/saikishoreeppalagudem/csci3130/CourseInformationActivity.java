@@ -43,7 +43,7 @@ public class CourseInformationActivity extends AppCompatActivity {
     /**
      * TextView Object showing how many spots are open in a course
      */
-    TextView seatsAvail;
+    TextView seatsAvail, courseDetail;
     /**
      * Button Object that registers student for a class
      */
@@ -99,6 +99,7 @@ public class CourseInformationActivity extends AppCompatActivity {
         seatsAvail = findViewById(R.id.seatsAvail);
         profname = findViewById(R.id.profname);
         profmail = findViewById(R.id.profmail);
+        courseDetail = findViewById(R.id.tvCourseDetail);
         studentInfoList = new ArrayList<>();
         studentCoursesInfo = new ArrayList<>();
         studentIDInfo = new ArrayList<>();
@@ -112,6 +113,7 @@ public class CourseInformationActivity extends AppCompatActivity {
             profmail.setText(getString(R.string.prof_email) + message.get(4));
 //            tvCourseInfoDesc.setText(message.get(1));
             seatsAvail.setText(getString(R.string.seatsAvail) + message.get(5));
+            courseDetail.setText("Course Detail: " + message.get(6));
         }
 
         courseRegistration = new CourseRegistration();
@@ -175,7 +177,7 @@ public class CourseInformationActivity extends AppCompatActivity {
      *     1: The user is already registered for the course, and they recieve an error message detailing this
      * </p>
      * <p>
-     *     2: There is a time conflict, and the user recieves an error message detailing this
+     *     2: There is a time conflict, and the user receives an error message detailing this
      * </p>
      * <p>3: The user is successfully registered for the course</p>
      *
