@@ -16,6 +16,15 @@ import static android.content.ContentValues.TAG;
  * Created by Karthick P  and Sam on 3/28/2018.
  */
 
+/**
+ * Creates user Account
+ * <p>
+ *     If successful, the account is created in firebase, and the Ui is updated accordingly
+ * </p>
+ * <p>
+ *     If unsuccessful, the account is not created, and a message is shown stating as such
+ * </p>
+ */
 public class FirebaseHelper {
     static public void createAccount(String email, String password, final Activity activity) {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
@@ -37,6 +46,16 @@ public class FirebaseHelper {
 
     }
 
+/**
+ * Allows user to sign in
+ * <p>
+ *     If Sign in is successful, the UI is updated with the signed-in user's information
+ * </p>
+ * <p>
+ * If sign in fails, a message is displayed to the user.
+ * </p>
+ **/
+
     static public void signInAccount(String email, String password, final Activity activity) {
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
@@ -54,7 +73,15 @@ public class FirebaseHelper {
                     }
                 });
     }
-
+    /**
+     * Allows user to sign out
+     * <p>
+     *     If Sign in is successful, the UI is updated with the signed-in user's information
+     * </p>
+     * <p>
+     * If sign in fails, a message is displayed to the user.
+     * </p>
+     **/
     static public void signOut(){
         if(FirebaseAuth.getInstance().getCurrentUser() != null)
         {
