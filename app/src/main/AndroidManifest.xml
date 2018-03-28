@@ -32,7 +32,8 @@
         <activity
             android:name=".Activity_deadline"
             android:label="@string/title_activity_deadline"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activity_Filter"></activity>
     </application>
 
 </manifest>
