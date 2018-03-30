@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CourseList extends AppCompatActivity {
@@ -92,6 +93,7 @@ public class CourseList extends AppCompatActivity {
                     Log.e("courseSnapshot: ", course.toString() );
 
                 }
+//                Collections.sort(courseList.);
                 CourseListAdapter adapter = new CourseListAdapter(CourseList.this, courseList);
                 listViewCourses.setAdapter(adapter);
 
