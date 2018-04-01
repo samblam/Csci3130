@@ -5,12 +5,14 @@ package com.example.saikishoreeppalagudem.csci3130;
 
 
 import android.content.Intent;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -25,13 +27,15 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CourseList extends AppCompatActivity {
     /**
      * a Reference to Firebase Database, specifically to grab course Data
      */
-    DatabaseReference databaseCourses;
+    DatabaseReference databaseCourses, studentDbRef;
     /**
      * listview object that shows list of courses
      */
@@ -44,6 +48,24 @@ public class CourseList extends AppCompatActivity {
      * array list that stores course info to be displayed once a course has been specified
      */
     ArrayList<String> courseClickedInfoList;
+
+    /**
+     * button to handle multiple course registration
+     */
+    Button btnMulReg;
+
+    /**
+     * button to handle multiple course registration
+     */
+    ArrayList<String> selectedCourses;
+
+   /** Hash Map representation of course info data, to be uploaded/retrieved from firebase
+     */
+    Map<String, String> courseInfoMap = new HashMap<>();
+
+
+    ArrayList<String> finStudentCourses = new ArrayList<>();
+
     @Override
     /**
      * States what objects are to be created, and what is supposed to be displayed on the screen of the phone
@@ -54,7 +76,10 @@ public class CourseList extends AppCompatActivity {
 
         courseList = new ArrayList<>();
         databaseCourses = FirebaseDatabase.getInstance().getReference("Courses");
+        studentDbRef = FirebaseDatabase.getInstance().getReference().child("Student").child("3");
         listViewCourses = findViewById(R.id.listViewCourses);
+        btnMulReg = findViewById(R.id.btnMulRegister);
+        selectedCourses = new ArrayList<>();
 
         listViewCourses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -69,9 +94,6 @@ public class CourseList extends AppCompatActivity {
                 }
                 s = "" + courseClickedInfoList;
                 Log.e("courseClicked", s);
-//                Log.e("courseClicked", courseClicked[1]);
-
-               // Toast.makeText(CourseList.this, "" + courseList.get(i), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), CourseInformationActivity.class);
                 intent.putExtra("ExtraMsg", courseClickedInfoList);
                 startActivity(intent);
@@ -83,20 +105,44 @@ public class CourseList extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        databaseCourses.addValueEventListener(new ValueEventListener() {
+        databaseCourses.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 courseList.clear();
+                courseInfoMap.clear();
                 for (DataSnapshot courseSnapshot : dataSnapshot.getChildren()){
                     Course course = courseSnapshot.getValue(Course.class);
                     courseList.add(course);
                     Log.e("courseSnapshot: ", course.toString() );
+                    String courseID = String.valueOf(courseSnapshot.child("courseID").getValue());
+                    String courseTimingInfo = String.valueOf(courseSnapshot.child("courseTiming").getValue());
+                    courseInfoMap.put(courseID, courseTimingInfo);
 
                 }
-//                Collections.sort(courseList.);
                 CourseListAdapter adapter = new CourseListAdapter(CourseList.this, courseList);
+                adapter.selectedCourses.clear();
                 listViewCourses.setAdapter(adapter);
+                selectedCourses = adapter.selectedCourses;
+                Log.e("courseInfoMap", courseInfoMap + "");
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        studentDbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                finStudentCourses.clear();
+                String stuCourses = dataSnapshot.child("studentCourses").getValue(String.class);
+//                Log.e("stuCourses", "" + stuCourses);
+                String[] s = stuCourses.split(",");
+                for(int i = 0; i < s.length; i++){
+                    finStudentCourses.add(s[i]);
+                }
+                Log.e("finStudentCourses", finStudentCourses + "");
             }
 
             @Override
@@ -106,5 +152,40 @@ public class CourseList extends AppCompatActivity {
         });
     }
 
+    /** Code to handle button click event. Student can register for multiple courses.
+    *
+     * */
+    public void onClickBtnMulReg(View view) {
+        // TODO Write code for multiple registrations
+        int selCoursesLen = selectedCourses.size();
+        ArrayList<String> studentCourses = new ArrayList<>();
+        ArrayList<String> coursesFailedToReg = new ArrayList<>();
+        CourseRegistration courseRegistration = new CourseRegistration();
+        Map<String, String> scheduleMap = new HashMap<>();
+        for (int i = 0; i < selCoursesLen; i ++){
+            //Get student ID from MainActivity
+            Log.e("selectedCourses", "" + selectedCourses);
+            studentCourses = finStudentCourses;
+            Log.e("StudentCourses", studentCourses + "");
+            scheduleMap.clear();
+            if (!courseInfoMap.isEmpty()) {
+                scheduleMap = courseRegistration.buildSchedule(studentCourses, courseInfoMap);
+            }
+            if (courseRegistration.chkCourseAlreadyRegistered(studentCourses, selectedCourses.get(i))){
+                coursesFailedToReg.add(selectedCourses.get(i));
+                Toast.makeText(this, selectedCourses.get(i) + "Already registered!", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                if (courseRegistration.chkTimeConflict(selectedCourses.get(i), courseInfoMap, scheduleMap)){
+                    Toast.makeText(this, "Time conflict!", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    //Change keyStudentID with val received in MainActivity
+                    courseRegistration.pushCourseRegistration(studentCourses, selectedCourses.get(i), "3");
+                    Toast.makeText(this, "Course registered successfully!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
 
+    }
 }
