@@ -16,24 +16,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity_Filter">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity android:name=".MainActivity" >
         </activity>
-        <activity android:name=".MainActivity" />
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".CourseList" />
         <activity android:name=".CourseInformationActivity" />
         <activity android:name=".StudentCoursesActivity" />
-        <activity android:name=".HomeScreenActivity"></activity>
+        <activity android:name=".HomeScreenActivity"/>
         <activity
             android:name=".Activity_deadline"
             android:label="@string/title_activity_deadline"
             android:theme="@style/AppTheme.NoActionBar" />
-        <!--<activity android:name=".Activity_Filter"></activity>-->
+        <!-- <activity android:name=".Activity_Filter"></activity> -->
+        <activity android:name=".TermFilterActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

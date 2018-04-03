@@ -9,6 +9,8 @@ public class Terms {
      String termID;
      String regDeadline;
 
+     public Terms(){}
+
     public String getTermID() {
         return termID;
     }
@@ -27,8 +29,7 @@ public class Terms {
 
     @Override
     public String toString() {
-        return
-                termID + ','+ regDeadline;
+        return termID + ','+ regDeadline;
     }
 
     public Terms(String termID, String regDeadline){
