@@ -86,10 +86,11 @@ public class CourseList extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 courseList.clear();
-                for (DataSnapshot courseSnapshot : dataSnapshot.getChildren()){
+                for (DataSnapshot courseSnapshot : dataSnapshot.getChildren()) {
                     Course course = courseSnapshot.getValue(Course.class);
-                    courseList.add(course);
-                    Log.e("courseSnapshot: ", course.toString() );
+                        courseList.add(course);
+                        Log.e("courseSnapshot: ", course.toString());
+
 
                 }
                 CourseListAdapter adapter = new CourseListAdapter(CourseList.this, courseList);

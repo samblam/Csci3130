@@ -12,11 +12,20 @@ public class Course {
     String courseProf;
     String profEmail;
     String courseTimings;
+    String termId;
 
     @Override
     public String toString() {
 
         return courseID + ","  + courseDesc + "," + courseTimings + "," + courseProf + "," + profEmail + "," + seatsAvail;
+    }
+
+    public String getTermId() {
+        return termId;
+    }
+
+    public void setTermId(String termId) {
+        this.termId = termId;
     }
 
     public String getCourseTimings() {

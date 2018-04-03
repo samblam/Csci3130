@@ -14,6 +14,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Activity_Filter extends Activity  {
 
     DatabaseReference fDatabaseRoot;
@@ -28,15 +31,20 @@ public class Activity_Filter extends Activity  {
         fDatabaseRoot.child("Terms").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot areaSnapshot: dataSnapshot.getChildren()) {
-                    String termName = areaSnapshot.child("termID").getValue(String.class);
+                // Is better to use a List, because you don't know the size
+                // of the iterator returned by dataSnapshot.getChildren() to
+                // initialize the array
+                 List<String> term = new ArrayList<String>();
 
-                    Spinner termSpinner = (Spinner) findViewById(R.id.spinner);
-                    final String[] areas = {termName};
-                    ArrayAdapter<String> termAdapter = new ArrayAdapter<String>(Activity_Filter.this, android.R.layout.simple_spinner_item, areas);
-                    termAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    termSpinner.setAdapter(termAdapter);
+                for (DataSnapshot areaSnapshot: dataSnapshot.getChildren()) {
+                    Terms termID = areaSnapshot.child("termID").getValue(Terms.class);
+                    term.add(termID.toString());
                 }
+
+                Spinner termSpinner = (Spinner) findViewById(R.id.spinner);
+                ArrayAdapter<String> termAdapter = new ArrayAdapter<String>(Activity_Filter.this, android.R.layout.simple_spinner_item, term);
+                termAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                termSpinner.setAdapter(termAdapter);
             }
 
             @Override

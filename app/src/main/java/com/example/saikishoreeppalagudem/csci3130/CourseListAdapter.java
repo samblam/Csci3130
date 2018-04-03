@@ -16,7 +16,7 @@ import java.util.List;
  * @author Documented by Sam Barefoot
  */
 
-public class CourseListAdapter extends ArrayAdapter<Course>{
+public class  CourseListAdapter extends ArrayAdapter<Course>{
     private Activity context;
     private List<Course> courseList;
 
