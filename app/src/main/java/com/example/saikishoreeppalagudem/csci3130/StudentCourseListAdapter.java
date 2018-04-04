@@ -10,6 +10,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +46,7 @@ public class StudentCourseListAdapter extends ArrayAdapter<String>{
         LayoutInflater inflater = context.getLayoutInflater();
         View listViewItem = inflater.inflate(R.layout.student_course_list, null, true);
         TextView tvStudentCourseID = listViewItem.findViewById(R.id.tvStudentCourseID);
-        String course = studentCourseList.get(position);
+        final String course = studentCourseList.get(position);
         Log.e("course", course);
         tvStudentCourseID.setText(course);
         Button b = listViewItem.findViewById(R.id.btnStuCourseDel);
@@ -47,11 +54,39 @@ public class StudentCourseListAdapter extends ArrayAdapter<String>{
             @Override
             public void onClick(View view) {
                 Log.e("Del", position + "'");
+                String selectedCourse = studentCourseList.get(position);
+                final long[] seatAvailability = new long[1];
                 studentCourseList.remove(position);
-                courseRegistration.pushCourseRegistration(studentCourseList, "", "3");
+                courseRegistration.pushCourseRegistration(studentCourseList, "", "3","register");
+               // courseRegistration.chkAndUpdateSeatAvailability(course,)
                 notifyDataSetChanged();
                 studentCourseList.clear();
+                DatabaseReference databaseCourse = FirebaseDatabase.getInstance().getReference("Courses").child(selectedCourse);
+                databaseCourse.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        Course course = dataSnapshot.getValue(Course.class);
+                        seatAvailability[0] = course.getSeatWL();
+
+                    }
+
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+                if(courseRegistration.chkAndUpdateSeatAvailability(selectedCourse,String.valueOf(seatAvailability[0]),-1)){
+                  //  Toast.makeText(StudentCoursesActivity.this, "Course dropped succesfully!", Toast.LENGTH_SHORT).show();
+                }
+
+
+
+
             }
+
+
         });
         return listViewItem;
 

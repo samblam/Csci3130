@@ -12,11 +12,12 @@ public class Course {
     String courseProf;
     String profEmail;
     String courseTimings;
+    Long seatWL;
 
     @Override
     public String toString() {
 
-        return courseID + ","  + courseDesc + "," + courseTimings + "," + courseProf + "," + profEmail + "," + seatsAvail;
+        return courseID + ","  + courseDesc + "," + courseTimings + "," + courseProf + "," + profEmail + "," + seatsAvail + "," + seatWL;
     }
 
     public String getCourseTimings() {
@@ -44,13 +45,14 @@ public class Course {
     public Course(){
     }
 
-    public Course(String courseID, String courseDesc, String courseTimings, String courseProf,String profEmail, Long seatsAvail) {
+    public Course(String courseID, String courseDesc, String courseTimings, String courseProf,String profEmail, Long seatsAvail, Long seatWL) {
         this.courseID = courseID;
         this.courseDesc = courseDesc;
         this.profEmail = profEmail;
         this.courseProf = courseProf;
         this.courseTimings = courseTimings;
         this.seatsAvail = seatsAvail;
+        this.seatWL = seatWL;
 
     }
 
@@ -73,4 +75,7 @@ public class Course {
     public Long getSeatsAvail() {
         return seatsAvail;
     }
+
+    public Long getSeatWL(){return seatWL;}
+
 }
