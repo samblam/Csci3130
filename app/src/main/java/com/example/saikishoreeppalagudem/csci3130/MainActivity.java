@@ -75,6 +75,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Key used to search for a specific student within a database
      */
     public String STUDENT_KEY = "";
+    /**
+     * AppSharedResources to initialise studentID on new Registration and Login
+     * and also to get firebase database references
+     */
+    AppSharedResources appSharedResources;
 
     @Override
     /**
@@ -96,6 +101,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.verify_email_button).setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
+
+        //App shared resources
+        appSharedResources = new AppSharedResources();
 
     }
 
@@ -139,6 +147,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Log.d(TAG, "createUserWithEmail:success");
                             Toast.makeText(MainActivity.this, "Account Creation passed.",
                                     Toast.LENGTH_SHORT).show();
+                            initializeUserInFirebase();
+                            goToCourseList();
                         } else {
 
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -182,6 +192,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Log.d(TAG, "signInWithEmail:success");
                             Toast.makeText(MainActivity.this, "Authentication success.",
                                     Toast.LENGTH_SHORT).show();
+                            getUserDetails();
+                            goToCourseList();;
                         } else {
 
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
@@ -291,12 +303,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int i = v.getId();
         if (i == R.id.button2) {
             createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
-            initializeUserInFirebase();
-            goToCourseList();
+
         } else if (i == R.id.button) {
             signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
 //ESK
-            getUserDetails();
+
         }// else if (i == R.id.sign_out_button) {
            // signOut(); }
          else if (i == R.id.verify_email_button) {
@@ -315,6 +326,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     Log.e("QUery out", dataSnapshot.getKey());
                     STUDENT_KEY = dataSnapshot.getKey();
+
+                    //Sets studentID in the appSharedResources
+                    appSharedResources.setStudentId(STUDENT_KEY);
                 }
 
                 @Override
@@ -352,6 +366,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         studentCourses ="";
         DatabaseReference pushedStudentRef = databaseStudentReference.push();
         STUDENT_KEY = pushedStudentRef.getKey();
+
+        //Set studentID to STUDENT_KEY in the appSharedResources
+        appSharedResources.setStudentId(STUDENT_KEY);
         Log.e("Student_Key", STUDENT_KEY);
         DatabaseReference studentKeyIDRef = databaseStudentReference.child(STUDENT_KEY);
         studentInfoMap.put("studentID", studentID);

@@ -85,6 +85,7 @@ public class CourseInformationActivity extends AppCompatActivity {
      */
     public CourseRegistration courseRegistration;
 
+    AppSharedResources appSharedResources;
 
     @Override
     /**
@@ -120,7 +121,10 @@ public class CourseInformationActivity extends AppCompatActivity {
 
         databaseStudent = FirebaseDatabase.getInstance().getReference("Student");
         databaseCourse = FirebaseDatabase.getInstance().getReference("Courses");
-        keyStudentID = "3";
+
+        appSharedResources = AppSharedResources.getInstance();
+        keyStudentID = appSharedResources.STUDENT_ID;
+        Log.e("keyStudentID", keyStudentID);
 
 
     }

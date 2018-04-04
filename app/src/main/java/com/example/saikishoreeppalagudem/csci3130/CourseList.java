@@ -66,6 +66,8 @@ public class CourseList extends AppCompatActivity {
 
     ArrayList<String> finStudentCourses = new ArrayList<>();
 
+    AppSharedResources appSharedResources;
+
     @Override
     /**
      * States what objects are to be created, and what is supposed to be displayed on the screen of the phone
@@ -74,9 +76,13 @@ public class CourseList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_list);
 
+        //AppSharedResources instance
+        appSharedResources = AppSharedResources.getInstance();
+
         courseList = new ArrayList<>();
-        databaseCourses = FirebaseDatabase.getInstance().getReference("Courses");
-        studentDbRef = FirebaseDatabase.getInstance().getReference().child("Student").child("3");
+//        databaseCourses = FirebaseDatabase.getInstance().getReference("Courses");
+//        studentDbRef = FirebaseDatabase.getInstance().getReference().child("Student").child("3");
+        Log.e("StudentID", appSharedResources.STUDENT_ID);
         listViewCourses = findViewById(R.id.listViewCourses);
         btnMulReg = findViewById(R.id.btnMulRegister);
         selectedCourses = new ArrayList<>();
@@ -105,7 +111,8 @@ public class CourseList extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        databaseCourses.addListenerForSingleValueEvent(new ValueEventListener() {
+//        databaseCourses.addListenerForSingleValueEvent(new ValueEventListener()
+        appSharedResources.courseDbRef.addListenerForSingleValueEvent(new ValueEventListener(){
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 courseList.clear();
@@ -132,7 +139,7 @@ public class CourseList extends AppCompatActivity {
             }
         });
 
-        studentDbRef.addValueEventListener(new ValueEventListener() {
+        appSharedResources.studentDbRef.child(appSharedResources.STUDENT_ID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 finStudentCourses.clear();
