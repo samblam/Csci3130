@@ -3,6 +3,7 @@ package com.example.saikishoreeppalagudem.csci3130;
 /**
  * Created by saikishoreeppalagudem on 2018-02-22.
  *  Integrated by karthick parameswaran on 2018-03-16
+ * updated course by saikishoreeppalagudem and karthick
  */
 
 public class Course {
@@ -12,13 +13,16 @@ public class Course {
     String courseProf;
     String profEmail;
     String courseTimings;
+
+    Long seatWL;
+
     String courseDetail;
 
     @Override
     public String toString() {
 
-        return courseID + ","  + courseDesc + "," + courseTimings + "," + courseProf + "," + profEmail
-                + "," + seatsAvail + "," + courseDetail;
+        return courseID + ","  + courseDesc + "," + courseTimings + "," + courseProf + "," + profEmail + "," + seatsAvail + "," + courseDetail + ","+ seatWL;
+
     }
 
     public String getCourseTimings() {
@@ -46,14 +50,15 @@ public class Course {
     public Course(){
     }
 
-    public Course(String courseID, String courseDesc, String courseTimings, String courseProf,
-                  String profEmail, Long seatsAvail, String courseDetail) {
+    public Course(String courseID, String courseDesc, String courseTimings, String courseProf,String profEmail, Long seatsAvail, String courseDetail, Long seatWL) {
+
         this.courseID = courseID;
         this.courseDesc = courseDesc;
         this.profEmail = profEmail;
         this.courseProf = courseProf;
         this.courseTimings = courseTimings;
         this.seatsAvail = seatsAvail;
+        this.seatWL = seatWL;
         this.courseDetail = courseDetail;
 
     }
@@ -77,6 +82,8 @@ public class Course {
     public Long getSeatsAvail() {
         return seatsAvail;
     }
+
+    public Long getSeatWL(){return seatWL;}
 
     public String getCourseDetail() {return courseDetail;}
 }

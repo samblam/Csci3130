@@ -76,6 +76,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                                 if(FirebaseAuth.getInstance().getCurrentUser() == null) {
                                     Toast.makeText(HomeScreenActivity.this, "Sign out Successful",
                                             Toast.LENGTH_SHORT).show();
+                                    MainActivity.STUDENT_KEY = "";
                                 }
 
 
