@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" >
+        <activity android:name=".TermFilterActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -31,7 +31,7 @@
             android:name=".Activity_deadline"
             android:label="@string/title_activity_deadline"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".TermFilterActivity"></activity>
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>
