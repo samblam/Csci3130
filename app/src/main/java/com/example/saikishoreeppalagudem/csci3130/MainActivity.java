@@ -76,7 +76,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * Key used to search for a specific student within a database
      */
-    public static String STUDENT_KEY = "";
+
+    public String STUDENT_KEY = "";
+    /**
+     * AppSharedResources to initialise studentID on new Registration and Login
+     * and also to get firebase database references
+     */
+    AppSharedResources appSharedResources;
 
     @Override
     /**
@@ -99,6 +105,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mAuth = FirebaseAuth.getInstance();
 
+        //App shared resources
+        appSharedResources = new AppSharedResources();
+
     }
 
 
@@ -112,6 +121,100 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FirebaseUser currentUser = mAuth.getCurrentUser();
     }
 
+
+    /**
+     * Creates user Account
+     * <p>
+     *     If successful, the account is created in firebase, and the Ui is updated accordingly
+     * </p>
+     * <p>
+     *     If unsuccessful, the account is not created, and a message is shown stating as such
+     * </p>
+     * @param email
+     * @param password
+     */
+    private void createAccount(String email, String password) {
+        Log.d(TAG, "createAccount:" + email);
+        if (!validateForm()) {
+            return;
+        }
+
+
+
+
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+
+                            Log.d(TAG, "createUserWithEmail:success");
+                            Toast.makeText(MainActivity.this, "Account Creation passed.",
+                                    Toast.LENGTH_SHORT).show();
+                            initializeUserInFirebase();
+                            goToCourseList();
+                        } else {
+
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(MainActivity.this, "Account Creation failed",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+
+
+                    }
+                });
+
+    }
+
+    /**
+     * Allows user to sign in
+     * <p>
+     *     If Sign in is successful, the UI is updated with the signed-in user's information
+     * </p>
+     * <p>
+     * If sign in fails, a message is displayed to the user.
+     * </p>
+     * @param email
+     * @param password
+     */
+    private void signIn(String email, String password) {
+        Log.d(TAG, "signIn:" + email);
+        if (!validateForm()) {
+            return;
+        }
+
+
+
+
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+
+                            Log.d(TAG, "signInWithEmail:success");
+                            Toast.makeText(MainActivity.this, "Authentication success.",
+                                    Toast.LENGTH_SHORT).show();
+                            getUserDetails();
+//                            goToCourseList();
+                        } else {
+
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(MainActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+
+                        if (!task.isSuccessful()) {
+                            mStatusTextView.setText(R.string.auth_failed);
+                        }
+
+
+                    }
+                });
+
+    }
 
 
 
@@ -199,17 +302,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //karthick and sam  - refactoring
             if(validateForm()){
                 FirebaseHelper.createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString(), this);
-                initializeUserInFirebase();
-                goToCourseList();}
-
+                
+            }
         } else if (i == R.id.button) {
-//karthick and sam  - refactoring
             if(validateForm()){
                 FirebaseHelper.signInAccount(mEmailField.getText().toString(), mPasswordField.getText().toString(), this);
 //ESK
+
+
+        }
                 getUserDetails();
             }
         }
+
          else if (i == R.id.verify_email_button) {
             sendEmailVerification();
             goToCourseList();
@@ -226,6 +331,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     Log.e("QUery out", dataSnapshot.getKey());
                     STUDENT_KEY = dataSnapshot.getKey();
+                    //Sets studentID in the appSharedResources
+                    appSharedResources.setStudentId(STUDENT_KEY);
                     goToCourseList();
                 }
 
@@ -265,6 +372,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         waitlistCourses = "1";
         DatabaseReference pushedStudentRef = databaseStudentReference.push();
         STUDENT_KEY = pushedStudentRef.getKey();
+
+        //Set studentID to STUDENT_KEY in the appSharedResources
+        appSharedResources.setStudentId(STUDENT_KEY);
         Log.e("Student_Key", STUDENT_KEY);
         DatabaseReference studentKeyIDRef = databaseStudentReference.child(STUDENT_KEY);
         studentInfoMap.put("studentID", STUDENT_KEY);

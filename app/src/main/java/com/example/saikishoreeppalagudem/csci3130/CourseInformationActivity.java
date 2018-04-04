@@ -86,6 +86,9 @@ public class CourseInformationActivity extends AppCompatActivity {
      */
     public CourseRegistration courseRegistration;
 
+
+    AppSharedResources appSharedResources;
+
     //kp
     /**
      * ArrayList representation of course details from previous activity, to be uploaded/retrieved from firebase
@@ -135,9 +138,16 @@ public class CourseInformationActivity extends AppCompatActivity {
 
         courseRegistration = new CourseRegistration();
 
-        databaseStudent = FirebaseDatabase.getInstance().getReference("Student");
-        databaseCourse = FirebaseDatabase.getInstance().getReference("Courses");
-        keyStudentID = MainActivity.STUDENT_KEY;
+        //databaseStudent = FirebaseDatabase.getInstance().getReference("Student");
+        //databaseCourse = FirebaseDatabase.getInstance().getReference("Courses");
+
+
+        appSharedResources = AppSharedResources.getInstance();
+        keyStudentID = appSharedResources.STUDENT_ID;
+        Log.e("keyStudentID", keyStudentID);
+
+        //keyStudentID = MainActivity.STUDENT_KEY;
+
 
 
     }
