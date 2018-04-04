@@ -25,6 +25,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
 
+    AppSharedResources appSharedResources;
 
     FirebaseAuth AuthRef;
     @Override
@@ -34,7 +35,7 @@ public class HomeScreenActivity extends AppCompatActivity {
 
         AuthRef = FirebaseAuth.getInstance();
 
-
+        appSharedResources = AppSharedResources.getInstance();
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
@@ -76,7 +77,8 @@ public class HomeScreenActivity extends AppCompatActivity {
                                 if(FirebaseAuth.getInstance().getCurrentUser() == null) {
                                     Toast.makeText(HomeScreenActivity.this, "Sign out Successful",
                                             Toast.LENGTH_SHORT).show();
-                                    MainActivity.STUDENT_KEY = "";
+                                    appSharedResources.setStudentId(null);
+
                                 }
 
 

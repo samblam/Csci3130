@@ -33,10 +33,6 @@ import java.util.Map;
 
 public class CourseList extends AppCompatActivity {
     /**
-     * a Reference to Firebase Database, specifically to grab course Data
-     */
-    DatabaseReference databaseCourses, studentDbRef;
-    /**
      * listview object that shows list of courses
      */
     ListView listViewCourses;
@@ -80,8 +76,6 @@ public class CourseList extends AppCompatActivity {
         appSharedResources = AppSharedResources.getInstance();
 
         courseList = new ArrayList<>();
-//        databaseCourses = FirebaseDatabase.getInstance().getReference("Courses");
-//        studentDbRef = FirebaseDatabase.getInstance().getReference().child("Student").child("3");
         Log.e("StudentID", appSharedResources.STUDENT_ID);
         listViewCourses = findViewById(R.id.listViewCourses);
         btnMulReg = findViewById(R.id.btnMulRegister);
@@ -164,34 +158,39 @@ public class CourseList extends AppCompatActivity {
      * */
     public void onClickBtnMulReg(View view) {
         // TODO Write code for multiple registrations
-        int selCoursesLen = selectedCourses.size();
-        ArrayList<String> studentCourses = new ArrayList<>();
-        ArrayList<String> coursesFailedToReg = new ArrayList<>();
-        CourseRegistration courseRegistration = new CourseRegistration();
-        Map<String, String> scheduleMap = new HashMap<>();
-        for (int i = 0; i < selCoursesLen; i ++){
-            //Get student ID from MainActivity
-            Log.e("selectedCourses", "" + selectedCourses);
-            studentCourses = finStudentCourses;
-            Log.e("StudentCourses", studentCourses + "");
-            scheduleMap.clear();
-            if (!courseInfoMap.isEmpty()) {
-                scheduleMap = courseRegistration.buildSchedule(studentCourses, courseInfoMap);
-            }
-            if (courseRegistration.chkCourseAlreadyRegistered(studentCourses, selectedCourses.get(i))){
-                coursesFailedToReg.add(selectedCourses.get(i));
-                Toast.makeText(this, selectedCourses.get(i) + "Already registered!", Toast.LENGTH_SHORT).show();
-            }
-            else{
-                if (courseRegistration.chkTimeConflict(selectedCourses.get(i), courseInfoMap, scheduleMap)){
-                    Toast.makeText(this, "Time conflict!", Toast.LENGTH_SHORT).show();
+        if (appSharedResources.STUDENT_ID != "3"){
+            int selCoursesLen = selectedCourses.size();
+            ArrayList<String> studentCourses = new ArrayList<>();
+            ArrayList<String> coursesFailedToReg = new ArrayList<>();
+            CourseRegistration courseRegistration = new CourseRegistration();
+            Map<String, String> scheduleMap = new HashMap<>();
+            for (int i = 0; i < selCoursesLen; i ++){
+                //Get student ID from MainActivity
+                Log.e("selectedCourses", "" + selectedCourses);
+                studentCourses = finStudentCourses;
+                Log.e("StudentCourses", studentCourses + "");
+                scheduleMap.clear();
+                if (!courseInfoMap.isEmpty()) {
+                    scheduleMap = courseRegistration.buildSchedule(studentCourses, courseInfoMap);
+                }
+                if (courseRegistration.chkCourseAlreadyRegistered(studentCourses, selectedCourses.get(i))){
+                    coursesFailedToReg.add(selectedCourses.get(i));
+                    Toast.makeText(this, selectedCourses.get(i) + "Already registered!", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    //Change keyStudentID with val received in MainActivity
-                    courseRegistration.pushCourseRegistration(studentCourses, selectedCourses.get(i), "3");
-                    Toast.makeText(this, "Course registered successfully!", Toast.LENGTH_SHORT).show();
+                    if (courseRegistration.chkTimeConflict(selectedCourses.get(i), courseInfoMap, scheduleMap)){
+                        Toast.makeText(this, "Time conflict!", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        //Change keyStudentID with val received in MainActivity
+                        courseRegistration.pushCourseRegistration(studentCourses, selectedCourses.get(i),  appSharedResources.STUDENT_ID, "register");
+                        Toast.makeText(this, "Course registered successfully!", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
+        }
+        else{
+            Toast.makeText(this, "Please register/login!", Toast.LENGTH_SHORT).show();
         }
 
     }
