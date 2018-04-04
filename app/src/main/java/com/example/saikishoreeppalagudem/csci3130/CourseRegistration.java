@@ -4,9 +4,14 @@ package com.example.saikishoreeppalagudem.csci3130;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,9 +23,10 @@ import java.util.Map;
  */
 
 public class CourseRegistration {
+    public ArrayList<String> finStudentCourses = new ArrayList<>();
 
-    /**
-     * Makes a Students Schedule
+    
+    /**Makes a Students Schedule
      * <p>
      * Takes the list of courses an individual student is registered for , the Map of course times.
      * </p>
@@ -32,6 +38,7 @@ public class CourseRegistration {
      * @param courseTimes
      * @return The specified students course schedule
      */
+  
     public Map<String, String> buildSchedule(ArrayList<String> studentCourses, Map<String, String> courseTimes) {
         Map<String, String> schedule = new HashMap<>();
         for (String course :
@@ -177,5 +184,26 @@ public class CourseRegistration {
             return false;
     }
 
+//    public boolean handleMulReg(ArrayList<String> selectedCourses, ArrayList<String> studentCourses,
+//                                Map<String, String> courseInfoMap ){
+//
+//        scheduleMap.clear();
+//        if (!courseInfoMap.isEmpty()) {
+//            scheduleMap = buildSchedule(studentCourses, courseInfoMap);
+//        }
+//        if (courseRegistration.chkCourseAlreadyRegistered(studentCourses, selectedCourses.get(i))){
+//            Toast.makeText(this, selectedCourses.get(i) + "Already registered!", Toast.LENGTH_SHORT).show();
+//        }
+//        else{
+//            if (courseRegistration.chkTimeConflict(selectedCourses.get(i), courseInfoMap, scheduleMap)){
+//                Toast.makeText(this, "Time conflict!", Toast.LENGTH_SHORT).show();
+//            }
+//            else{
+//                //Change keyStudentID with val received in MainActivity
+//                courseRegistration.pushCourseRegistration(studentCourses, selectedCourses.get(i), "3");
+//                Toast.makeText(this, "Course registered successfully!", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
 
 }

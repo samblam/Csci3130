@@ -32,4 +32,8 @@
 
 
 
+
+    <!--Strings for TextViews in CourseList-->
+    <string name="seatsavlbl">Seats Avbl.</string>
+    
 </resources>
