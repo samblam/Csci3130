@@ -43,6 +43,11 @@ public class CourseList extends AppCompatActivity {
      * array list that stores course info to be displayed once a course has been specified
      */
     ArrayList<String> courseClickedInfoList;
+    /**
+     * String to store the termID received from TermFilterActivity;
+     */
+    String termID;
+
     @Override
     /**
      * States what objects are to be created, and what is supposed to be displayed on the screen of the phone
@@ -54,6 +59,10 @@ public class CourseList extends AppCompatActivity {
         courseList = new ArrayList<>();
         databaseCourses = FirebaseDatabase.getInstance().getReference("Courses");
         listViewCourses = findViewById(R.id.listViewCourses);
+
+        // Gets the intent from the TermFilterActivity and also the termID selected by the user
+        Intent intentNew = getIntent();
+        termID = intentNew.getStringExtra("TERM_ID");
 
         listViewCourses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -88,9 +97,13 @@ public class CourseList extends AppCompatActivity {
                 courseList.clear();
                 for (DataSnapshot courseSnapshot : dataSnapshot.getChildren()) {
                     Course course = courseSnapshot.getValue(Course.class);
-                        courseList.add(course);
-                        Log.e("courseSnapshot: ", course.toString());
-
+                        if (termID == "") Log.e("termID", termID + "termID is blank");
+                        else {
+                            if (course.getTermID().contains(termID)){
+                                courseList.add(course);
+                                Log.e("courseSnapshot: ", course.toString());
+                            }
+                        }
 
                 }
                 CourseListAdapter adapter = new CourseListAdapter(CourseList.this, courseList);

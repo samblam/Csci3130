@@ -28,4 +28,7 @@
     <string name="prof_name">PROFESSOR NAME : </string>
     <string name="prof_email">PROFESSOR EMAIL : </string>
 
+    <!--Text for TermFilterActivity-->
+    <string name="term_filter_prompt">Select term</string>
+
 </resources>
