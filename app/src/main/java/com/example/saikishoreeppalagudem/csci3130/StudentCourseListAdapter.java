@@ -58,34 +58,9 @@ public class StudentCourseListAdapter extends ArrayAdapter<String>{
                 final long[] seatAvailability = new long[1];
                 studentCourseList.remove(position);
                 courseRegistration.pushCourseRegistration(studentCourseList, "", "3","register");
-               // courseRegistration.chkAndUpdateSeatAvailability(course,)
                 notifyDataSetChanged();
                 studentCourseList.clear();
-                DatabaseReference databaseCourse = FirebaseDatabase.getInstance().getReference("Courses").child(selectedCourse);
-                databaseCourse.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-
-                        Course course = dataSnapshot.getValue(Course.class);
-                        seatAvailability[0] = course.getSeatWL();
-
-                    }
-
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-                if(courseRegistration.chkAndUpdateSeatAvailability(selectedCourse,String.valueOf(seatAvailability[0]),-1)){
-                  //  Toast.makeText(StudentCoursesActivity.this, "Course dropped succesfully!", Toast.LENGTH_SHORT).show();
-                }
-
-
-
-
             }
-
 
         });
         return listViewItem;

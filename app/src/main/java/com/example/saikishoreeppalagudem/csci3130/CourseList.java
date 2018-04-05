@@ -181,7 +181,7 @@ public class CourseList extends AppCompatActivity {
                 }
                 else{
                     //Change keyStudentID with val received in MainActivity
-                    courseRegistration.pushCourseRegistration(studentCourses, selectedCourses.get(i), "3");
+                    courseRegistration.pushCourseRegistration(studentCourses, selectedCourses.get(i), "3", "register");
                     Toast.makeText(this, "Course registered successfully!", Toast.LENGTH_SHORT).show();
                 }
             }
