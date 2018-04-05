@@ -60,7 +60,7 @@ public class StudentCourseListAdapter extends ArrayAdapter<String>{
                 String selectedCourse = studentCourseList.get(position);
                 long seatsAvail = Long.parseLong(StudentCoursesActivity.courseSeatsMap.get(selectedCourse)) + 1;
                 studentCourseList.remove(position);
-                courseRegistration.pushCourseRegistration(studentCourseList, "", "3","register");
+                courseRegistration.pushCourseRegistration(studentCourseList, "", MainActivity.STUDENT_KEY,"register");
                 selectedCourseSeatsMap.put("seatsAvail", seatsAvail);
                 selectedCourse = selectedCourse.replaceAll("\\s+", "");
                 FirebaseDatabase.getInstance().getReference("Courses").child(selectedCourse).updateChildren(selectedCourseSeatsMap);                notifyDataSetChanged();

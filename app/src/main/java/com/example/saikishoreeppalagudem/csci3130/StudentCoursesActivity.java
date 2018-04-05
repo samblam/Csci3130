@@ -67,7 +67,7 @@ public class StudentCoursesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_courses);
-        STUDENT_ID = "-L9E6oXs0-mcXLhx7F_w";
+        STUDENT_ID = MainActivity.STUDENT_KEY;
         courseList = new ArrayList<>();
         studentInfoList = new ArrayList<>();
         listViewStudentCourses = findViewById(R.id.listViewStuCourses);
