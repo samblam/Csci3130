@@ -17,7 +17,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Documented by Sam Barefoot
@@ -44,16 +46,24 @@ public class StudentCoursesActivity extends AppCompatActivity {
      * String Storing the currently logged in students ID
      */
     String STUDENT_ID;
+
+    /**
+     * * Reference to FireBase Database using key "Course"
+     */
+    DatabaseReference databaseCourses;
+
     /**
      * An adapter that updates and populates ui
      */
     StudentCourseListAdapter adapter;
-//    Button btnCourseDel;
-    //    ArrayList<String> courseClickedInfoList;
-    @Override
+
     /**
      * Dictates what's to be done when the activity is created
      */
+
+    public static final Map<String, String> courseSeatsMap = new HashMap<>();
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_courses);
@@ -62,6 +72,8 @@ public class StudentCoursesActivity extends AppCompatActivity {
         studentInfoList = new ArrayList<>();
         listViewStudentCourses = findViewById(R.id.listViewStuCourses);
         databaseStudentCourses = FirebaseDatabase.getInstance().getReference("Student");
+        databaseCourses =  FirebaseDatabase.getInstance().getReference("Courses");
+
 
     }
 
@@ -106,10 +118,21 @@ public class StudentCoursesActivity extends AppCompatActivity {
         });
 
 
+        databaseCourses.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot courseSnapshot : dataSnapshot.getChildren()) {
+                    String courseID = String.valueOf(courseSnapshot.child("courseID").getValue());
+                    String seatsAvail = String.valueOf(courseSnapshot.child("seatsAvail").getValue());
+                    courseSeatsMap.put(courseID, seatsAvail);
+                }
+                Log.e("seatAvail", "" + courseSeatsMap);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
-
-
-
-
-
 }

@@ -19,7 +19,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author saikishoreeppalagudem on 2018-02-25.
@@ -49,21 +51,23 @@ public class StudentCourseListAdapter extends ArrayAdapter<String>{
         final String course = studentCourseList.get(position);
         Log.e("course", course);
         tvStudentCourseID.setText(course);
+        final Map<String, Object> selectedCourseSeatsMap = new HashMap<>();
         Button b = listViewItem.findViewById(R.id.btnStuCourseDel);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.e("Del", position + "'");
                 String selectedCourse = studentCourseList.get(position);
-                final long[] seatAvailability = new long[1];
+                long seatsAvail = Long.parseLong(StudentCoursesActivity.courseSeatsMap.get(selectedCourse)) + 1;
                 studentCourseList.remove(position);
                 courseRegistration.pushCourseRegistration(studentCourseList, "", "3","register");
-                notifyDataSetChanged();
+                selectedCourseSeatsMap.put("seatsAvail", seatsAvail);
+                selectedCourse = selectedCourse.replaceAll("\\s+", "");
+                FirebaseDatabase.getInstance().getReference("Courses").child(selectedCourse).updateChildren(selectedCourseSeatsMap);                notifyDataSetChanged();
                 studentCourseList.clear();
             }
 
         });
         return listViewItem;
-
     }
 }

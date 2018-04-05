@@ -139,7 +139,6 @@ public class CourseInformationActivity extends AppCompatActivity {
         databaseCourse = FirebaseDatabase.getInstance().getReference("Courses");
         keyStudentID = MainActivity.STUDENT_KEY;
 
-
     }
 
     @Override

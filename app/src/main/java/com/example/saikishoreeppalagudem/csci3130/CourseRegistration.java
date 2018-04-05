@@ -5,17 +5,14 @@ import android.app.Activity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -156,6 +153,30 @@ public class CourseRegistration {
 
     }
 
+    public void dropCourseUpdateSeatAvailability(final String selectedCourse, final long a){
+        DatabaseReference databaseCourse = FirebaseDatabase.getInstance().getReference("Courses");
+        final Map<String, Object> selectedCourseSeatsMap = new HashMap<>();
+        databaseCourse.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot courseSnapshot : dataSnapshot.getChildren()) {
+                    String courseID = String.valueOf(courseSnapshot.child("courseID").getValue());
+                    long seatsAvail = (long) courseSnapshot.child("seatsAvail").getValue();
+
+                    if(courseID.equals(selectedCourse)){
+                        seatsAvail = seatsAvail + a;
+                        selectedCourseSeatsMap.put("seatsAvail", String.valueOf(seatsAvail));
+                        FirebaseDatabase.getInstance().getReference("Courses").child(selectedCourse).updateChildren(selectedCourseSeatsMap);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
     public boolean chkAndUpdateSeatAvailability(String courseID, String seatAvailabilty, long a) {
         courseID = courseID.replaceAll("\\s+", "");
         long seats = Long.valueOf(seatAvailabilty) - a;
