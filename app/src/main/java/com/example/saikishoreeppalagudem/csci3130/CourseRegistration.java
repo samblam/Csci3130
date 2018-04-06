@@ -181,7 +181,7 @@ public class CourseRegistration {
         courseID = courseID.replaceAll("\\s+", "");
         long seats = Long.valueOf(seatAvailabilty) - a;
         String updatedSeat = String.valueOf(seats - 1);
-        if (seats > 0) {
+        if (seats >= 0) {
             DatabaseReference courseRef = FirebaseDatabase.getInstance().getReference("Courses").child(courseID);
             Map<String, Object> courseInfoUpdate = new HashMap<>();
             courseInfoUpdate.put("seatsAvail", seats);
@@ -196,7 +196,7 @@ public class CourseRegistration {
         courseID = courseID.replaceAll("\\s+", "");
         long seats = Long.valueOf(wailListAvailabilty) - a;
         String updatedSeat = String.valueOf(seats - 1);
-        if (seats > 0) {
+        if (seats >= 0) {
             DatabaseReference courseRef = FirebaseDatabase.getInstance().getReference("Courses").child(courseID);
             Map<String, Object> courseInfoUpdate = new HashMap<>();
             courseInfoUpdate.put("seatWL", seats);

@@ -17,8 +17,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.example.saikishoreeppalagudem.csci3130.CourseInformationActivity.keyStudentID;
+import static com.example.saikishoreeppalagudem.csci3130.MainActivity.STUDENT_KEY;
 
 /**
  * @author Documented by Sam Barefoot
@@ -60,7 +64,6 @@ public class StudentCoursesActivity extends AppCompatActivity {
      */
     AppSharedResources appSharedResources;
 
-    @Override
     /**
      * Dictates what's to be done when the activity is created
      */
@@ -71,13 +74,12 @@ public class StudentCoursesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_courses);
-        STUDENT_ID = MainActivity.STUDENT_KEY;
         courseList = new ArrayList<>();
         studentInfoList = new ArrayList<>();
         listViewStudentCourses = findViewById(R.id.listViewStuCourses);
         databaseStudentCourses = FirebaseDatabase.getInstance().getReference("Student");
         databaseCourses =  FirebaseDatabase.getInstance().getReference("Courses");
-
+        appSharedResources = AppSharedResources.getInstance();
 
     }
 
@@ -97,8 +99,8 @@ public class StudentCoursesActivity extends AppCompatActivity {
                     String studentID = String.valueOf(studentCourseSnapshot.child("studentID").getValue());
                     String studentCourseInfo = String.valueOf(studentCourseSnapshot.child("studentCourses").getValue());
                     Log.e("studentID", studentID);
-                    Log.e("Student_ID", STUDENT_ID);
-                    if (studentID.equals(STUDENT_ID)){
+                    Log.e("Student_ID", appSharedResources.STUDENT_ID);
+                    if (studentID.equals(appSharedResources.STUDENT_ID)){
                         Log.e("studentID", studentID);
                         String[] a = studentCourseInfo.split(",");
                         for(int j = 0; j < a.length ; j++){

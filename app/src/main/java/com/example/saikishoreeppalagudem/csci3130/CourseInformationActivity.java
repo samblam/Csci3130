@@ -223,7 +223,7 @@ public class CourseInformationActivity extends AppCompatActivity {
         } else {
             String course = message.get(0);
             String seatAvailability = message.get(5);
-            String waitListAvailability = message.get(6);
+            String waitListAvailability = message.get(7);
             ArrayList<String> courses = new ArrayList<>();
             ArrayList<String> waitListCourses = new ArrayList<>();
 

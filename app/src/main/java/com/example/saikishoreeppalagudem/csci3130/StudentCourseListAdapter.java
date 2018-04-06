@@ -23,6 +23,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.saikishoreeppalagudem.csci3130.MainActivity.STUDENT_KEY;
+
+
 /**
  * @author saikishoreeppalagudem on 2018-02-25.
  * @author Documented by Sam Barefoot
@@ -32,12 +35,14 @@ public class StudentCourseListAdapter extends ArrayAdapter<String>{
     private Activity context;
     private ArrayList<String> studentCourseList;
     CourseRegistration courseRegistration;
+    AppSharedResources appSharedResources;
+
 
     public StudentCourseListAdapter(Activity context, ArrayList<String> studentCourseList){
         super(context, R.layout.student_course_list, studentCourseList);
         this.context = context;
         this.studentCourseList = studentCourseList;
-
+        appSharedResources = AppSharedResources.getInstance();
         courseRegistration = new CourseRegistration();
     }
 
@@ -60,7 +65,7 @@ public class StudentCourseListAdapter extends ArrayAdapter<String>{
                 String selectedCourse = studentCourseList.get(position);
                 long seatsAvail = Long.parseLong(StudentCoursesActivity.courseSeatsMap.get(selectedCourse)) + 1;
                 studentCourseList.remove(position);
-                courseRegistration.pushCourseRegistration(studentCourseList, "", MainActivity.STUDENT_KEY,"register");
+                courseRegistration.pushCourseRegistration(studentCourseList, "", appSharedResources.STUDENT_ID,"register");
                 selectedCourseSeatsMap.put("seatsAvail", seatsAvail);
                 selectedCourse = selectedCourse.replaceAll("\\s+", "");
                 FirebaseDatabase.getInstance().getReference("Courses").child(selectedCourse).updateChildren(selectedCourseSeatsMap);                notifyDataSetChanged();
