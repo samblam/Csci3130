@@ -19,7 +19,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.example.saikishoreeppalagudem.csci3130.MainActivity.STUDENT_KEY;
+
 
 /**
  * @author saikishoreeppalagudem on 2018-02-25.
@@ -30,12 +35,14 @@ public class StudentCourseListAdapter extends ArrayAdapter<String>{
     private Activity context;
     private ArrayList<String> studentCourseList;
     CourseRegistration courseRegistration;
+    AppSharedResources appSharedResources;
+
 
     public StudentCourseListAdapter(Activity context, ArrayList<String> studentCourseList){
         super(context, R.layout.student_course_list, studentCourseList);
         this.context = context;
         this.studentCourseList = studentCourseList;
-
+        appSharedResources = AppSharedResources.getInstance();
         courseRegistration = new CourseRegistration();
     }
 
@@ -49,46 +56,23 @@ public class StudentCourseListAdapter extends ArrayAdapter<String>{
         final String course = studentCourseList.get(position);
         Log.e("course", course);
         tvStudentCourseID.setText(course);
+        final Map<String, Object> selectedCourseSeatsMap = new HashMap<>();
         Button b = listViewItem.findViewById(R.id.btnStuCourseDel);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.e("Del", position + "'");
                 String selectedCourse = studentCourseList.get(position);
-                final long[] seatAvailability = new long[1];
+                long seatsAvail = Long.parseLong(StudentCoursesActivity.courseSeatsMap.get(selectedCourse)) + 1;
                 studentCourseList.remove(position);
-                courseRegistration.pushCourseRegistration(studentCourseList, "", "3","register");
-               // courseRegistration.chkAndUpdateSeatAvailability(course,)
-                notifyDataSetChanged();
+                courseRegistration.pushCourseRegistration(studentCourseList, "", appSharedResources.STUDENT_ID,"register");
+                selectedCourseSeatsMap.put("seatsAvail", seatsAvail);
+                selectedCourse = selectedCourse.replaceAll("\\s+", "");
+                FirebaseDatabase.getInstance().getReference("Courses").child(selectedCourse).updateChildren(selectedCourseSeatsMap);                notifyDataSetChanged();
                 studentCourseList.clear();
-                DatabaseReference databaseCourse = FirebaseDatabase.getInstance().getReference("Courses").child(selectedCourse);
-                databaseCourse.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-
-                        Course course = dataSnapshot.getValue(Course.class);
-                        seatAvailability[0] = course.getSeatWL();
-
-                    }
-
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-                if(courseRegistration.chkAndUpdateSeatAvailability(selectedCourse,String.valueOf(seatAvailability[0]),-1)){
-                  //  Toast.makeText(StudentCoursesActivity.this, "Course dropped succesfully!", Toast.LENGTH_SHORT).show();
-                }
-
-
-
-
             }
-
 
         });
         return listViewItem;
-
     }
 }
