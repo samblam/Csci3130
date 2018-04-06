@@ -27,8 +27,13 @@
     <string name="course_id">COURSE DES : </string>
     <string name="prof_name">PROFESSOR NAME : </string>
     <string name="prof_email">PROFESSOR EMAIL : </string>
+    <string name="waitList">WAIT LIST </string>
+    <string name="Register">REGISTER </string>
 
-    <!--Text for TermFilterActivity-->
-    <string name="term_filter_prompt">Select term</string>
 
+
+
+    <!--Strings for TextViews in CourseList-->
+    <string name="seatsavlbl">Seats Avbl.</string>
+    
 </resources>

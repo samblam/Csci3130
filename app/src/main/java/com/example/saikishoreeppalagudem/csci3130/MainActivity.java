@@ -1,5 +1,6 @@
 package com.example.saikishoreeppalagudem.csci3130;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.SystemClock;
 import android.provider.ContactsContract;
@@ -34,6 +35,7 @@ import java.util.Map;
 /**
  * @author Sam Barefoot
  * @author Documented by Sam Barefoot
+ * @author Karthick P deleted the createAccount and signIn methood , linked with the Firebase Helper class
  */
 
 // Derived and Inspired by Google's QuickStart FireBase Guide
@@ -74,7 +76,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * Key used to search for a specific student within a database
      */
+
     public String STUDENT_KEY = "";
+    /**
+     * AppSharedResources to initialise studentID on new Registration and Login
+     * and also to get firebase database references
+     */
+    AppSharedResources appSharedResources;
 
     @Override
     /**
@@ -89,13 +97,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mDetailTextView = findViewById(R.id.textView3);
         mEmailField = findViewById(R.id.editText);
         mPasswordField = findViewById(R.id.editText2);
-        databaseStudentReference = FirebaseDatabase.getInstance().getReference("Student");
+//        databaseStudentReference = FirebaseDatabase.getInstance().getReference("Student");
         // Buttons
         findViewById(R.id.button).setOnClickListener(this);
         findViewById(R.id.button2).setOnClickListener(this);
         findViewById(R.id.verify_email_button).setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
+
+        //App shared resources
+        appSharedResources = new AppSharedResources();
 
     }
 
@@ -110,103 +121,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FirebaseUser currentUser = mAuth.getCurrentUser();
     }
 
-    /**
-     * Creates user Account
-     * <p>
-     *     If successful, the account is created in firebase, and the Ui is updated accordingly
-     * </p>
-     * <p>
-     *     If unsuccessful, the account is not created, and a message is shown stating as such
-     * </p>
-     * @param email
-     * @param password
-     */
-    private void createAccount(String email, String password) {
-        Log.d(TAG, "createAccount:" + email);
-        if (!validateForm()) {
-            return;
-        }
-
-
-
-
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-
-                            Log.d(TAG, "createUserWithEmail:success");
-                            Toast.makeText(MainActivity.this, "Account Creation passed.",
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(MainActivity.this, "Account Creation failed",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-
-
-
-                    }
-                });
-
-    }
-
-    /**
-     * Allows user to sign in
-     * <p>
-     *     If Sign in is successful, the UI is updated with the signed-in user's information
-     * </p>
-     * <p>
-     * If sign in fails, a message is displayed to the user.
-     * </p>
-     * @param email
-     * @param password
-     */
-    private void signIn(String email, String password) {
-        Log.d(TAG, "signIn:" + email);
-        if (!validateForm()) {
-            return;
-        }
-
-
-
-
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-
-                            Log.d(TAG, "signInWithEmail:success");
-                            Toast.makeText(MainActivity.this, "Authentication success.",
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-
-
-                        if (!task.isSuccessful()) {
-                            mStatusTextView.setText(R.string.auth_failed);
-                        }
-
-
-                    }
-                });
-
-    }
-
-    /**
-     * Allows user to sign out
-     *
-     */
-    private void signOut() {
-        mAuth.signOut();
-    }
 
 
     /**
@@ -288,17 +202,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        boolean isSuccessful;
         int i = v.getId();
         if (i == R.id.button2) {
-            createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
-            initializeUserInFirebase();
-            goToCourseList();
-        } else if (i == R.id.button) {
-            signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
-//ESK
-            getUserDetails();
-        }// else if (i == R.id.sign_out_button) {
-           // signOut(); }
+//karthick and sam  - refactoring
+            if(validateForm()){
+                FirebaseHelper.createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString(), this);
+                initializeUserInFirebase();
+                goToCourseList();
+
+            }
+        }
+        else if (i == R.id.button) {
+            if(validateForm()){
+                FirebaseHelper.signInAccount(mEmailField.getText().toString(), mPasswordField.getText().toString(), this);
+                //ESK
+                getUserDetails();
+                goToCourseList();
+
+            }
+        }
+
          else if (i == R.id.verify_email_button) {
             sendEmailVerification();
             goToCourseList();
@@ -310,11 +234,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Retrieves user details from the Firebase Database
      */
  private void getUserDetails(){
-            databaseStudentReference.orderByChild("studentID").equalTo(mEmailField.getText().toString()).addChildEventListener(new ChildEventListener() {
+//            databaseStudentReference
+     appSharedResources.studentDbRef.orderByChild("studentName").equalTo(mEmailField.getText().toString()).addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    Log.e("QUery out", dataSnapshot.getKey());
+                    Log.e("Query out", dataSnapshot.getKey());
                     STUDENT_KEY = dataSnapshot.getKey();
+                    //Sets studentID in the appSharedResources
+                    appSharedResources.setStudentId(STUDENT_KEY);
+                    goToCourseList();
                 }
 
                 @Override
@@ -346,19 +274,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void initializeUserInFirebase(){
         //Method to initialize Student record in Firebase real-time database.
         //Done only once during registration.
-        String studentID, studentName, studentCourses;
+        String studentID, studentName, studentCourses,waitlistCourses;
         studentID = mEmailField.getText().toString();
         studentName = studentID;
         studentCourses ="";
-        DatabaseReference pushedStudentRef = databaseStudentReference.push();
-        STUDENT_KEY = pushedStudentRef.getKey();
+        waitlistCourses = "1";
+//        DatabaseReference pushedStudentRef = appSharedResources.studentDbRef.push();
+        STUDENT_KEY = appSharedResources.studentDbRef.push().getKey();
+
+        //Set studentID to STUDENT_KEY in the appSharedResources
+        appSharedResources.setStudentId(STUDENT_KEY);
         Log.e("Student_Key", STUDENT_KEY);
-        DatabaseReference studentKeyIDRef = databaseStudentReference.child(STUDENT_KEY);
-        studentInfoMap.put("studentID", studentID);
+        DatabaseReference studentKeyIDRef = appSharedResources.studentDbRef.child(STUDENT_KEY);
+        studentInfoMap.put("studentID", STUDENT_KEY);
         studentInfoMap.put("studentName", studentName);
         studentInfoMap.put("studentCourses", studentCourses);
+        studentInfoMap.put("waitlistCourses",waitlistCourses);
         studentKeyIDRef.setValue(studentInfoMap);
-
     }
 
     /**
@@ -368,7 +300,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Intent intent = new Intent(getApplicationContext(), TermFilterActivity.class);
         startActivity(intent);
-
 
     }
 }

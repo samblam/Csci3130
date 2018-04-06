@@ -47,18 +47,18 @@
         android:id="@+id/seatsAvail"
         android:layout_width="291dp"
         android:layout_height="28dp"
+        android:layout_marginBottom="9dp"
+        android:layout_marginTop="11dp"
         android:gravity="bottom"
         android:textAllCaps="true"
         android:textAppearance="@style/Base.TextAppearance.AppCompat"
         android:textStyle="bold"
-        android:layout_marginBottom="9dp"
-        android:layout_marginRight="69dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="11dp"
         app:layout_constraintBottom_toTopOf="@+id/btnRegister"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.279"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvCourseInfoDesc"
+        app:layout_constraintVertical_bias="0.086"
         tools:ignore="UnknownId" />
 
     <Button
@@ -73,10 +73,10 @@
         android:text="Register"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.437"
+        app:layout_constraintHorizontal_bias="0.429"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.498" />
+        app:layout_constraintVertical_bias="0.76" />
 
     <TextView
         android:id="@+id/profname"
@@ -112,5 +112,21 @@
         app:layout_constraintHorizontal_bias="0.219"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profname" />
-      
+
+    <TextView
+        android:id="@+id/tvCourseDetail"
+        android:layout_width="290dp"
+        android:layout_height="78dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.09"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.553" />
+
 </android.support.constraint.ConstraintLayout>

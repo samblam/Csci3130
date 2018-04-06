@@ -48,8 +48,11 @@ public class StudentCoursesActivity extends AppCompatActivity {
      * An adapter that updates and populates ui
      */
     StudentCourseListAdapter adapter;
-//    Button btnCourseDel;
-    //    ArrayList<String> courseClickedInfoList;
+    /**
+     * An adapter that updates and populates ui
+     */
+    AppSharedResources appSharedResources;
+
     @Override
     /**
      * Dictates what's to be done when the activity is created
@@ -57,6 +60,7 @@ public class StudentCoursesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_courses);
+//        appSharedResources =
         STUDENT_ID = "3";
         courseList = new ArrayList<>();
         studentInfoList = new ArrayList<>();
@@ -98,10 +102,18 @@ public class StudentCoursesActivity extends AppCompatActivity {
                 }
             }
 
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
+
+
     }
+
+
+
+
+
 }
