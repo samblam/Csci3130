@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Key used to search for a specific student within a database
      */
 
-    public String STUDENT_KEY = "";
+    public static String STUDENT_KEY = "";
     /**
      * AppSharedResources to initialise studentID on new Registration and Login
      * and also to get firebase database references

@@ -17,7 +17,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.example.saikishoreeppalagudem.csci3130.CourseInformationActivity.keyStudentID;
+import static com.example.saikishoreeppalagudem.csci3130.MainActivity.STUDENT_KEY;
 
 /**
  * @author Documented by Sam Barefoot
@@ -44,6 +49,12 @@ public class StudentCoursesActivity extends AppCompatActivity {
      * String Storing the currently logged in students ID
      */
     String STUDENT_ID;
+
+    /**
+     * * Reference to FireBase Database using key "Course"
+     */
+    DatabaseReference databaseCourses;
+
     /**
      * An adapter that updates and populates ui
      */
@@ -53,19 +64,22 @@ public class StudentCoursesActivity extends AppCompatActivity {
      */
     AppSharedResources appSharedResources;
 
-    @Override
     /**
      * Dictates what's to be done when the activity is created
      */
+
+    public static final Map<String, String> courseSeatsMap = new HashMap<>();
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_courses);
-//        appSharedResources =
-        STUDENT_ID = "3";
         courseList = new ArrayList<>();
         studentInfoList = new ArrayList<>();
         listViewStudentCourses = findViewById(R.id.listViewStuCourses);
         databaseStudentCourses = FirebaseDatabase.getInstance().getReference("Student");
+        databaseCourses =  FirebaseDatabase.getInstance().getReference("Courses");
+        appSharedResources = AppSharedResources.getInstance();
 
     }
 
@@ -85,8 +99,8 @@ public class StudentCoursesActivity extends AppCompatActivity {
                     String studentID = String.valueOf(studentCourseSnapshot.child("studentID").getValue());
                     String studentCourseInfo = String.valueOf(studentCourseSnapshot.child("studentCourses").getValue());
                     Log.e("studentID", studentID);
-                    Log.e("Student_ID", STUDENT_ID);
-                    if (studentID.equals(STUDENT_ID)){
+                    Log.e("Student_ID", appSharedResources.STUDENT_ID);
+                    if (studentID.equals(appSharedResources.STUDENT_ID)){
                         Log.e("studentID", studentID);
                         String[] a = studentCourseInfo.split(",");
                         for(int j = 0; j < a.length ; j++){
@@ -110,6 +124,22 @@ public class StudentCoursesActivity extends AppCompatActivity {
         });
 
 
+        databaseCourses.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot courseSnapshot : dataSnapshot.getChildren()) {
+                    String courseID = String.valueOf(courseSnapshot.child("courseID").getValue());
+                    String seatsAvail = String.valueOf(courseSnapshot.child("seatsAvail").getValue());
+                    courseSeatsMap.put(courseID, seatsAvail);
+                }
+                Log.e("seatAvail", "" + courseSeatsMap);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
 

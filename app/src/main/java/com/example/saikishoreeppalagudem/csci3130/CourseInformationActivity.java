@@ -218,13 +218,12 @@ public class CourseInformationActivity extends AppCompatActivity {
      * @param view
      */
     public void registerOnClick(View view) {
-        if (keyStudentID == "3"){
+        if (keyStudentID == "3") {
             Toast.makeText(this, "Please register/login!", Toast.LENGTH_SHORT).show();
-        }
-        else{
+        } else {
             String course = message.get(0);
             String seatAvailability = message.get(5);
-            String waitListAvailability = message.get(6);
+            String waitListAvailability = message.get(7);
             ArrayList<String> courses = new ArrayList<>();
             ArrayList<String> waitListCourses = new ArrayList<>();
 
@@ -237,53 +236,34 @@ public class CourseInformationActivity extends AppCompatActivity {
                 Map<String, String> scheduleMap = new HashMap<>();
                 scheduleMap = courseRegistration.buildSchedule(courses, courseInfoMap);
                 Log.e("scheduleMap", scheduleMap + "");
-                if (courseRegistration.chkCourseAlreadyRegistered(courses, courseToRegister)) {
-                    Toast.makeText(this, "Already registered!", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (courseRegistration.chkTimeConflict(courseToRegister, courseInfoMap, scheduleMap)) {
-                        Toast.makeText(this, "Time conflict!", Toast.LENGTH_SHORT).show();
-                    } else if (courseRegistration.chkAndUpdateSeatAvailability(course, seatAvailability, 1)) {
-                        courseRegistration.pushCourseRegistration(courses, courseToRegister, keyStudentID, "register");
-                        Toast.makeText(this, "Course registered successfully!", Toast.LENGTH_SHORT).show();
-                        String updatedSeatAvail = courseSeatsMap.get(courseToRegister);
-                        seatsAvail.setText(updatedSeatAvail);
-
-                    }
-                    else if (courseRegistration.chkCourseAlreadyRegistered(waitListCourses, courseToRegister)) {
-                        Toast.makeText(this, "Already waitlisted!", Toast.LENGTH_SHORT).show();
-                    } else if (courseRegistration.chkAndUpdateWaitlistAvailability(course, waitListAvailability, 1)) {
-                        courseRegistration.pushCourseRegistration(waitListCourses, courseToRegister, keyStudentID,"waitlist");
-                        Toast.makeText(this, "Course waitlisted successfully!", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        Toast.makeText(this, "Course is full!", Toast.LENGTH_SHORT).show();
-                    }
-                }
+                courseRegistration.registrationHandler(courses, waitListCourses, courseInfoMap, scheduleMap, courseToRegister, keyStudentID, seatAvailability, waitListAvailability, this);
             } else {
                 if (courseRegistration.chkAndUpdateSeatAvailability(course, seatAvailability, 1)) {
                     courseRegistration.pushCourseRegistration(courseToRegister, keyStudentID, "register");
                     Toast.makeText(this, "Course registered successfully!", Toast.LENGTH_SHORT).show();
-                }
-                else if (courseRegistration.chkCourseAlreadyRegistered(waitListCourses, courseToRegister))
-                        Toast.makeText(this, "Already waitlisted!", Toast.LENGTH_SHORT).show();
+                } else if (courseRegistration.chkCourseAlreadyRegistered(waitListCourses, courseToRegister))
+                    Toast.makeText(this, "Already waitlisted!", Toast.LENGTH_SHORT).show();
                 else if (courseRegistration.chkAndUpdateWaitlistAvailability(course, waitListAvailability, 1)) {
-                    courseRegistration.pushCourseRegistration(waitListCourses, courseToRegister, keyStudentID,"waitlist");
+                    courseRegistration.pushCourseRegistration(waitListCourses, courseToRegister, keyStudentID, "waitlist");
                     Toast.makeText(this, "Course waitlisted successfully!", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     Toast.makeText(this, "Course is full!", Toast.LENGTH_SHORT).show();
                 }
             }
         }
     }
+            public void chkAndUpdateRegisterButton () {
+                String seatAvail = message.get(5);
+                if (seatAvail.equals("0")) {
+                    btnRegister.setText(R.string.waitList);
+                } else
+                    btnRegister.setText(R.string.Register);
 
-    public void chkAndUpdateRegisterButton() {
-        String seatAvail = message.get(5);
-        if (seatAvail.equals("0")) {
-            btnRegister.setText(R.string.waitList);
-        } else
-            btnRegister.setText(R.string.Register);
+            }
+        }
 
-    }
 
-}
+
+
+
+
