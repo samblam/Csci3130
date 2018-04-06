@@ -1,6 +1,7 @@
 package com.example.saikishoreeppalagudem.csci3130;
 
 import android.app.Activity;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
@@ -32,19 +33,18 @@ public class FirebaseHelper {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-
                             Log.d(TAG, "createUserWithEmail:success");
                             Toast.makeText(activity, "Account Creation passed", Toast.LENGTH_SHORT).show();
 
-                        } else {
 
+                        } else {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(activity, "Account Creation failed", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-
     }
+
 
 /**
  * Allows user to sign in
@@ -62,11 +62,9 @@ public class FirebaseHelper {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-
                             Log.d(TAG, "signInWithEmail:success");
                             Toast.makeText(activity, "Authentication Successful", Toast.LENGTH_SHORT).show();
                         } else {
-
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(activity, "Authentication Failed", Toast.LENGTH_SHORT).show();
                         }

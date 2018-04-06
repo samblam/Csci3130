@@ -17,7 +17,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -56,7 +55,12 @@ public class StudentCoursesActivity extends AppCompatActivity {
      * An adapter that updates and populates ui
      */
     StudentCourseListAdapter adapter;
+    /**
+     * An adapter that updates and populates ui
+     */
+    AppSharedResources appSharedResources;
 
+    @Override
     /**
      * Dictates what's to be done when the activity is created
      */
@@ -135,4 +139,9 @@ public class StudentCoursesActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+
+
 }

@@ -86,6 +86,9 @@ public class CourseInformationActivity extends AppCompatActivity {
      */
     public CourseRegistration courseRegistration;
 
+
+    AppSharedResources appSharedResources;
+
     //kp
     /**
      * ArrayList representation of course details from previous activity, to be uploaded/retrieved from firebase
@@ -135,16 +138,16 @@ public class CourseInformationActivity extends AppCompatActivity {
 
         courseRegistration = new CourseRegistration();
 
-        databaseStudent = FirebaseDatabase.getInstance().getReference("Student");
-        databaseCourse = FirebaseDatabase.getInstance().getReference("Courses");
-        keyStudentID = MainActivity.STUDENT_KEY;
 
+        appSharedResources = AppSharedResources.getInstance();
+        keyStudentID = appSharedResources.STUDENT_ID;
+        Log.e("keyStudentID", keyStudentID);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        databaseStudent.addValueEventListener(new ValueEventListener() {
+        appSharedResources.studentDbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot studentSnapshot : dataSnapshot.getChildren()) {
@@ -178,7 +181,7 @@ public class CourseInformationActivity extends AppCompatActivity {
             }
         });
 
-        databaseCourse.addValueEventListener(new ValueEventListener() {
+        appSharedResources.courseDbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 courseInfoMap.clear();
@@ -215,46 +218,52 @@ public class CourseInformationActivity extends AppCompatActivity {
      * @param view
      */
     public void registerOnClick(View view) {
-        String course = message.get(0);
-        String seatAvailability = message.get(5);
-        String waitListAvailability = message.get(6);
-        ArrayList<String> courses = new ArrayList<>();
-        ArrayList<String> waitListCourses = new ArrayList<>();
-
-        String courseToRegister = tvCourseInfo.getText().toString();
-        // if(!courseInfoMap.isEmpty())
-        courses = studentInfoMap.get(keyStudentID);
-        waitListCourses = studentsWaitlistInfoMap.get(keyStudentID);
-        if ((courses != null) && (!courses.get(0).toString().equals(""))) {
-            Log.e("StudentCourses: ", courses + "");
-            Map<String, String> scheduleMap = new HashMap<>();
-            scheduleMap = courseRegistration.buildSchedule(courses, courseInfoMap);
-            Log.e("scheduleMap", scheduleMap + "");
-            courseRegistration.registrationHandler(courses,waitListCourses,courseInfoMap,scheduleMap,courseToRegister,keyStudentID,seatAvailability,waitListAvailability,this);
+        if (keyStudentID == "3") {
+            Toast.makeText(this, "Please register/login!", Toast.LENGTH_SHORT).show();
         } else {
-            if (courseRegistration.chkAndUpdateSeatAvailability(course, seatAvailability, 1)) {
-                courseRegistration.pushCourseRegistration(courseToRegister, keyStudentID, "register");
-                Toast.makeText(this, "Course registered successfully!", Toast.LENGTH_SHORT).show();
-            }
-            else if (courseRegistration.chkCourseAlreadyRegistered(waitListCourses, courseToRegister))
+            String course = message.get(0);
+            String seatAvailability = message.get(5);
+            String waitListAvailability = message.get(6);
+            ArrayList<String> courses = new ArrayList<>();
+            ArrayList<String> waitListCourses = new ArrayList<>();
+
+            String courseToRegister = tvCourseInfo.getText().toString();
+            // if(!courseInfoMap.isEmpty())
+            courses = studentInfoMap.get(keyStudentID);
+            waitListCourses = studentsWaitlistInfoMap.get(keyStudentID);
+            if ((courses != null) && (!courses.get(0).toString().equals(""))) {
+                Log.e("StudentCourses: ", courses + "");
+                Map<String, String> scheduleMap = new HashMap<>();
+                scheduleMap = courseRegistration.buildSchedule(courses, courseInfoMap);
+                Log.e("scheduleMap", scheduleMap + "");
+                courseRegistration.registrationHandler(courses, waitListCourses, courseInfoMap, scheduleMap, courseToRegister, keyStudentID, seatAvailability, waitListAvailability, this);
+            } else {
+                if (courseRegistration.chkAndUpdateSeatAvailability(course, seatAvailability, 1)) {
+                    courseRegistration.pushCourseRegistration(courseToRegister, keyStudentID, "register");
+                    Toast.makeText(this, "Course registered successfully!", Toast.LENGTH_SHORT).show();
+                } else if (courseRegistration.chkCourseAlreadyRegistered(waitListCourses, courseToRegister))
                     Toast.makeText(this, "Already waitlisted!", Toast.LENGTH_SHORT).show();
-            else if (courseRegistration.chkAndUpdateWaitlistAvailability(course, waitListAvailability, 1)) {
-                courseRegistration.pushCourseRegistration(waitListCourses, courseToRegister, keyStudentID,"waitlist");
-                Toast.makeText(this, "Course waitlisted successfully!", Toast.LENGTH_SHORT).show();
-            }
-            else {
-                Toast.makeText(this, "Course is full!", Toast.LENGTH_SHORT).show();
+                else if (courseRegistration.chkAndUpdateWaitlistAvailability(course, waitListAvailability, 1)) {
+                    courseRegistration.pushCourseRegistration(waitListCourses, courseToRegister, keyStudentID, "waitlist");
+                    Toast.makeText(this, "Course waitlisted successfully!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Course is full!", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
+            public void chkAndUpdateRegisterButton () {
+                String seatAvail = message.get(5);
+                if (seatAvail.equals("0")) {
+                    btnRegister.setText(R.string.waitList);
+                } else
+                    btnRegister.setText(R.string.Register);
 
-    public void chkAndUpdateRegisterButton() {
-        String seatAvail = message.get(5);
-        if (seatAvail.equals("0")) {
-            btnRegister.setText(R.string.waitList);
-        } else
-            btnRegister.setText(R.string.Register);
+            }
+        }
 
-    }
 
-}
+
+
+
+

@@ -47,7 +47,7 @@ public class StudentCoursesUITest {
     public void checkUIElements(){
         SystemClock.sleep(1000);
         onData(anything()).inAdapterView(withId(R.id.listViewStuCourses));
-        onData(anything()).inAdapterView(withId((R.id.listViewStuCourses))).atPosition(0).onChildView(withId(R.id.btnStuCourseDel)).perform(click());
+//        onData(anything()).inAdapterView(withId((R.id.listViewStuCourses))).atPosition(0).onChildView(withId(R.id.btnStuCourseDel)).perform(click());
     }
 
     public static ViewAction setTextInTextView(final String value){
