@@ -84,7 +84,8 @@ public class CourseRegistration {
         String newCourseTiming = courseToBeRegisteredTiming(courseToRegister, courseTimes);
         ArrayList<String> scheduleTimings = getTimeListFromScheduleMap(schedule);
         TimeConflict timeConflict = new TimeConflict();
-        Boolean chk = timeConflict.checkTimeConflict(newCourseTiming, scheduleTimings);
+//        Boolean chk = timeConflict.checkTimeConflict(newCourseTiming, scheduleTimings);
+        Boolean chk = false;
         return chk;
 
     }
