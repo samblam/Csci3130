@@ -104,6 +104,7 @@ public class CourseInformationActivity extends AppCompatActivity {
     //kp
 
     Map<String, String> courseSeatsMap = new HashMap<>();
+
     @Override
     /**
      * States what objects are to be created, and what is supposed to be displayed on the screen of the phone
@@ -126,6 +127,7 @@ public class CourseInformationActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         message = intent.getStringArrayListExtra("ExtraMsg");
+        courseRegistration = new CourseRegistration();
         if (message != null) {
             tvCourseInfo.setText(message.get(0));
             tvCourseInfoDesc.setText(getString(R.string.course_id) + message.get(1));
@@ -135,8 +137,6 @@ public class CourseInformationActivity extends AppCompatActivity {
             chkAndUpdateRegisterButton();
             courseDetail.setText("Course Detail: " + message.get(5));
         }
-
-        courseRegistration = new CourseRegistration();
 
 
         appSharedResources = AppSharedResources.getInstance();
@@ -210,8 +210,8 @@ public class CourseInformationActivity extends AppCompatActivity {
      * 1: The user is already registered for the course, and they recieve an error message detailing this
      * </p>
      * <p>
-
-     *     2: There is a time conflict, and the user receives an error message detailing this
+     * <p>
+     * 2: There is a time conflict, and the user receives an error message detailing this
      * </p>
      * <p>3: The user is successfully registered for the course</p>
      *
@@ -252,15 +252,21 @@ public class CourseInformationActivity extends AppCompatActivity {
             }
         }
     }
-            public void chkAndUpdateRegisterButton () {
-                String seatAvail = message.get(5);
-                if (seatAvail.equals("0")) {
-                    btnRegister.setText(R.string.waitList);
-                } else
-                    btnRegister.setText(R.string.Register);
 
-            }
+    public void chkAndUpdateRegisterButton() {
+        if (courseRegistration.verifyDeadline(appSharedResources.DEADLINE)) {
+            String seatAvail = message.get(5);
+            if (seatAvail.equals("0")) {
+                btnRegister.setText(R.string.waitList);
+            } else
+                btnRegister.setText(R.string.Register);
+        } else {
+            btnRegister.setText(R.string.deadlineclosed);
+            btnRegister.setEnabled(false);
+            Toast.makeText(this, "Deadline is passed!", Toast.LENGTH_SHORT).show();
         }
+    }
+}
 
 
 
