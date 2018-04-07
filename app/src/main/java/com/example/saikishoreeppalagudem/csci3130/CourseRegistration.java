@@ -1,10 +1,15 @@
 package com.example.saikishoreeppalagudem.csci3130;
 
 
+import android.app.Activity;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,9 +28,8 @@ import java.util.Map;
 public class CourseRegistration {
     public ArrayList<String> finStudentCourses = new ArrayList<>();
 
-
-    /**
-     * Makes a Students Schedule
+    
+    /**Makes a Students Schedule
      * <p>
      * Takes the list of courses an individual student is registered for , the Map of course times.
      * </p>
@@ -36,7 +41,7 @@ public class CourseRegistration {
      * @param courseTimes
      * @return The specified students course schedule
      */
-
+  
     public Map<String, String> buildSchedule(ArrayList<String> studentCourses, Map<String, String> courseTimes) {
         Map<String, String> schedule = new HashMap<>();
         for (String course :
@@ -182,6 +187,32 @@ public class CourseRegistration {
         } else
             return false;
     }
+
+    public void registrationHandler(ArrayList<String> courses, ArrayList<String> waitListCourses, Map<String, String> courseTimes, Map<String, String> schedule, String courseToRegister, String keyStudentID, String seatAvailability, String waitListAvailability, Activity activity){
+        if (chkCourseAlreadyRegistered(courses, courseToRegister)) {
+            Toast.makeText(activity, "Already registered!", Toast.LENGTH_SHORT).show();
+        } else {
+            if (chkTimeConflict(courseToRegister, courseTimes, schedule)) {
+                Toast.makeText(activity, "Time conflict!", Toast.LENGTH_SHORT).show();
+            } else if (chkAndUpdateSeatAvailability(courseToRegister, seatAvailability, 1)) {
+                pushCourseRegistration(courses, courseToRegister, keyStudentID, "register");
+                Toast.makeText(activity, "Course registered successfully!", Toast.LENGTH_SHORT).show();
+            }
+            else if (chkCourseAlreadyRegistered(waitListCourses, courseToRegister)) {
+                Toast.makeText(activity, "Already waitlisted!", Toast.LENGTH_SHORT).show();
+            } else if (chkAndUpdateWaitlistAvailability(courseToRegister, waitListAvailability, 1)) {
+                pushCourseRegistration(waitListCourses, courseToRegister, keyStudentID,"waitlist");
+                Toast.makeText(activity, "Course waitlisted successfully!", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(activity, "Course is full!", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
+
+
 
     public boolean verifyDeadline(String deadline) {
         Calendar cal = Calendar.getInstance();
