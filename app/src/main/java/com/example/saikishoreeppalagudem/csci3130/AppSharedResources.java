@@ -19,8 +19,8 @@ public class AppSharedResources {
     public static String TERM_ID = "Fall";
     public static String DEADLINE = "04/06/2018";
 
-    public static void setTermId(String termId) {
-        TERM_ID = termId;
+    public void setTermId(String termId) {
+        this.TERM_ID = termId;
     }
 
     public static void setDEADLINE(String DEADLINE) {

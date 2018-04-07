@@ -61,7 +61,7 @@ public class TermFilterActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i != 0) {
-                    String termSelected = termIDArray[i];
+                    String termSelected = termIDArray[i-1];
                     String deadline = termMap.get(termSelected);
                     appSharedResources.setTermId(termSelected);
                     appSharedResources.setDEADLINE(deadline);
