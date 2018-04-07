@@ -13,27 +13,29 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+       completions."
+   </string>
     <string name="title_activity_navigation">NavigationActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="deadline_msg"> The deadline for course registration is on January 31, 2018</string>
+    <string name="deadline_msg"> The deadline for course registration is on</string>
     <string name="title_activity_deadline">Activity_deadline</string>
     <string name="seatsAvail">Seat Availabilty:</string>
     <string name="course_id">COURSE DES : </string>
     <string name="prof_name">PROFESSOR NAME : </string>
     <string name="prof_email">PROFESSOR EMAIL : </string>
-    <string name="waitList">WAIT LIST </string>
-    <string name="Register">REGISTER </string>
 
-
+    <!--Text for TermFilterActivity-->
+    <string name="term_filter_prompt">Select term</string>
 
 
     <!--Strings for TextViews in CourseList-->
     <string name="seatsavlbl">Seats Avbl.</string>
-    
+    <string name="waitList">WAIT LIST </string>
+    <string name="Register">REGISTER </string>
+
+
 </resources>

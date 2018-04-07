@@ -11,8 +11,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -149,39 +154,16 @@ public class CourseRegistration {
             courseUpdates.put("studentCourses", pushCourses);
         } else {
             courseUpdates.put("waitlistCourses", pushCourses);
-        }        studentCourseRef.updateChildren(courseUpdates);
+        }
+        studentCourseRef.updateChildren(courseUpdates);
 
     }
 
-    public void dropCourseUpdateSeatAvailability(final String selectedCourse, final long a){
-        DatabaseReference databaseCourse = FirebaseDatabase.getInstance().getReference("Courses");
-        final Map<String, Object> selectedCourseSeatsMap = new HashMap<>();
-        databaseCourse.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot courseSnapshot : dataSnapshot.getChildren()) {
-                    String courseID = String.valueOf(courseSnapshot.child("courseID").getValue());
-                    long seatsAvail = (long) courseSnapshot.child("seatsAvail").getValue();
-
-                    if(courseID.equals(selectedCourse)){
-                        seatsAvail = seatsAvail + a;
-                        selectedCourseSeatsMap.put("seatsAvail", String.valueOf(seatsAvail));
-                        FirebaseDatabase.getInstance().getReference("Courses").child(selectedCourse).updateChildren(selectedCourseSeatsMap);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
     public boolean chkAndUpdateSeatAvailability(String courseID, String seatAvailabilty, long a) {
         courseID = courseID.replaceAll("\\s+", "");
         long seats = Long.valueOf(seatAvailabilty) - a;
         String updatedSeat = String.valueOf(seats - 1);
-        if (seats >= 0) {
+        if (seats > 0) {
             DatabaseReference courseRef = FirebaseDatabase.getInstance().getReference("Courses").child(courseID);
             Map<String, Object> courseInfoUpdate = new HashMap<>();
             courseInfoUpdate.put("seatsAvail", seats);
@@ -196,7 +178,7 @@ public class CourseRegistration {
         courseID = courseID.replaceAll("\\s+", "");
         long seats = Long.valueOf(wailListAvailabilty) - a;
         String updatedSeat = String.valueOf(seats - 1);
-        if (seats >= 0) {
+        if (seats > 0) {
             DatabaseReference courseRef = FirebaseDatabase.getInstance().getReference("Courses").child(courseID);
             Map<String, Object> courseInfoUpdate = new HashMap<>();
             courseInfoUpdate.put("seatWL", seats);
@@ -232,6 +214,28 @@ public class CourseRegistration {
 
 
 
+    public boolean verifyDeadline(String deadline) {
+        Calendar cal = Calendar.getInstance();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        String currentDate = sdf.format(cal.getTime());
+//        try {
+//            Date deadlineDT = new SimpleDateFormat("dd/MM/yyyy").parse(deadline);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+        int a = Integer.parseInt(currentDate.replaceAll("/", ""));
+        int b = Integer.parseInt(deadline.replaceAll("/", ""));
+        if(a >= b) {
+            return true;
+        }
+        else
+            return false;
+//        if (!currentDate.after(deadlineDT)) {
+//            return false;
+//        }
+
+
 //    public boolean handleMulReg(ArrayList<String> selectedCourses, ArrayList<String> studentCourses,
 //                                Map<String, String> courseInfoMap ){
 //
@@ -254,4 +258,5 @@ public class CourseRegistration {
 //        }
 //    }
 
+    }
 }
