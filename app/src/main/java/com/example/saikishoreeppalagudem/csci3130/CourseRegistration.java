@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +37,6 @@ public class CourseRegistration {
      * @param courseTimes
      * @return The specified students course schedule
      */
-  
     public Map<String, String> buildSchedule(ArrayList<String> studentCourses, Map<String, String> courseTimes) {
         Map<String, String> schedule = new HashMap<>();
         for (String course :
@@ -49,6 +49,7 @@ public class CourseRegistration {
 
     /**
      * Takes student schedule, returns an arraylist of course times
+     *
      *
      * @param schedule
      * @return list of course times
@@ -82,8 +83,8 @@ public class CourseRegistration {
         String newCourseTiming = courseToBeRegisteredTiming(courseToRegister, courseTimes);
         ArrayList<String> scheduleTimings = getTimeListFromScheduleMap(schedule);
         TimeConflict timeConflict = new TimeConflict();
-//        Boolean chk = timeConflict.checkTimeConflict(newCourseTiming, scheduleTimings);
-        Boolean chk = false;
+        Boolean chk = timeConflict.checkTimeConflict(newCourseTiming, scheduleTimings);
+//        Boolean chk = false;
         return chk;
 
     }
@@ -109,6 +110,7 @@ public class CourseRegistration {
      * @param studentCourses
      * @param courseToRegister
      * @param keyStudentID
+     * @param action
      */
     public void pushCourseRegistration(ArrayList<String> studentCourses, String courseToRegister, String keyStudentID, String action) {
         String pushCourses = new String();
@@ -140,6 +142,14 @@ public class CourseRegistration {
 
     }
 
+
+    /**
+     * Updates Firebase with new Registration Data
+     *
+     * @param courseToRegister
+     * @param keyStudentID
+     * @param action
+     */
     public void pushCourseRegistration(String courseToRegister, String keyStudentID, String action) {
         String pushCourses = new String();
         Map<String, Object> courseUpdates = new HashMap<>();
@@ -154,30 +164,13 @@ public class CourseRegistration {
 
     }
 
-    public void dropCourseUpdateSeatAvailability(final String selectedCourse, final long a){
-        DatabaseReference databaseCourse = FirebaseDatabase.getInstance().getReference("Courses");
-        final Map<String, Object> selectedCourseSeatsMap = new HashMap<>();
-        databaseCourse.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot courseSnapshot : dataSnapshot.getChildren()) {
-                    String courseID = String.valueOf(courseSnapshot.child("courseID").getValue());
-                    long seatsAvail = (long) courseSnapshot.child("seatsAvail").getValue();
-
-                    if(courseID.equals(selectedCourse)){
-                        seatsAvail = seatsAvail + a;
-                        selectedCourseSeatsMap.put("seatsAvail", String.valueOf(seatsAvail));
-                        FirebaseDatabase.getInstance().getReference("Courses").child(selectedCourse).updateChildren(selectedCourseSeatsMap);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
+    /**
+     * Checks and updates seat availability
+     *
+     * @param courseID
+     * @param seatAvailabilty
+     * @param a
+     */
     public boolean chkAndUpdateSeatAvailability(String courseID, String seatAvailabilty, long a) {
         courseID = courseID.replaceAll("\\s+", "");
         long seats = Long.valueOf(seatAvailabilty) - a;
@@ -193,9 +186,16 @@ public class CourseRegistration {
     }
 
 
-    public boolean chkAndUpdateWaitlistAvailability(String courseID, String wailListAvailabilty, long a) {
+    /**
+     * Checks and updates waitlist
+     *
+     * @param courseID
+     * @param waitListAvailability
+     * @param a
+     */
+    public boolean chkAndUpdateWaitlistAvailability(String courseID, String waitListAvailability, long a) {
         courseID = courseID.replaceAll("\\s+", "");
-        long seats = Long.valueOf(wailListAvailabilty) - a;
+        long seats = Long.valueOf(waitListAvailability) - a;
         String updatedSeat = String.valueOf(seats - 1);
         if (seats >= 0) {
             DatabaseReference courseRef = FirebaseDatabase.getInstance().getReference("Courses").child(courseID);
@@ -207,7 +207,23 @@ public class CourseRegistration {
             return false;
     }
 
-    public void registrationHandler(ArrayList<String> courses, ArrayList<String> waitListCourses, Map<String, String> courseTimes, Map<String, String> schedule, String courseToRegister, String keyStudentID, String seatAvailability, String waitListAvailability, Activity activity){
+    /**
+     * Performs a series of checks
+     *
+     * @param courses
+     * @param waitListCourses
+     * @param courseTimes
+     * @param courseTimes
+     * @param schedule
+     * @param courseToRegister
+     * @param keyStudentID
+     * @param seatAvailability
+     * @param waitListAvailability
+     * @param activity
+     */
+    public void registrationHandler(ArrayList<String> courses, ArrayList<String> waitListCourses, Map<String, String> courseTimes,
+                                    Map<String, String> schedule, String courseToRegister, String keyStudentID, String seatAvailability,
+                                    String waitListAvailability, Activity activity){
         if (chkCourseAlreadyRegistered(courses, courseToRegister)) {
             Toast.makeText(activity, "Already registered!", Toast.LENGTH_SHORT).show();
         } else {
@@ -229,30 +245,5 @@ public class CourseRegistration {
         }
     }
 
-
-
-
-
-//    public boolean handleMulReg(ArrayList<String> selectedCourses, ArrayList<String> studentCourses,
-//                                Map<String, String> courseInfoMap ){
-//
-//        scheduleMap.clear();
-//        if (!courseInfoMap.isEmpty()) {
-//            scheduleMap = buildSchedule(studentCourses, courseInfoMap);
-//        }
-//        if (courseRegistration.chkCourseAlreadyRegistered(studentCourses, selectedCourses.get(i))){
-//            Toast.makeText(this, selectedCourses.get(i) + "Already registered!", Toast.LENGTH_SHORT).show();
-//        }
-//        else{
-//            if (courseRegistration.chkTimeConflict(selectedCourses.get(i), courseInfoMap, scheduleMap)){
-//                Toast.makeText(this, "Time conflict!", Toast.LENGTH_SHORT).show();
-//            }
-//            else{
-//                //Change keyStudentID with val received in MainActivity
-//                courseRegistration.pushCourseRegistration(studentCourses, selectedCourses.get(i), "3");
-//                Toast.makeText(this, "Course registered successfully!", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
 
 }

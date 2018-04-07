@@ -205,12 +205,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         boolean isSuccessful;
         int i = v.getId();
         if (i == R.id.button2) {
-//karthick and sam  - refactoring
+        //karthick and sam  - refactoring
             if(validateForm()){
-                FirebaseHelper.createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString(), this);
-                initializeUserInFirebase();
-                goToCourseList();
+                String studentName, studentCourses, waitlistCourses;
+                STUDENT_KEY = appSharedResources.studentDbRef.push().getKey();
+                studentName = mEmailField.getText().toString();
+                studentCourses = "";
+                waitlistCourses = "1";
+                studentInfoMap.put("studentID", STUDENT_KEY);
+                studentInfoMap.put("studentName", studentName);
+                studentInfoMap.put("studentCourses", studentCourses);
+                studentInfoMap.put("waitlistCourses",waitlistCourses);
 
+                FirebaseHelper.createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString(), this,
+                                    studentInfoMap, STUDENT_KEY);
+
+//                goToCourseList();
             }
         }
         else if (i == R.id.button) {
@@ -274,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void initializeUserInFirebase(){
         //Method to initialize Student record in Firebase real-time database.
         //Done only once during registration.
-        String studentID, studentName, studentCourses,waitlistCourses;
+        String studentID, studentName, studentCourses, waitlistCourses;
         studentID = mEmailField.getText().toString();
         studentName = studentID;
         studentCourses ="";

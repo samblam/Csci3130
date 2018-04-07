@@ -29,9 +29,6 @@ public class TimeConflictTest {
         System.out.println(scheduleInput);
         System.out.println( "Generated output" );
         System.out.println( al );
-//        System.out.println( "Expected output" );
-//        System.out.println( output );
-//        System.out.println( "---------------------------------------------------" );
         return al;
     }
 

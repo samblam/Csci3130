@@ -58,6 +58,13 @@ public class StudentCourseListAdapter extends ArrayAdapter<String>{
         tvStudentCourseID.setText(course);
         final Map<String, Object> selectedCourseSeatsMap = new HashMap<>();
         Button b = listViewItem.findViewById(R.id.btnStuCourseDel);
+        if (tvStudentCourseID.getText() == ""){
+            b.setVisibility(View.GONE);
+        }
+        else
+        {
+            b.setVisibility(View.VISIBLE);
+        }
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

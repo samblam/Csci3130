@@ -23,12 +23,13 @@ public class TimeConflict {
         int scheduleLen = scheduleTimings.size();
         boolean chk = false;
         for(int i = 0 ; i < scheduleLen ; i++){
+            if(scheduleTimings.contains(null)){
+                return false;
+            }
             if(chk == false) {
-                if(scheduleTimings!=null){
                 scheduleList = splitTimingStringtoList(scheduleTimings.get(i).toString());
                 System.out.println("chk: "+chk);
                 chk = processSchedule(newCourseTimingList, scheduleList);
-                }
             }
         }
         return chk;

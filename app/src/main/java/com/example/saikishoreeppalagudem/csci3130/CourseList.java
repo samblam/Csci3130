@@ -76,7 +76,7 @@ public class CourseList extends AppCompatActivity {
         appSharedResources = AppSharedResources.getInstance();
 
         courseList = new ArrayList<>();
-        Log.e("StudentID", appSharedResources.STUDENT_ID);
+//        Log.e("StudentID", appSharedResources.STUDENT_ID);
         listViewCourses = findViewById(R.id.listViewCourses);
         btnMulReg = findViewById(R.id.btnMulRegister);
         selectedCourses = new ArrayList<>();
@@ -163,6 +163,7 @@ public class CourseList extends AppCompatActivity {
             ArrayList<String> studentCourses = new ArrayList<>();
             ArrayList<String> coursesFailedToReg = new ArrayList<>();
             CourseRegistration courseRegistration = new CourseRegistration();
+            ArrayList<String> coursesToPush = new ArrayList<>();
             Map<String, String> scheduleMap = new HashMap<>();
             for (int i = 0; i < selCoursesLen; i ++){
                 //Get student ID from MainActivity
@@ -178,15 +179,24 @@ public class CourseList extends AppCompatActivity {
                     Toast.makeText(this, selectedCourses.get(i) + "Already registered!", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    if (courseRegistration.chkTimeConflict(selectedCourses.get(i), courseInfoMap, scheduleMap)){
-                        Toast.makeText(this, "Time conflict!", Toast.LENGTH_SHORT).show();
+                    if (courseRegistration.chkTimeConflict(selectedCourses.get(i), courseInfoMap, scheduleMap)) {
+                            Toast.makeText(this, "Time conflict!", Toast.LENGTH_SHORT).show();
                     }
                     else{
-                        //Change keyStudentID with val received in MainActivity
-                        courseRegistration.pushCourseRegistration(studentCourses, selectedCourses.get(i),  appSharedResources.STUDENT_ID, "register");
-                        Toast.makeText(this, "Course registered successfully!", Toast.LENGTH_SHORT).show();
+                        studentCourses.add(selectedCourses.get(i));
+                        coursesToPush.add(selectedCourses.get(i));
                     }
                 }
+
+            }
+            if (coursesToPush.equals(selectedCourses)){
+                for (int i = 0; i < selCoursesLen; i ++){
+                    courseRegistration.pushCourseRegistration(studentCourses, selectedCourses.get(i),  appSharedResources.STUDENT_ID, "register");
+                    Toast.makeText(this, "Course registered successfully!", Toast.LENGTH_SHORT).show();
+                }
+            }
+            else{
+                Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show();
             }
         }
         else{
