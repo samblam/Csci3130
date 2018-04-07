@@ -4,15 +4,11 @@ package com.example.saikishoreeppalagudem.csci3130;
 import android.app.Activity;
 import android.util.Log;
 import android.widget.Toast;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -160,7 +156,8 @@ public class CourseRegistration {
             courseUpdates.put("studentCourses", pushCourses);
         } else {
             courseUpdates.put("waitlistCourses", pushCourses);
-        }        studentCourseRef.updateChildren(courseUpdates);
+        }
+        studentCourseRef.updateChildren(courseUpdates);
 
     }
 
@@ -175,7 +172,7 @@ public class CourseRegistration {
         courseID = courseID.replaceAll("\\s+", "");
         long seats = Long.valueOf(seatAvailabilty) - a;
         String updatedSeat = String.valueOf(seats - 1);
-        if (seats >= 0) {
+        if (seats > 0) {
             DatabaseReference courseRef = FirebaseDatabase.getInstance().getReference("Courses").child(courseID);
             Map<String, Object> courseInfoUpdate = new HashMap<>();
             courseInfoUpdate.put("seatsAvail", seats);
@@ -197,7 +194,7 @@ public class CourseRegistration {
         courseID = courseID.replaceAll("\\s+", "");
         long seats = Long.valueOf(waitListAvailability) - a;
         String updatedSeat = String.valueOf(seats - 1);
-        if (seats >= 0) {
+        if (seats > 0) {
             DatabaseReference courseRef = FirebaseDatabase.getInstance().getReference("Courses").child(courseID);
             Map<String, Object> courseInfoUpdate = new HashMap<>();
             courseInfoUpdate.put("seatWL", seats);
@@ -223,7 +220,7 @@ public class CourseRegistration {
      */
     public void registrationHandler(ArrayList<String> courses, ArrayList<String> waitListCourses, Map<String, String> courseTimes,
                                     Map<String, String> schedule, String courseToRegister, String keyStudentID, String seatAvailability,
-                                    String waitListAvailability, Activity activity){
+                                    String waitListAvailability, Activity activity) {
         if (chkCourseAlreadyRegistered(courses, courseToRegister)) {
             Toast.makeText(activity, "Already registered!", Toast.LENGTH_SHORT).show();
         } else {
@@ -232,18 +229,33 @@ public class CourseRegistration {
             } else if (chkAndUpdateSeatAvailability(courseToRegister, seatAvailability, 1)) {
                 pushCourseRegistration(courses, courseToRegister, keyStudentID, "register");
                 Toast.makeText(activity, "Course registered successfully!", Toast.LENGTH_SHORT).show();
-            }
-            else if (chkCourseAlreadyRegistered(waitListCourses, courseToRegister)) {
+            } else if (chkCourseAlreadyRegistered(waitListCourses, courseToRegister)) {
                 Toast.makeText(activity, "Already waitlisted!", Toast.LENGTH_SHORT).show();
             } else if (chkAndUpdateWaitlistAvailability(courseToRegister, waitListAvailability, 1)) {
-                pushCourseRegistration(waitListCourses, courseToRegister, keyStudentID,"waitlist");
+                pushCourseRegistration(waitListCourses, courseToRegister, keyStudentID, "waitlist");
                 Toast.makeText(activity, "Course waitlisted successfully!", Toast.LENGTH_SHORT).show();
-            }
-            else {
+            } else {
                 Toast.makeText(activity, "Course is full!", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
+
+
+    public boolean verifyDeadline(String deadline) {
+        Calendar cal = Calendar.getInstance();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        String currentDate = sdf.format(cal.getTime());
+
+        int a = Integer.parseInt(currentDate.replaceAll("/", ""));
+        int b = Integer.parseInt(deadline.replaceAll("/", ""));
+        if(a >= b) {
+            return true;
+        }
+        else
+            return false;
+
+    }
 
 }

@@ -61,7 +61,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                                 break;
 
                             case R.id.nav_CourseList:
-                                callIntent(CourseList.class);
+                                callIntent(TermFilterActivity.class);
                                 break;
 
                             case R.id.nav_MyCourses:

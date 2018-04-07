@@ -15,6 +15,17 @@ public class AppSharedResources {
     public static String STUDENT_ID = "3";
     public DatabaseReference courseDbRef = FirebaseDatabase.getInstance().getReference("Courses");
     public DatabaseReference studentDbRef = FirebaseDatabase.getInstance().getReference("Student");
+    public DatabaseReference termDbRef = FirebaseDatabase.getInstance().getReference("Terms");
+    public static String TERM_ID = "Fall";
+    public static String DEADLINE = "04/06/2018";
+
+    public void setTermId(String termId) {
+        this.TERM_ID = termId;
+    }
+
+    public static void setDEADLINE(String DEADLINE) {
+        AppSharedResources.DEADLINE = DEADLINE;
+    }
 
     public static AppSharedResources getInstance(){
         if (appSharedResources == null)
@@ -26,3 +37,4 @@ public class AppSharedResources {
        this.STUDENT_ID = studentId;
    }
 }
+

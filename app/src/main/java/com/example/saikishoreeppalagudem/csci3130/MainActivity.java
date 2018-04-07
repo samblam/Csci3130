@@ -308,7 +308,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void goToCourseList(){
 
-        Intent intent = new Intent(getApplicationContext(), CourseList.class);
+        Intent intent = new Intent(getApplicationContext(), TermFilterActivity.class);
         startActivity(intent);
 
     }

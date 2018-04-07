@@ -55,7 +55,7 @@ public class CourseList extends AppCompatActivity {
      */
     ArrayList<String> selectedCourses;
 
-   /** Hash Map representation of course info data, to be uploaded/retrieved from firebase
+    /** Hash Map representation of course info data, to be uploaded/retrieved from firebase
      */
     Map<String, String> courseInfoMap = new HashMap<>();
 
@@ -63,6 +63,7 @@ public class CourseList extends AppCompatActivity {
     ArrayList<String> finStudentCourses = new ArrayList<>();
 
     AppSharedResources appSharedResources;
+    String termID;
 
     @Override
     /**
@@ -81,6 +82,7 @@ public class CourseList extends AppCompatActivity {
         btnMulReg = findViewById(R.id.btnMulRegister);
         selectedCourses = new ArrayList<>();
 
+        termID = appSharedResources.TERM_ID;
         listViewCourses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -113,11 +115,21 @@ public class CourseList extends AppCompatActivity {
                 courseInfoMap.clear();
                 for (DataSnapshot courseSnapshot : dataSnapshot.getChildren()){
                     Course course = courseSnapshot.getValue(Course.class);
-                    courseList.add(course);
-                    Log.e("courseSnapshot: ", course.toString() );
-                    String courseID = String.valueOf(courseSnapshot.child("courseID").getValue());
-                    String courseTimingInfo = String.valueOf(courseSnapshot.child("courseTiming").getValue());
-                    courseInfoMap.put(courseID, courseTimingInfo);
+                    if (termID == "") Log.e("termID", termID + "termID is blank");
+                    else {
+                        if (course.getTermID().contains(termID)) {
+                            courseList.add(course);
+                            Log.e("courseSnapshot: ", course.toString());
+                            String courseID = String.valueOf(courseSnapshot.child("courseID").getValue());
+                            String courseTimingInfo = String.valueOf(courseSnapshot.child("courseTiming").getValue());
+                            courseInfoMap.put(courseID, courseTimingInfo);
+                        }
+                    }
+//                    courseList.add(course);
+//                    Log.e("courseSnapshot: ", course.toString() );
+//                    String courseID = String.valueOf(courseSnapshot.child("courseID").getValue());
+//                    String courseTimingInfo = String.valueOf(courseSnapshot.child("courseTiming").getValue());
+//                    courseInfoMap.put(courseID, courseTimingInfo);
 
                 }
                 CourseListAdapter adapter = new CourseListAdapter(CourseList.this, courseList);
@@ -154,7 +166,7 @@ public class CourseList extends AppCompatActivity {
     }
 
     /** Code to handle button click event. Student can register for multiple courses.
-    *
+     *
      * */
     public void onClickBtnMulReg(View view) {
         // TODO Write code for multiple registrations
@@ -180,7 +192,7 @@ public class CourseList extends AppCompatActivity {
                 }
                 else{
                     if (courseRegistration.chkTimeConflict(selectedCourses.get(i), courseInfoMap, scheduleMap)) {
-                            Toast.makeText(this, "Time conflict!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Time conflict!", Toast.LENGTH_SHORT).show();
                     }
                     else{
                         studentCourses.add(selectedCourses.get(i));
