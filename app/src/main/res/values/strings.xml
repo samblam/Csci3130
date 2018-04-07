@@ -36,6 +36,8 @@
     <string name="seatsavlbl">Seats Avbl.</string>
     <string name="waitList">WAIT LIST </string>
     <string name="Register">REGISTER </string>
+    <string name="deadlineclosed">Deadline is closed </string>
+
 
 
 </resources>

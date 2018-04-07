@@ -219,11 +219,7 @@ public class CourseRegistration {
 
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         String currentDate = sdf.format(cal.getTime());
-//        try {
-//            Date deadlineDT = new SimpleDateFormat("dd/MM/yyyy").parse(deadline);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
+
         int a = Integer.parseInt(currentDate.replaceAll("/", ""));
         int b = Integer.parseInt(deadline.replaceAll("/", ""));
         if(a >= b) {
@@ -231,32 +227,6 @@ public class CourseRegistration {
         }
         else
             return false;
-//        if (!currentDate.after(deadlineDT)) {
-//            return false;
-//        }
-
-
-//    public boolean handleMulReg(ArrayList<String> selectedCourses, ArrayList<String> studentCourses,
-//                                Map<String, String> courseInfoMap ){
-//
-//        scheduleMap.clear();
-//        if (!courseInfoMap.isEmpty()) {
-//            scheduleMap = buildSchedule(studentCourses, courseInfoMap);
-//        }
-//        if (courseRegistration.chkCourseAlreadyRegistered(studentCourses, selectedCourses.get(i))){
-//            Toast.makeText(this, selectedCourses.get(i) + "Already registered!", Toast.LENGTH_SHORT).show();
-//        }
-//        else{
-//            if (courseRegistration.chkTimeConflict(selectedCourses.get(i), courseInfoMap, scheduleMap)){
-//                Toast.makeText(this, "Time conflict!", Toast.LENGTH_SHORT).show();
-//            }
-//            else{
-//                //Change keyStudentID with val received in MainActivity
-//                courseRegistration.pushCourseRegistration(studentCourses, selectedCourses.get(i), "3");
-//                Toast.makeText(this, "Course registered successfully!", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
 
     }
 }
