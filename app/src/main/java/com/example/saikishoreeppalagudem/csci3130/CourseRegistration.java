@@ -2,19 +2,16 @@ package com.example.saikishoreeppalagudem.csci3130;
 
 
 import android.util.Log;
-import android.widget.Toast;
 
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,8 +22,9 @@ import java.util.Map;
 public class CourseRegistration {
     public ArrayList<String> finStudentCourses = new ArrayList<>();
 
-    
-    /**Makes a Students Schedule
+
+    /**
+     * Makes a Students Schedule
      * <p>
      * Takes the list of courses an individual student is registered for , the Map of course times.
      * </p>
@@ -38,7 +36,7 @@ public class CourseRegistration {
      * @param courseTimes
      * @return The specified students course schedule
      */
-  
+
     public Map<String, String> buildSchedule(ArrayList<String> studentCourses, Map<String, String> courseTimes) {
         Map<String, String> schedule = new HashMap<>();
         for (String course :
@@ -151,7 +149,8 @@ public class CourseRegistration {
             courseUpdates.put("studentCourses", pushCourses);
         } else {
             courseUpdates.put("waitlistCourses", pushCourses);
-        }        studentCourseRef.updateChildren(courseUpdates);
+        }
+        studentCourseRef.updateChildren(courseUpdates);
 
     }
 
@@ -184,6 +183,28 @@ public class CourseRegistration {
             return false;
     }
 
+    public boolean verifyDeadline(String deadline) {
+        Calendar cal = Calendar.getInstance();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        String currentDate = sdf.format(cal.getTime());
+//        try {
+//            Date deadlineDT = new SimpleDateFormat("dd/MM/yyyy").parse(deadline);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+        int a = Integer.parseInt(currentDate.replaceAll("/", ""));
+        int b = Integer.parseInt(deadline.replaceAll("/", ""));
+        if(a >= b) {
+            return true;
+        }
+        else
+            return false;
+//        if (!currentDate.after(deadlineDT)) {
+//            return false;
+//        }
+
+
 //    public boolean handleMulReg(ArrayList<String> selectedCourses, ArrayList<String> studentCourses,
 //                                Map<String, String> courseInfoMap ){
 //
@@ -206,4 +227,5 @@ public class CourseRegistration {
 //        }
 //    }
 
+    }
 }

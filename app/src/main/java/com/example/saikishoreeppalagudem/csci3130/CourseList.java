@@ -48,10 +48,14 @@ public class CourseList extends AppCompatActivity {
      */
     String termID;
 
-    @Override
+
     /**
      * States what objects are to be created, and what is supposed to be displayed on the screen of the phone
      */
+
+
+    AppSharedResources appSharedResources;
+    @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_list);
@@ -60,26 +64,30 @@ public class CourseList extends AppCompatActivity {
         databaseCourses = FirebaseDatabase.getInstance().getReference("Courses");
         listViewCourses = findViewById(R.id.listViewCourses);
 
+
         // Gets the intent from the TermFilterActivity and also the termID selected by the user
         Intent intentNew = getIntent();
-        termID = intentNew.getStringExtra("TERM_ID");
+        appSharedResources = AppSharedResources.getInstance();
+        termID = appSharedResources.TERM_ID;
+
+
 
         listViewCourses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String s = "" + courseList.get(i);
-                Log.e("courseList", courseList+"");
+                Log.e("courseList", courseList + "");
                 String[] courseClicked = s.split(",");
-                Log.e("S", ""+courseClicked[0]);
+                Log.e("S", "" + courseClicked[0]);
                 courseClickedInfoList = new ArrayList<>();
-                for(int index = 0; index < courseClicked.length; index++){
-                    courseClickedInfoList.add(""+courseClicked[index]);
+                for (int index = 0; index < courseClicked.length; index++) {
+                    courseClickedInfoList.add("" + courseClicked[index]);
                 }
                 s = "" + courseClickedInfoList;
                 Log.e("courseClicked", s);
 //                Log.e("courseClicked", courseClicked[1]);
 
-               // Toast.makeText(CourseList.this, "" + courseList.get(i), Toast.LENGTH_SHORT).show();
+                // Toast.makeText(CourseList.this, "" + courseList.get(i), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), CourseInformationActivity.class);
                 intent.putExtra("ExtraMsg", courseClickedInfoList);
                 startActivity(intent);
@@ -97,13 +105,13 @@ public class CourseList extends AppCompatActivity {
                 courseList.clear();
                 for (DataSnapshot courseSnapshot : dataSnapshot.getChildren()) {
                     Course course = courseSnapshot.getValue(Course.class);
-                        if (termID == "") Log.e("termID", termID + "termID is blank");
-                        else {
-                            if (course.getTermID().contains(termID)){
-                                courseList.add(course);
-                                Log.e("courseSnapshot: ", course.toString());
-                            }
+                    if (termID == "") Log.e("termID", termID + "termID is blank");
+                    else {
+                        if (course.getTermID().contains(termID)) {
+                            courseList.add(course);
+                            Log.e("courseSnapshot: ", course.toString());
                         }
+                    }
 
                 }
                 CourseListAdapter adapter = new CourseListAdapter(CourseList.this, courseList);
