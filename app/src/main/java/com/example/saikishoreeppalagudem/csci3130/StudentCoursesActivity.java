@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -109,10 +110,14 @@ public class StudentCoursesActivity extends AppCompatActivity {
                     }
                 }
                 Log.e("studentInfoList", studentInfoList + "");
-                if (!studentInfoList.isEmpty()){
+                if (!studentInfoList.get(0).toString().equals("")){
                     Log.e("Msg", "Inside if");
                     adapter = new StudentCourseListAdapter(StudentCoursesActivity.this, studentInfoList);
                     listViewStudentCourses.setAdapter(adapter);
+                }
+
+                if(studentInfoList.get(0).toString().equals("")){
+                    Toast.makeText(StudentCoursesActivity.this, "Please register some courses!", Toast.LENGTH_SHORT).show();
                 }
             }
 
