@@ -10,12 +10,15 @@ import android.widget.TextView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+
+
 /**
  * @author Manojha
  * @author Documentation by Sam Barefoot
  */
 
 public class Activity_deadline extends AppCompatActivity {
+    AppSharedResources appSharedResources;
     private TextView txt_deadline;
 
     @Override
@@ -30,11 +33,11 @@ public class Activity_deadline extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deadline2);
-
+        appSharedResources = AppSharedResources.getInstance();
 
 
         txt_deadline = findViewById(R.id.deadline);
-        txt_deadline.setText(getString(R.string.deadline_msg));
+        txt_deadline.setText((getString((R.string.deadline_msg)) + " " +appSharedResources.DEADLINE)) ;
 
     }
 
