@@ -248,7 +248,7 @@ public class CourseInformationActivity extends AppCompatActivity {
                     Toast.makeText(this, "Already waitlisted!", Toast.LENGTH_SHORT).show();
                 else if (courseRegistration.chkAndUpdateWaitlistAvailability(course, waitListAvailability, 1)) {
                     courseRegistration.pushCourseRegistration(waitListCourses, courseToRegister, keyStudentID, "waitlist");
-                    Toast.makeText(this, "Course waitlisted successfully!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Course waitlisted successfully!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, "Course is full!", Toast.LENGTH_SHORT).show();
                 }

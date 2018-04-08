@@ -13,6 +13,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * @author Documented by Sam Barefoot
@@ -61,11 +62,19 @@ public class HomeScreenActivity extends AppCompatActivity {
                                 break;
 
                             case R.id.nav_CourseList:
-                                callIntent(TermFilterActivity.class);
+                                if(FirebaseAuth.getInstance().getCurrentUser()!=null)
+                                    callIntent(TermFilterActivity.class);
+                                else
+                                    Toast.makeText(HomeScreenActivity.this, "Please Sign in to view courses",
+                                            Toast.LENGTH_SHORT).show();
                                 break;
 
                             case R.id.nav_MyCourses:
-                                callIntent(StudentCoursesActivity.class);
+                                if(FirebaseAuth.getInstance().getCurrentUser()!=null)
+                                    callIntent(StudentCoursesActivity.class);
+                                else
+                                    Toast.makeText(HomeScreenActivity.this, "Please Sign in to view my courses",
+                                            Toast.LENGTH_SHORT).show();
                                 break;
 
                             case R.id.nav_deadline:
@@ -74,21 +83,14 @@ public class HomeScreenActivity extends AppCompatActivity {
 
                             case R.id.nav_Logout:
                                 AuthRef.signOut();
-                                if(FirebaseAuth.getInstance().getCurrentUser() == null) {
+                                if(FirebaseAuth.getInstance().getCurrentUser() != null) {
                                     Toast.makeText(HomeScreenActivity.this, "Sign out Successful",
                                             Toast.LENGTH_SHORT).show();
                                     appSharedResources.setStudentId(null);
 
                                 }
-
-
-//                                callIntent(MainActivity.class);
                                 break;
-
                         }
-
-                        // Add code here to update the UI based on the item selected
-                        // For example, swap UI fragments here
 
                         return true;
                     }
