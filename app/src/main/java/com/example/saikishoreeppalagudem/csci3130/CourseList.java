@@ -60,7 +60,7 @@ public class CourseList extends AppCompatActivity {
     Map<String, String> courseInfoMap = new HashMap<>();
 
 
-    ArrayList<String> finStudentCourses = new ArrayList<>();
+    ArrayList<String> finStudentCourses;
 
     AppSharedResources appSharedResources;
     String termID;
@@ -148,11 +148,12 @@ public class CourseList extends AppCompatActivity {
         appSharedResources.studentDbRef.child(appSharedResources.STUDENT_ID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                finStudentCourses.clear();
+                finStudentCourses  = new ArrayList<>();
                 String stuCourses = dataSnapshot.child("studentCourses").getValue(String.class);
 //                Log.e("stuCourses", "" + stuCourses);
                 String[] s = stuCourses.split(",");
                 for(int i = 0; i < s.length; i++){
+                    Log.e("finStudentCourses s[i]", s[i] + "");
                     finStudentCourses.add(s[i]);
                 }
                 Log.e("finStudentCourses", finStudentCourses + "");
@@ -173,47 +174,58 @@ public class CourseList extends AppCompatActivity {
         if (appSharedResources.STUDENT_ID != "3"){
             int selCoursesLen = selectedCourses.size();
             ArrayList<String> studentCourses = new ArrayList<>();
-            ArrayList<String> coursesFailedToReg = new ArrayList<>();
             CourseRegistration courseRegistration = new CourseRegistration();
             ArrayList<String> coursesToPush = new ArrayList<>();
             Map<String, String> scheduleMap = new HashMap<>();
+            String errors = "";
+            studentCourses.addAll(finStudentCourses);
+            Log.e("StudentCourses", studentCourses + "");
             for (int i = 0; i < selCoursesLen; i ++){
                 //Get student ID from MainActivity
                 Log.e("selectedCourses", "" + selectedCourses);
-                studentCourses = finStudentCourses;
-                Log.e("StudentCourses", studentCourses + "");
+
                 scheduleMap.clear();
                 if (!courseInfoMap.isEmpty()) {
                     scheduleMap = courseRegistration.buildSchedule(studentCourses, courseInfoMap);
                 }
                 if (courseRegistration.chkCourseAlreadyRegistered(studentCourses, selectedCourses.get(i))){
-                    coursesFailedToReg.add(selectedCourses.get(i));
-                    Toast.makeText(this, selectedCourses.get(i) + "Already registered!", Toast.LENGTH_SHORT).show();
+//                    coursesFailedToReg.add(selectedCourses.get(i));
+                    errors += selectedCourses.get(i) + " is already registered. ";
+//                    Toast.makeText(this, selectedCourses.get(i) + "Already registered!", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     if (courseRegistration.chkTimeConflict(selectedCourses.get(i), courseInfoMap, scheduleMap)) {
-                        Toast.makeText(this, "Time conflict!", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(this, "Time conflict!", Toast.LENGTH_SHORT).show();
+                        errors += "Time conflict while registering for " + selectedCourses.get(i) + ". ";
                     }
                     else{
                         studentCourses.add(selectedCourses.get(i));
+                        Log.e("coursesto push ", selectedCourses.get(i));
                         coursesToPush.add(selectedCourses.get(i));
                     }
                 }
 
             }
+
             if (coursesToPush.equals(selectedCourses)){
-                for (int i = 0; i < selCoursesLen; i ++){
-                    courseRegistration.pushCourseRegistration(studentCourses, selectedCourses.get(i),  appSharedResources.STUDENT_ID, "register");
-                    Toast.makeText(this, "Course registered successfully!", Toast.LENGTH_SHORT).show();
+                for (int i = 0; i < coursesToPush.size(); i ++){
+                    Log.e("finstudentCourses", finStudentCourses+ "");
+                    courseRegistration.pushCourseRegistration(finStudentCourses, coursesToPush.get(i),  appSharedResources.STUDENT_ID, "register");
                 }
+                Toast.makeText(this, "Courses registered successfully!", Toast.LENGTH_SHORT).show();
+                studentCourses.clear();
+                coursesToPush.clear();
             }
             else{
-                Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, errors, Toast.LENGTH_SHORT).show();
+                errors = "";
             }
         }
         else{
             Toast.makeText(this, "Please register/login!", Toast.LENGTH_SHORT).show();
         }
+
+
 
     }
 }

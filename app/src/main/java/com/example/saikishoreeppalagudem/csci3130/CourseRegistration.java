@@ -116,6 +116,9 @@ public class CourseRegistration {
         if (!courseToRegister.isEmpty()) {
             studentCourses.add(courseToRegister);
         }
+        if(studentCourses.contains("")){
+            studentCourses.remove("");
+        }
         for (int i = 0; i < studentCourses.size(); i++) {
             if (studentCourses.get(i) != "null") {
                 if (i == 0) {
