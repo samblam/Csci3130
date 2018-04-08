@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 FirebaseHelper.createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString(), this,
                                     studentInfoMap, STUDENT_KEY);
 
-//                goToCourseList();
+               goToCourseList();
             }
         }
         else if (i == R.id.button) {
@@ -228,7 +228,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 FirebaseHelper.signInAccount(mEmailField.getText().toString(), mPasswordField.getText().toString(), this);
                 //ESK
                 getUserDetails();
-                goToCourseList();
 
             }
         }
