@@ -16,22 +16,44 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" ></activity>
+
+        <activity android:name=".MainActivity"
+            android:label="Home"
+            android:parentActivityName=".HomeScreenActivity"
+            android:theme="@style/AppTheme" />
+
         <activity android:name=".RegistrationActivity" />
-        <activity android:name=".CourseList" />
-        <activity android:name=".CourseInformationActivity" />
-        <activity android:name=".StudentCoursesActivity" />
+
+        <activity android:name=".CourseList"
+            android:label="Select Term"
+            android:parentActivityName=".TermFilterActivity" />
+
+        <activity android:name=".CourseInformationActivity"
+            android:label="Register courses"
+            android:parentActivityName=".CourseList"/>
+
+        <activity android:name=".StudentCoursesActivity"
+            android:label="Home"
+            android:parentActivityName=".HomeScreenActivity"/>
+
         <activity android:name=".HomeScreenActivity">
             <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".Activity_deadline"
-            android:label="@string/title_activity_deadline"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".TermFilterActivity"></activity>
+
+            android:label="Home"
+            android:parentActivityName=".HomeScreenActivity"/>
+
+        <activity android:name=".TermFilterActivity"
+            android:label="Home"
+            android:parentActivityName=".HomeScreenActivity"/>
+
+
     </application>
 
 </manifest>
