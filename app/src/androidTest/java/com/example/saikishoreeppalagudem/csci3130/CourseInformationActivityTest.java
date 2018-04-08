@@ -1,5 +1,6 @@
 package com.example.saikishoreeppalagudem.csci3130;
 
+import android.os.SystemClock;
 import android.support.test.rule.ActivityTestRule;
 
 import org.junit.Rule;
@@ -13,6 +14,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.anything;
@@ -41,8 +43,10 @@ public class CourseInformationActivityTest {
         onView(withId(R.id.editText)).perform(typeText(email),closeSoftKeyboard()); // types the data in emailaddress fields
         onView(withId(R.id.editText2)).perform(typeText(password),closeSoftKeyboard()); // types the data in password fields
         onView(withId(R.id.button2)).perform(click());// press register button
+        onView(withId(R.id.spinnerTerm)).perform(click());// press spinner button
+        onData(anything()).atPosition(1).perform(click());// selects fall button
         onData(anything()).inAdapterView(withId(R.id.listViewCourses)).atPosition(0).perform(click());// Clicks on the first course created in the listview in CourseList
-        onView(withId(R.id.profname)).check(matches(withText(prof))); // below test step verifies the prof name from firebase
-        onView(withId(R.id.profmail)).check(matches(withText(prof_email))); // below test step verifies the prof email from firebase
+        onView(withId(R.id.profname)).check(matches(isDisplayed())); // below test step verifies the prof name from firebase
+        onView(withId(R.id.profmail)).check(matches(isDisplayed())); // below test step verifies the prof email from firebase
     }
 }

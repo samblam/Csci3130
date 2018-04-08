@@ -24,8 +24,8 @@ public class DeadlineUITest {
 
     @Test
     public void deadline() {
-        onView(withId(R.id.nav_deadline)).perform();
-       onView(withId(R.id.nav_deadline)).check(matches(isDisplayed()));
+        onView(withId(R.id.deadline)).perform();
+       onView(withId(R.id.deadline)).check(matches(isDisplayed()));
 
     }
 
