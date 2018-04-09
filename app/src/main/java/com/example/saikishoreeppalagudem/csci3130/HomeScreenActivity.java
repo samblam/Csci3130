@@ -87,13 +87,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                                     Toast.makeText(HomeScreenActivity.this, "Sign out Successful",
                                             Toast.LENGTH_SHORT).show();
                                     appSharedResources.setStudentId(null);
-
-
-
-
-
-
-                                break;
+                                    break;
                         }
 
                         return true;

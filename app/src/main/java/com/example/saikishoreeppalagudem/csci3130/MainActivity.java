@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * @author Sam Barefoot
  * @author Documented by Sam Barefoot
@@ -101,7 +103,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Buttons
         findViewById(R.id.button).setOnClickListener(this);
         findViewById(R.id.button2).setOnClickListener(this);
-        findViewById(R.id.verify_email_button).setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -123,37 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-    /**
-     * Sends a verification email to email inputted
-     */
-    private void sendEmailVerification() {
 
-        findViewById(R.id.verify_email_button).setEnabled(false);
-
-
-        final FirebaseUser user = mAuth.getCurrentUser();
-        user.sendEmailVerification()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-
-                        findViewById(R.id.verify_email_button).setEnabled(true);
-
-                        if (task.isSuccessful()) {
-                            Toast.makeText(MainActivity.this,
-                                    "Verification email sent to " + user.getEmail(),
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            Log.e(TAG, "sendEmailVerification", task.getException());
-                            Toast.makeText(MainActivity.this,
-                                    "Failed to send verification email.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-                });
-
-    }
 
     /**Validates form, make sure there is an email address inputed, a password of a certain length etc.
      *
@@ -217,24 +188,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 studentInfoMap.put("studentCourses", studentCourses);
                 studentInfoMap.put("waitlistCourses",waitlistCourses);
 
-                FirebaseHelper.createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString(), this,
+                createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString(),
                                     studentInfoMap, STUDENT_KEY);
 
-               goToCourseList();
+            //   goToCourseList();
             }
         }
         else if (i == R.id.button) {
             if(validateForm()){
-                FirebaseHelper.signInAccount(mEmailField.getText().toString(), mPasswordField.getText().toString(), this);
+                signInAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
                 //ESK
-                getUserDetails();
 
             }
-        }
-
-         else if (i == R.id.verify_email_button) {
-            sendEmailVerification();
-            goToCourseList();
         }
     }
 //ESK
@@ -242,8 +207,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * Retrieves user details from the Firebase Database
      */
- private void getUserDetails(){
+ public void getUserDetails(){
 //            databaseStudentReference
+     appSharedResources = AppSharedResources.getInstance();
      appSharedResources.studentDbRef.orderByChild("studentName").equalTo(mEmailField.getText().toString()).addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -274,33 +240,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 }
             });
-
     }
 
-    /**
-     * Creates Student Account within University
-     */
-    public void initializeUserInFirebase(){
-        //Method to initialize Student record in Firebase real-time database.
-        //Done only once during registration.
-        String studentID, studentName, studentCourses, waitlistCourses;
-        studentID = mEmailField.getText().toString();
-        studentName = studentID;
-        studentCourses ="";
-        waitlistCourses = "1";
-//        DatabaseReference pushedStudentRef = appSharedResources.studentDbRef.push();
-        STUDENT_KEY = appSharedResources.studentDbRef.push().getKey();
 
-        //Set studentID to STUDENT_KEY in the appSharedResources
-        appSharedResources.setStudentId(STUDENT_KEY);
-        Log.e("Student_Key", STUDENT_KEY);
-        DatabaseReference studentKeyIDRef = appSharedResources.studentDbRef.child(STUDENT_KEY);
-        studentInfoMap.put("studentID", STUDENT_KEY);
-        studentInfoMap.put("studentName", studentName);
-        studentInfoMap.put("studentCourses", studentCourses);
-        studentInfoMap.put("waitlistCourses",waitlistCourses);
-        studentKeyIDRef.setValue(studentInfoMap);
-    }
 
     /**
      * Method to go to the CourseList activity
@@ -310,5 +252,58 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(getApplicationContext(), TermFilterActivity.class);
         startActivity(intent);
 
+    }
+
+
+
+    public void createAccount(String email, String password, final Map<String, Object> studentInitMap,
+                              final String studentKey) {
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null)
+            FirebaseAuth.getInstance().signOut();
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "createUserWithEmail:success");
+                            AppSharedResources appSharedResources = AppSharedResources.getInstance();
+                            appSharedResources.studentDbRef.child(studentKey).setValue(studentInitMap);
+                            Toast.makeText(MainActivity.this, "Account successfully created", Toast.LENGTH_SHORT).show();
+                            goToCourseList();
+                        } else {
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(MainActivity.this, "Account Creation failed", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+
+    /**
+     * Allows user to sign in
+     * <p>
+     *     If Sign in is successful, the UI is updated with the signed-in user's information
+     * </p>
+     * <p>
+     * If sign in fails, a message is displayed to the user.
+     * </p>
+     **/
+
+    public void signInAccount(String email, String password) {
+        if (FirebaseAuth.getInstance()!=null)
+            FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "signInWithEmail:success");
+                                Toast.makeText(MainActivity.this, "Authentication Successful", Toast.LENGTH_SHORT).show();
+                                getUserDetails();
+                            } else {
+                                Log.w(TAG, "signInWithEmail:failure", task.getException());
+                                Toast.makeText(MainActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
     }
 }
