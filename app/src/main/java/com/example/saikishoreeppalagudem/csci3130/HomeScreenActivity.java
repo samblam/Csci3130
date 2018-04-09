@@ -83,12 +83,16 @@ public class HomeScreenActivity extends AppCompatActivity {
 
                             case R.id.nav_Logout:
                                 AuthRef.signOut();
-                                if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+                                if(FirebaseAuth.getInstance().getCurrentUser() == null)
                                     Toast.makeText(HomeScreenActivity.this, "Sign out Successful",
                                             Toast.LENGTH_SHORT).show();
                                     appSharedResources.setStudentId(null);
 
-                                }
+
+
+
+
+
                                 break;
                         }
 

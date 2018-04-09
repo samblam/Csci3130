@@ -22,7 +22,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="deadline_msg"> The deadline for course registration is on</string>
-    <string name="title_activity_deadline">Activity_deadline</string>
+    <string name="title_activity_deadline">Deadline</string>
     <string name="seatsAvail">Seat Availabilty:</string>
     <string name="course_id">COURSE DES : </string>
     <string name="prof_name">PROFESSOR NAME : </string>
