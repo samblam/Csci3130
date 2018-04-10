@@ -266,8 +266,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "createUserWithEmail:success");
-                            AppSharedResources appSharedResources = AppSharedResources.getInstance();
+                            appSharedResources = AppSharedResources.getInstance();
                             appSharedResources.studentDbRef.child(studentKey).setValue(studentInitMap);
+                            appSharedResources.setStudentId(studentKey);
                             Toast.makeText(MainActivity.this, "Account successfully created", Toast.LENGTH_SHORT).show();
                             goToCourseList();
                         } else {
