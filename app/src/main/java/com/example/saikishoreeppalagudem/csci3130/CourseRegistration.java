@@ -20,7 +20,7 @@ import java.util.Map;
 public class CourseRegistration {
     public ArrayList<String> finStudentCourses = new ArrayList<>();
 
-    
+
     /**Makes a Students Schedule
      * <p>
      * Takes the list of courses an individual student is registered for , the Map of course times.
@@ -200,7 +200,6 @@ public class CourseRegistration {
         if (seats > 0) {
             DatabaseReference courseRef = FirebaseDatabase.getInstance().getReference("Courses").child(courseID);
             Map<String, Object> courseInfoUpdate = new HashMap<>();
-            courseInfoUpdate.put("seatWL", seats);
             courseRef.updateChildren(courseInfoUpdate);
             return true;
         } else
@@ -244,6 +243,12 @@ public class CourseRegistration {
     }
 
 
+    /**
+    * Verifies the deadline date with present date
+    *
+    * @param deadline
+     * @return true if deadlise in not yet passed else vice versa
+    */
 
     public boolean verifyDeadline(String deadline) {
         Calendar cal = Calendar.getInstance();

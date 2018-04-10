@@ -87,7 +87,7 @@ public class CourseInformationActivity extends AppCompatActivity {
      */
     public CourseRegistration courseRegistration;
 
-
+    /* For shares resources of the variables and methods*/
     AppSharedResources appSharedResources;
 
     //kp
@@ -224,7 +224,7 @@ public class CourseInformationActivity extends AppCompatActivity {
         } else {
             String course = message.get(0);
             String seatAvailability = message.get(5);
-            String waitListAvailability = message.get(7);
+            String waitListAvailability = message.get(8);
             ArrayList<String> courses = new ArrayList<>();
             ArrayList<String> waitListCourses = new ArrayList<>();
 
@@ -256,7 +256,14 @@ public class CourseInformationActivity extends AppCompatActivity {
 
         }
     }
-
+/**
+ *
+ * </p>
+ * <p>
+ * Checks for registration or waitlist and updates the button text as well as disabling
+ * </p>
+ *
+ */
     public void chkAndUpdateRegisterButton() {
         if (courseRegistration.verifyDeadline(appSharedResources.DEADLINE)) {
             String seatAvail = message.get(5);
