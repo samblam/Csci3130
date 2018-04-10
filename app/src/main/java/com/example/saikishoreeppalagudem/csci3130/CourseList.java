@@ -5,30 +5,19 @@ package com.example.saikishoreeppalagudem.csci3130;
 
 
 import android.content.Intent;
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.json.JSONArray;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CourseList extends AppCompatActivity {
@@ -59,10 +48,16 @@ public class CourseList extends AppCompatActivity {
      */
     Map<String, String> courseInfoMap = new HashMap<>();
 
-
+    /** ArrayList containing student courses
+     */
     ArrayList<String> finStudentCourses;
 
+    /** An instance of the AppSharedResources
+     */
     AppSharedResources appSharedResources;
+
+    /** String variable to store Term ID
+     */
     String termID;
 
     @Override
@@ -107,8 +102,6 @@ public class CourseList extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-//        databaseCourses.addListenerForSingleValueEvent(new ValueEventListener()
         appSharedResources.courseDbRef.addListenerForSingleValueEvent(new ValueEventListener(){
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -126,12 +119,6 @@ public class CourseList extends AppCompatActivity {
                             courseInfoMap.put(courseID, courseTimingInfo);
                         }
                     }
-//                    courseList.add(course);
-//                    Log.e("courseSnapshot: ", course.toString() );
-//                    String courseID = String.valueOf(courseSnapshot.child("courseID").getValue());
-//                    String courseTimingInfo = String.valueOf(courseSnapshot.child("courseTiming").getValue());
-//                    courseInfoMap.put(courseID, courseTimingInfo);
-
                 }
                 CourseListAdapter adapter = new CourseListAdapter(CourseList.this, courseList);
                 adapter.selectedCourses.clear();
@@ -167,8 +154,10 @@ public class CourseList extends AppCompatActivity {
         });
     }
 
-    /** Code to handle button click event. Student can register for multiple courses.
-     *
+    /** <p>
+     *  Code to handle button click event. Student can register for multiple courses.
+     * </p>
+     * @param view
      * */
     public void onClickBtnMulReg(View view) {
 
@@ -229,7 +218,12 @@ public class CourseList extends AppCompatActivity {
 
 
     }
-
+    /**
+    * <p>
+     *     Method checks whether the deadline to register has passed
+    * </p>
+     *
+     * **/
     public void checkDeadline(){
         CourseRegistration courseRegistration1 = new CourseRegistration();
         // TODO Write code for multiple registrations

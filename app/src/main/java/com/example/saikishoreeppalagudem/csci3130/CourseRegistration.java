@@ -200,7 +200,6 @@ public class CourseRegistration {
         if (seats > 0) {
             DatabaseReference courseRef = FirebaseDatabase.getInstance().getReference("Courses").child(courseID);
             Map<String, Object> courseInfoUpdate = new HashMap<>();
-            courseInfoUpdate.put("seatWL", seats);
             courseRef.updateChildren(courseInfoUpdate);
             return true;
         } else

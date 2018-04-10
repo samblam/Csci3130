@@ -270,6 +270,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             appSharedResources.studentDbRef.child(studentKey).setValue(studentInitMap);
                             appSharedResources.setStudentId(studentKey);
                             Toast.makeText(MainActivity.this, "Account successfully created", Toast.LENGTH_SHORT).show();
+                            appSharedResources.setStudentId(studentKey);
                             goToCourseList();
                         } else {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());

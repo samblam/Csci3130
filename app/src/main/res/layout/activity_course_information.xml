@@ -115,13 +115,15 @@
 
     <TextView
         android:id="@+id/tvCourseDetail"
-        android:layout_width="290dp"
+        android:layout_width="286dp"
         android:layout_height="78dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
+        android:textStyle="bold"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.09"

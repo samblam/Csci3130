@@ -38,7 +38,7 @@ public class TimeConflict {
     /**
      * Splits string of timing into a list
      * @param timing
-     * @return
+     * @return string containing course timings
      */
     public String[] splitTimingStringtoList(String timing){
         String [] timingStrList = timing.split("-");
@@ -50,7 +50,7 @@ public class TimeConflict {
      * Parses through schedule
      * @param courseTiming
      * @param scheduleTiming
-     * @return
+     * @return boolean after processing schedule
      */
     public boolean processSchedule(String[] courseTiming, String[] scheduleTiming){
         if (Integer.parseInt(courseTiming[0]) <= Integer.parseInt(scheduleTiming[0])){
