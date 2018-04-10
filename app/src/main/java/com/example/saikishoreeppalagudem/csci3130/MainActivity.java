@@ -255,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
+    /*Method to create account*/
     public void createAccount(String email, String password, final Map<String, Object> studentInitMap,
                               final String studentKey) {
         if(FirebaseAuth.getInstance().getCurrentUser()!=null)
