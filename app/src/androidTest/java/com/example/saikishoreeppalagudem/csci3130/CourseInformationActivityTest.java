@@ -43,6 +43,7 @@ public class CourseInformationActivityTest {
         onView(withId(R.id.editText)).perform(typeText(email),closeSoftKeyboard()); // types the data in emailaddress fields
         onView(withId(R.id.editText2)).perform(typeText(password),closeSoftKeyboard()); // types the data in password fields
         onView(withId(R.id.button2)).perform(click());// press register button
+        SystemClock.sleep(2000);
         onView(withId(R.id.spinnerTerm)).perform(click());// press spinner button
         onData(anything()).atPosition(1).perform(click());// selects fall button
         onData(anything()).inAdapterView(withId(R.id.listViewCourses)).atPosition(0).perform(click());// Clicks on the first course created in the listview in CourseList
