@@ -136,9 +136,9 @@ public class CourseInformationActivity extends AppCompatActivity {
             tvCourseInfoDesc.setText(getString(R.string.course_id) + message.get(1));
             profname.setText(getString(R.string.prof_name) + message.get(3));
             profmail.setText(getString(R.string.prof_email) + message.get(4));
-            seatsAvail.setText(getString(R.string.seatsAvail) + message.get(6));
+            seatsAvail.setText(getString(R.string.seatsAvail) + message.get(5));
             chkAndUpdateRegisterButton();
-            courseDetail.setText("Course Detail: " + message.get(5));
+            courseDetail.setText("Course Detail: " + message.get(6));
         }
         appSharedResources = AppSharedResources.getInstance();
         keyStudentID = appSharedResources.STUDENT_ID;

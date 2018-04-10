@@ -81,6 +81,7 @@ public class CourseList extends AppCompatActivity {
         listViewCourses = findViewById(R.id.listViewCourses);
         btnMulReg = findViewById(R.id.btnMulRegister);
         selectedCourses = new ArrayList<>();
+        checkDeadline();
 
         termID = appSharedResources.TERM_ID;
         listViewCourses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -170,7 +171,7 @@ public class CourseList extends AppCompatActivity {
      *
      * */
     public void onClickBtnMulReg(View view) {
-        // TODO Write code for multiple registrations
+
         if (appSharedResources.STUDENT_ID != "3"){
             int selCoursesLen = selectedCourses.size();
             ArrayList<String> studentCourses = new ArrayList<>();
@@ -227,5 +228,16 @@ public class CourseList extends AppCompatActivity {
 
 
 
+    }
+
+    public void checkDeadline(){
+        CourseRegistration courseRegistration1 = new CourseRegistration();
+        // TODO Write code for multiple registrations
+        if(!courseRegistration1.verifyDeadline(appSharedResources.DEADLINE)){
+            btnMulReg.setText(R.string.deadlineclosed);
+            btnMulReg.setEnabled(false);
+            Toast.makeText(this, "Deadline is passed!", Toast.LENGTH_SHORT).show();
+
+        }
     }
 }
