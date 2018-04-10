@@ -8,10 +8,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 /**
- * Created by saikishoreeppalagudem on 2018-03-19.
+ * @author saikishoreeppalagudem
  */
 
 public class StudentCourses {
+    /**
+     * Firebase reference to a students course list
+     */
     DatabaseReference stuCourseRef = FirebaseDatabase.getInstance().getReference("Student");;
 
     public void updateCourses(ArrayList<String> changedStuCourses){

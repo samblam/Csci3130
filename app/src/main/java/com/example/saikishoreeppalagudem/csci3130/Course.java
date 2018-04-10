@@ -1,20 +1,46 @@
 package com.example.saikishoreeppalagudem.csci3130;
 
 /**
- * Created by saikishoreeppalagudem on 2018-02-22.
- *  Integrated by karthick parameswaran on 2018-03-16
+ * @author saikishoreeppalagudem
+ *  @author Integrated by karthick parameswaran
+ *  @author Documented by Sam Barefoot
  */
 
 public class Course {
+    /**
+     * String That Stores a Course Objects ID number
+     */
     String courseID;
+    /**
+     * String containing a text description of the Course
+     */
     String courseDesc;
-    Long seatsAvail;
-    String courseProf;
-    String profEmail;
-    String courseTimings;
+    /**
+     * Long that stores how may seats are currently available for a course
+     */
 
+    Long seatsAvail;
+    /**
+     * String that stores the name of the prof teaching the course
+     */
+    String courseProf;
+    /**
+     * String that stores the email of the prof teaching the course
+     */
+    String profEmail;
+    /**
+     * String storing the timings for the course
+     */
+    String courseTimings;
+    /**
+     * Long storing how many students are on the waiting list
+     */
     Long seatWL;
+
     String courseDetail;
+    /**
+     * String indicating in which semester the course is taking place
+     */
     String termID;
 
     @Override
