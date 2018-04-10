@@ -25,19 +25,43 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+/**
+ * @author Sowmya and Manojha
+ * @author Documented by Sowmya and Manojha
+ * p - paragraph
+ */
+
 public class TermFilterActivity extends AppCompatActivity {
     Spinner spinnerTerm;
-//    private DrawerLayout mDrawerLayout;
-//    private ActionBarDrawerToggle mToggle;
     FirebaseAuth AuthRef;
+    /**
+     *  Reference to firebase database using the key "term"
+     */
     DatabaseReference term;
+    /**
+     * String that is used in getting the term and deadline
+     */
     String termID, deadline;
+    /**
+     * Hashmap for term info, interacts with FireBase Database
+     */
     Map<String, String> termMap;
+    /**
+     * ArrayAdapter to hold the terms in a spinner
+    */
     private ArrayAdapter<String> adapter;
+    /**
+     * AppSharedResources to initialise termID
+     * and also to get firebase database references
+     */
     AppSharedResources appSharedResources;
 
 
     @Override
+
+    /**
+     * Dictates what is to be done once the activity is created
+     */
     protected void onCreate(Bundle savedInstanceState) {
         final String[] termIDArray = {"Fall", "Winter", "Summer"};
         super.onCreate(savedInstanceState);
@@ -49,8 +73,8 @@ public class TermFilterActivity extends AppCompatActivity {
         Spinner spinnerTerm = (Spinner) findViewById(R.id.spinnerTerm);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, res.getStringArray(R.array.terms_array));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Specify the layout to use when the list of choices appears
-// Apply the adapter to the spinner
+       // Specify the layout to use when the list of choices appears
+      // Apply the adapter to the spinner
         spinnerTerm.setAdapter(adapter);
 
         Intent intentNew = getIntent();
@@ -78,66 +102,19 @@ public class TermFilterActivity extends AppCompatActivity {
             }
         });
 
-
-//        mDrawerLayout = findViewById(R.id.drawer_layout);
-//        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//
-//        mDrawerLayout.addDrawerListener(mToggle);
-//        mToggle.syncState();
-
-
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-//        NavigationView navigationView = findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(
-//                new NavigationView.OnNavigationItemSelectedListener() {
-//                    @Override
-//                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-//                        // set item as selected to persist highlight
-//                        menuItem.setChecked(true);
-//                        // close drawer when item is tapped
-//                        mDrawerLayout.closeDrawers();
-//
-//                        switch (menuItem.getItemId()) {
-//
-//                            case R.id.nav_RegisterLogin:
-//                                callIntent(MainActivity.class);
-//                                break;
-//
-//                            case R.id.nav_CourseList:
-//                                callIntent(CourseList.class);
-//                                break;
-//
-//                            case R.id.nav_MyCourses:
-//                                callIntent(StudentCoursesActivity.class);
-//                                break;
-//
-//                            case R.id.nav_deadline:
-//                                callIntent(Activity_deadline.class);
-//                                break;
-//
-//                            case R.id.nav_Logout:
-//                                AuthRef.signOut();
-//                                if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-//                                    Toast.makeText(TermFilterActivity.this, "Sign out Successful",
-//                                            Toast.LENGTH_SHORT).show();
-//                                }
-//
-//
-////                                callIntent(MainActivity.class);
-//                                break;
-//
-//                        }
-//
-//                        // Add code here to update the UI based on the item selected
-//                        // For example, swap UI fragments here
-//
-//                        return true;
-//                    }
-//                });
-
     }
 
+
+    /**
+     * Sets the process for what happens when you select the term from spinner
+     *
+     * <p>
+     *     Pressing any term from the spinner dropdown , gets the termID and deadline in firebase
+     * </p>
+     * <p>
+     *     Filters the courses according to the Deadline and terms.
+     * </p>
+     */
 
     @Override
     protected void onStart() {
@@ -159,32 +136,5 @@ public class TermFilterActivity extends AppCompatActivity {
 
 
     }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if (mToggle.onOptionsItemSelected(item)) {
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//
-//    }
-
-
-//    public void registerOnClick(View view) {
-//        callIntent(MainActivity.class);
-//    }
-//
-//    public void courseListOnClick(View view) {
-//        callIntent(CourseList.class);
-//    }
-//
-//    public void myCoursesOnClick(View view) {
-//        callIntent(StudentCoursesActivity.class);
-//    }
-//
-//    public void callIntent(Class className) {
-//        Intent intent = new Intent(getApplicationContext(), className);
-//        startActivity(intent);
-//    }
 
 }
